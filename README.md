@@ -10,8 +10,11 @@ func run1(input: Int, expected: Int) throws {
     try "number matches" ?>
         input == expected    
 }
-/// inline
+/// inline ... blazing fast
 expect(run1 =/ 4 => 4)
+expect(run1 =/ 5 => 5)
+expect(run1 =/ 6 => 6)
+expect(run1 =/ 7 => 7)
 
 /// the second run
 typealias Input_Run2 = (Int?, Int?, String?)
@@ -27,10 +30,14 @@ func run2(input: Input_Run2, expected: Expected_Run2) throws {
     try "third matches" ?>
         input.2 == expected.2
 }
-// multiline
+// multiline ... clean
 expect(run1,
     at: (1, 2, "3"),
     is: (1, 2, "3")
+)
+expect(run1,
+    at: (2, 3, "4"),
+    is: (2, 3, "4")
 )
 ```
 
@@ -54,8 +61,10 @@ func runB(input: Int, expected: Int) throws {
     try "number matches" ?>
         subject == expected   
 }
-/// inline
+/// inline versatile
 expect(runA • runB =/ 4 => 8 • 16)
+expect(runA • runA • runB =/ 4 => 8  • 16 • 32)
+
 // multiline
 expect(runA • runB,
     at: 4,
