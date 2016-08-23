@@ -70,5 +70,9 @@ expect(runA • runB,
     at: 4,
     is: 8 • 16
 )
+expect(runA • runA • runB,
+    at: 4,
+    is: 8 • 16 • 32
+)
 ```
 
