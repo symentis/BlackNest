@@ -37,11 +37,11 @@ func run2(input: Input_Run2, expected: Expected_Run2) throws {
         input.2 == expected.2
 }
 // multiline ... clean
-expect(run1,
+expect(run2,
     at: (1, 2, "3"),
     is: (1, 2, "3")
 )
-expect(run1,
+expect(run2,
     at: (2, 3, "4"),
     is: (2, 3, "4")
 )
