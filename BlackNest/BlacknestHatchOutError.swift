@@ -45,5 +45,3 @@ struct BlacknestHatchOutError: Error, CustomStringConvertible {
     return "\(message)\n\n"
   }
 }
-
-

@@ -36,7 +36,7 @@ public func expect<I, E>(_ run: BlackNestTestRun<I, E>,
             line: UInt = #line,
             file: StaticString = #file) {
   do {
-    try run.run(run.input, run.expect)
+    try run.runIt()
   } catch let error {
     XCTAssert(false, "\(error)", file: file, line: line)
   }
@@ -45,11 +45,10 @@ public func expect<I, E>(_ run: BlackNestTestRun<I, E>,
 /// Expect takes a BlackNestTestRun and checks for error
 /// - parameter run: BlackNestTestRun
 /// - returns: Void
-public func expect<I, E>(_ r: BlackNestTestRunner<I, E>,
-            at i: I,
-            is e: E,
+public func expect<I, E>(_ run: BlackNestTestRunner<I, E>,
+            at input: I,
+            is expected: E,
             line: UInt = #line,
             file: StaticString = #file) {
-  let run = BlackNestTestRun(run: r, input: i, expect: e)
-  expect(run, line: line, file: file)
+  expect(run =/ input => expected)
 }

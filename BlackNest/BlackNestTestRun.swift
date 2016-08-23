@@ -40,5 +40,10 @@ public struct BlackNestTestRunnerWithInput<I, E> {
 public struct BlackNestTestRun<I, E> {
   let run: BlackNestTestRunner<I, E>
   let input: I
-  let expect: E
+  let expected: E
+
+
+  func runIt() throws {
+     try run(input, expected)
+  }
 }
