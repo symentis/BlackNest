@@ -25,8 +25,8 @@ func run2(input: Input_Run2, expected: Expected_Run2) throws {
 }
 // multiline
 expect(run1,
-	at: (1, 2, "3"),
-     is: (1, 2, "3")
+    at: (1, 2, "3"),
+    is: (1, 2, "3")
 )
 ```
 
@@ -34,7 +34,7 @@ Next up:
 ```swift
 /// run a
 func runA(input: Int, expected: Int) throws -> Int {
-     let subject = input * 2
+    let subject = input * 2
     try "number matches" ?>
         subject == expected    
 }
@@ -48,8 +48,8 @@ func runB(input: Int, expected: Int) throws {
 expect(runA • runB =/ 4 => 8 • 16)
 // multiline
 expect(runA • runB,
-	at: 4,
-     is: 8 • 16
+    at: 4,
+    is: 8 • 16
 )
 ```
 
