@@ -78,7 +78,7 @@ func runB(input: Int, expected: Int) throws {
         subject == expected   
 }
 
-/// inline versatile
+// inline versatile
 expect(runA • runB =/ 4 => 8 • 16)
 expect(runA • runA • runB =/ 4 => 8 • 16 • 32)
 
