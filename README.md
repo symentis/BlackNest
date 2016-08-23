@@ -4,7 +4,7 @@
    <img width="400px" src="https://github.com/elm4ward/BlackNest/blob/master/resources/blacknest.png?raw=true" alt="blacknest.png">
 </p>
 
-## BlackNest - possibly a spec-based-data-driven Swift TestSuite
+## BlackNest - Swift Test Breeding - Spec Based - Data Driven 
 
 
 Working:
