@@ -10,19 +10,27 @@
 Working:
 ```swift
 
-/// the first run
+// --------------------------------------------------------------------------------
+// MARK: - Single Run - Inline
+// --------------------------------------------------------------------------------
+
 func run1(input: Int, expected: Int) throws {
 
     try "number matches" ?>
         input == expected    
 }
-/// inline ... blazing fast
+
+// inline ... blazing fast
 expect(run1 =/ 4 => 4)
 expect(run1 =/ 5 => 5)
 expect(run1 =/ 6 => 6)
 expect(run1 =/ 7 => 7)
 
-/// the second run
+// --------------------------------------------------------------------------------
+// MARK: - Single Run - Multiline
+// --------------------------------------------------------------------------------
+
+
 typealias Input_Run2 = (Int?, Int?, String?)
 typealias Expected_Run2 = (Int, Int, String)
 func run2(input: Input_Run2, expected: Expected_Run2) throws {
@@ -36,6 +44,7 @@ func run2(input: Input_Run2, expected: Expected_Run2) throws {
     try "third matches" ?>
         input.2 == expected.2
 }
+
 // multiline ... clean
 expect(run2,
     at: (1, 2, "3"),
@@ -49,7 +58,11 @@ expect(run2,
 
 Next up:
 ```swift
-/// run a
+
+// --------------------------------------------------------------------------------
+// MARK: - Combined Run - Multi and Single
+// --------------------------------------------------------------------------------
+
 func runA(input: Int, expected: Int) throws -> Int {
 
     let subject = input * 2
@@ -59,7 +72,7 @@ func runA(input: Int, expected: Int) throws -> Int {
         
     return subject
 }
-// run b
+
 func runB(input: Int, expected: Int) throws {
 
     let subject = input * 3
@@ -67,6 +80,7 @@ func runB(input: Int, expected: Int) throws {
     try "number matches" ?>
         subject == expected   
 }
+
 /// inline versatile
 expect(runA • runB =/ 4 => 8 • 16)
 expect(runA • runA • runB =/ 4 => 8  • 16 • 32)
