@@ -1,5 +1,11 @@
 # BlackNest
+
+<p align="center">
+  <img width="200px" src="https://raw.githubusercontent.com/elm4ward/BlackNest/master/resources/blacknest.png">
+</p>
+
 BlackNest - possibly a spec-based-data-driven Swift TestSuite
+
 
 Working:
 ```swift
