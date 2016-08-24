@@ -25,9 +25,7 @@ class BlackNestTests: XCTestCase {
       return (int, int * 2)
     }
 
-
-
-    func runInt(input: (Int), expect: (Int, Int)) throws {
+    func runTupleWithDoubled(input: (Int), expect: (Int, Int)) throws {
 
       let subject = asTupleWithDoubledValue(input)
 
@@ -37,17 +35,17 @@ class BlackNestTests: XCTestCase {
         => "second entry is duplicate"
     }
 
-    expect(runInt =/ 04 => (04, 08))
-    expect(runInt =/ 08 => (08, 16))
-    expect(runInt =/ 12 => (12, 24))
+    expect(runTupleWithDoubled => 04 == (04, 08))
+    expect(runTupleWithDoubled => 08 == (08, 16))
+    expect(runTupleWithDoubled => 12 == (12, 24))
 
-    expect(runInt,
+    expect(runTupleWithDoubled,
            at: 100,
            is: (100, 200)
     )
 
 
-    XCTAssertThrowsError(try (runInt =/ (12) => (13, 24)).runIt()) { e in
+    XCTAssertThrowsError(try (runTupleWithDoubled => (12) == (13, 24)).runIt()) { e in
         guard let _ = e as? BlacknestHatchOutError else {
           return XCTFail("BlacknestHatchOutError not coming")
         }

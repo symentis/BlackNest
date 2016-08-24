@@ -21,10 +21,10 @@ func run1(input: Int, expected: Int) throws {
 }
 
 // inline ... blazing fast
-expect(run1 =/ 4 => 4)
-expect(run1 =/ 5 => 5)
-expect(run1 =/ 6 => 6)
-expect(run1 =/ 7 => 7)
+expect(run1 => 4 == 4)
+expect(run1 => 5 == 5)
+expect(run1 => 6 == 6)
+expect(run1 => 7 == 7)
 
 // --------------------------------------------------------------------------------
 // MARK: - Single Run - Multiline
