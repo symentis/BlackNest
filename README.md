@@ -64,8 +64,8 @@ func runA(input: Int, expected: Int) throws -> Int {
 
     let subject = input * 2
     
-    try "number matches" ?>
-        subject == expected 
+    try subject == expected 
+        => "subject is double"
         
     return subject
 }
@@ -74,13 +74,13 @@ func runB(input: Int, expected: Int) throws {
 
     let subject = input * 3
     
-    try "number matches" ?>
-        subject == expected   
+    try subject == expected 
+        => "number is tripple"   
 }
 
 // inline versatile
-expect(runA • runB =/ 4 => 8 • 16)
-expect(runA • runA • runB =/ 4 => 8 • 16 • 32)
+expect(runA • runB => 4 == 8 • 16)
+expect(runA • runA • runB => 4 == 8 • 16 • 32)
 
 // multiline
 expect(runA • runB,
