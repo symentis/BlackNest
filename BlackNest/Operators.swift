@@ -37,17 +37,17 @@ precedencegroup BlackNestSpecPrecedence {
 }
 
 precedencegroup BlackNestInputPrecedence {
-  higherThan: BlackNestExpectPrecedence
+  higherThan: BlackNestExpectPrecedence, BlackNestSpecPrecedence
   associativity: left
 }
+
 precedencegroup BlackNestExpectPrecedence {
   associativity: left
 }
 
-infix operator ?> : BlackNestSpecPrecedence
 
 infix operator =/ : BlackNestInputPrecedence
-infix operator => : BlackNestExpectPrecedence
+infix operator => : BlackNestSpecPrecedence
 
 // --------------------------------------------------------------------------------
 // MARK: - BlackNest ?> Operators
@@ -58,7 +58,7 @@ infix operator => : BlackNestExpectPrecedence
 /// - parameter spec: String
 /// - parameter subject: S?
 /// - returns: BlackNestBreeder<S>
-public func ?> <S>(spec: String, subject: S?) -> BlackNestBreeder<S>
+public func => <S>(subject: S?, spec: String) -> BlackNestBreeder<S>
   where S: Comparable {
     return BlackNestBreeder(expectation: spec, subject: subject)
 }
@@ -68,7 +68,7 @@ public func ?> <S>(spec: String, subject: S?) -> BlackNestBreeder<S>
 /// - parameter spec: String
 /// - parameter subject: S?
 /// - returns: BlackNestBreeder<S>
-public func ?> <S>(spec: String, subject: S?) -> BlackNestBreeder<S>
+public func => <S>(subject: S?, spec: String) -> BlackNestBreeder<S>
   where S: RawRepresentable {
     return BlackNestBreeder(expectation: spec, subject: subject)
 }
@@ -81,7 +81,7 @@ public func ?> <S>(spec: String, subject: S?) -> BlackNestBreeder<S>
 /// - parameter param: lhs BlackNestBreeder<S>
 /// - parameter param: lhs S?
 /// - throws: BlacknestHatchOutError
-public func == <S>(lhs: BlackNestBreeder<S>, rhs: S?) throws
+public func == <S>(rhs: S?, lhs: BlackNestBreeder<S>) throws
   where S: Comparable {
     guard lhs.subject != nil && rhs != nil else { return }
     guard lhs.subject == rhs else {
@@ -93,7 +93,7 @@ public func == <S>(lhs: BlackNestBreeder<S>, rhs: S?) throws
 /// - parameter param: lhs BlackNestBreeder<S>
 /// - parameter param: lhs S?
 /// - throws: BlacknestHatchOutError
-public func == <S>(lhs: BlackNestBreeder<S>, rhs: S?) throws
+public func == <S>(rhs: S?, lhs: BlackNestBreeder<S>) throws
   where S: RawRepresentable, S.RawValue: Comparable {
     guard lhs.subject != nil && rhs != nil else { return }
     guard lhs.subject?.rawValue == rhs?.rawValue else {
@@ -109,7 +109,7 @@ public func == <S>(lhs: BlackNestBreeder<S>, rhs: S?) throws
 /// - parameter param: lhs BlackNestBreeder<S>
 /// - parameter param: lhs S?
 /// - throws: BlacknestHatchOutError
-public func != <S>(lhs: BlackNestBreeder<S>, rhs: S?) throws
+public func != <S>(rhs: S?, lhs: BlackNestBreeder<S>) throws
   where S: Comparable {
     guard lhs.subject != nil && rhs != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
@@ -124,7 +124,7 @@ public func != <S>(lhs: BlackNestBreeder<S>, rhs: S?) throws
 /// - parameter param: lhs BlackNestBreeder<S>
 /// - parameter param: lhs S?
 /// - throws: BlacknestHatchOutError
-public func != <S>(lhs: BlackNestBreeder<S>, rhs: S?) throws
+public func != <S>(rhs: S?, lhs: BlackNestBreeder<S>) throws
   where S: RawRepresentable, S.RawValue: Comparable {
     guard lhs.subject != nil && rhs != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)

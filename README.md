@@ -15,8 +15,9 @@ Working:
 
 func run1(input: Int, expected: Int) throws {
 
-    try "number matches" ?>
-        input == expected    
+    try input == expected  
+      => "number matches"
+          
 }
 
 // inline ... blazing fast
@@ -33,14 +34,15 @@ typealias Input_Run2 = (Int?, Int?, String?)
 typealias Expected_Run2 = (Int, Int, String)
 func run2(input: Input_Run2, expected: Expected_Run2) throws {
 
-    try "first matches" ?>
-        input.0 == expected.0
+    try input.0 == expected.0
+      => "first is same"
         
-    try "second matches" ?>
-        input.1 == expected.1
+    try input.1 == expected.1
+      => "second is the same"
         
-    try "third matches" ?>
-        input.2 == expected.2
+    try input.2 == expected.2 
+      => "third is the same"
+        
 }
 
 // multiline ... clean

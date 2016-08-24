@@ -38,6 +38,7 @@
 		9CEE03A01D6B81F0006B8079 /* BlackNestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackNestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CEE03A51D6B81F0006B8079 /* BlackNestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackNestTests.swift; sourceTree = "<group>"; };
 		9CEE03A71D6B81F0006B8079 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C537E8A21D6D775D0026CEBC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +71,7 @@
 		9CEE038D1D6B81F0006B8079 = {
 			isa = PBXGroup;
 			children = (
+				C537E8A21D6D775D0026CEBC /* README.md */,
 				9CEE03991D6B81F0006B8079 /* BlackNest */,
 				9CEE03A41D6B81F0006B8079 /* BlackNestTests */,
 				9CEE03981D6B81F0006B8079 /* Products */,
