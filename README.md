@@ -84,11 +84,11 @@ func runB(input: Int, expected: Int) throws {
 expect(runA • runB => 4 == 8 • 16)
 expect(runA • runA • runB => 4 == 8 • 16 • 32)
 
-// 
-expect(
-  runA => 4 == 8
-    => runB |= 16
-    => runB |= 32
+// clearer?
+expect(when: 8, 
+       runA => 8 
+     | runB => 16
+     | runB => 32
 )
 
 // multiline
