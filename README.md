@@ -85,10 +85,17 @@ expect(runA • runB => 4 == 8 • 16)
 expect(runA • runA • runB => 4 == 8 • 16 • 32)
 
 // clearer?
-expect(8 | runA => 8 
-         | runB => 16
-         | runB => 32
+
+let c = expected(runA => 8 == 6)
+let d = expected(runA => c == 5)
+let e = expected(runA => d == 5)
+
+// 
+expect(4 | runA => 6)
+expect(4 | createCheckpoint => 7
+           && storeCheckpoint => true
 )
+    
 
 // multiline
 expect(runA • runB,
