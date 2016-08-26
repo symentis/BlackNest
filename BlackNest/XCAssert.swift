@@ -26,29 +26,30 @@
 import XCTest
 
 // --------------------------------------------------------------------------------
-// MARK: - expect for BlackNestBox
+// MARK: - expect for BLNBox
 // --------------------------------------------------------------------------------
 
-/// Expect takes a BlackNestBox and checks for error
-/// - parameter run: BlackNestBox
+/// Expect takes a BLNBox and checks for error
+/// - parameter run: BLNBox
 /// - returns: Void
-public func expect<I, E>(_ run: BlackNestBox<I, E>,
+public func expect<I, E, O>(_ run: BLNBox<I, E, O>,
             line: UInt = #line,
-            file: StaticString = #file) {
+            file: StaticString = #file) -> O? {
   do {
-    try run.runIt()
+    return try run.runIt()
   } catch let error {
     XCTAssert(false, "\(error)", file: file, line: line)
   }
+  return nil
 }
 
-/// Expect takes a BlackNestBox and checks for error
-/// - parameter run: BlackNestBox
+/// Expect takes a BLNBox and checks for error
+/// - parameter run: BLNBox
 /// - returns: Void
-public func expect<I, E>(_ run: BlackNestBreeding<I, E>,
+public func expect<I, E, O>(_ run: BLNBreeding<I, E, O>,
             at input: I,
             is expected: E,
             line: UInt = #line,
-            file: StaticString = #file) {
-  expect(input | run => expected)
+            file: StaticString = #file) -> O? {
+  return expect(input | run => expected)
 }

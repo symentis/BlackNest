@@ -9,38 +9,38 @@
 import Foundation
 
 // --------------------------------------------------------------------------------
-// MARK: - BlackNestEgg => Operators
+// MARK: - BLNEgg => Operators
 // --------------------------------------------------------------------------------
 
-/// Returns a BlackNestEgg that contains the `spec` and
+/// Returns a BLNEgg that contains the `spec` and
 /// the `subject` S which must conform to `Comparable`.
 /// - parameter spec: String
 /// - parameter subject: S?
-/// - returns: BlackNestEgg<S>
-public func => <S>(subject: S?, spec: String) -> BlackNestEgg<S>
+/// - returns: BLNEgg<S>
+public func => <S>(subject: S?, spec: String) -> BLNEgg<S>
   where S: Comparable {
-    return BlackNestEgg(expectation: spec, subject: subject)
+    return BLNEgg(expectation: spec, subject: subject)
 }
 
-/// Returns a BlackNestEgg that contains the `spec` and
+/// Returns a BLNEgg that contains the `spec` and
 /// the `subject` S which must conform to `RawRepresentable`.
 /// - parameter spec: String
 /// - parameter subject: S?
-/// - returns: BlackNestEgg<S>
-public func => <S>(subject: S?, spec: String) -> BlackNestEgg<S>
+/// - returns: BLNEgg<S>
+public func => <S>(subject: S?, spec: String) -> BLNEgg<S>
   where S: RawRepresentable {
-    return BlackNestEgg(expectation: spec, subject: subject)
+    return BLNEgg(expectation: spec, subject: subject)
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - BlackNestEgg == Operators
+// MARK: - BLNEgg == Operators
 // --------------------------------------------------------------------------------
 
-/// Lifts expected S? into the `BlackNestEgg` for a `==`.
-/// - parameter param: lhs BlackNestEgg<S>
+/// Lifts expected S? into the `BLNEgg` for a `==`.
+/// - parameter param: lhs BLNEgg<S>
 /// - parameter param: lhs S?
-/// - throws: BlackNestShellCrack
-public func == <S>(rhs: S?, lhs: BlackNestEgg<S>) throws
+/// - throws: BLNShellCrack
+public func == <S>(rhs: S?, lhs: BLNEgg<S>) throws
   where S: Comparable {
     guard lhs.subject != nil && rhs != nil else { return }
     guard lhs.subject == rhs else {
@@ -48,11 +48,11 @@ public func == <S>(rhs: S?, lhs: BlackNestEgg<S>) throws
     }
 }
 
-/// Lifts expected S? conforming to RawRepresentable into the `BlackNestEgg` for a `==`.
-/// - parameter param: lhs BlackNestEgg<S>
+/// Lifts expected S? conforming to RawRepresentable into the `BLNEgg` for a `==`.
+/// - parameter param: lhs BLNEgg<S>
 /// - parameter param: lhs S?
-/// - throws: BlackNestShellCrack
-public func == <S>(rhs: S?, lhs: BlackNestEgg<S>) throws
+/// - throws: BLNShellCrack
+public func == <S>(rhs: S?, lhs: BLNEgg<S>) throws
   where S: Equatable {
     guard lhs.subject != nil && rhs != nil else { return }
     guard lhs.subject == rhs else {
@@ -61,14 +61,14 @@ public func == <S>(rhs: S?, lhs: BlackNestEgg<S>) throws
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - BlackNestEgg != Operators
+// MARK: - BLNEgg != Operators
 // --------------------------------------------------------------------------------
 
-/// Lifts expected S? into the `BlackNestEgg` for a `!=`.
-/// - parameter param: lhs BlackNestEgg<S>
+/// Lifts expected S? into the `BLNEgg` for a `!=`.
+/// - parameter param: lhs BLNEgg<S>
 /// - parameter param: lhs S?
-/// - throws: BlackNestShellCrack
-public func != <S>(rhs: S?, lhs: BlackNestEgg<S>) throws
+/// - throws: BLNShellCrack
+public func != <S>(rhs: S?, lhs: BLNEgg<S>) throws
   where S: Comparable {
     guard lhs.subject != nil && rhs != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
@@ -79,11 +79,11 @@ public func != <S>(rhs: S?, lhs: BlackNestEgg<S>) throws
     }
 }
 
-/// Lifts expected S? conforming to RawRepresentable into the `BlackNestEgg` for a `!=`.
-/// - parameter param: lhs BlackNestEgg<S>
+/// Lifts expected S? conforming to RawRepresentable into the `BLNEgg` for a `!=`.
+/// - parameter param: lhs BLNEgg<S>
 /// - parameter param: lhs S?
-/// - throws: BlackNestShellCrack
-public func != <S>(rhs: S?, lhs: BlackNestEgg<S>) throws
+/// - throws: BLNShellCrack
+public func != <S>(rhs: S?, lhs: BLNEgg<S>) throws
   where S: Equatable {
     guard lhs.subject != nil && rhs != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)

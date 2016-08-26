@@ -27,18 +27,18 @@ import Foundation
 import XCTest
 
 // --------------------------------------------------------------------------------
-// MARK: - BlackNestShellCrack
+// MARK: - BLNShellCrack
 // --------------------------------------------------------------------------------
 
 /// Create a Shell crack.
 /// - parameter message: Any...
-/// - returns: BlackNestShellCrack
-func shellCracked(_ message: Any...) -> BlackNestShellCrack {
-  return BlackNestShellCrack(message: message.map { "\($0)" } .joined(separator: ", "))
+/// - returns: BLNShellCrack
+func shellCracked(_ message: Any...) -> BLNShellCrack {
+  return BLNShellCrack(message: message.map { "\($0)" } .joined(separator: ", "))
 }
 
-/// BlackNestShellCrack
-struct BlackNestShellCrack: Error, CustomStringConvertible {
+/// BLNShellCrack
+struct BLNShellCrack: Error, CustomStringConvertible {
   let message: String
 
   var description: String {

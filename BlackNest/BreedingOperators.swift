@@ -42,16 +42,17 @@ precedencegroup BlackNestChainPrecedence {
 
 infix operator => : BlackNestSpecPrecedence
 infix operator && : BlackNestChainPrecedence
+
 // --------------------------------------------------------------------------------
-// MARK: - BlackNestBreeding Operators
+// MARK: - BLNBreeding Operators
 // --------------------------------------------------------------------------------
 
-/// Lift Input into BlackNestBreeding and get BlackNestBreeder
-public func | <I, E>(rhs: I, lhs: BlackNestBreeding<I, E>) -> BlackNestBreeder<I, E> {
-  return BlackNestBreeder(run: lhs, input: rhs)
+/// Lift Input into BLNBreeding and get BLNBreeder
+public func | <I, E, O>(rhs: I, lhs: BLNBreeding<I, E, O>) -> BLNBreeder<I, E, O> {
+  return BLNBreeder(run: lhs, input: rhs)
 }
 
-/// Lift Expected into BlackNestBreeder and get BlackNestBox
-public func => <I, E>(lhs: BlackNestBreeder<I, E>, rhs: E) -> BlackNestBox<I, E> {
-  return BlackNestBox(run: lhs.run, input: lhs.input, expected: rhs)
+/// Lift Expected into BLNBreeder and get BLNBox
+public func => <I, E, O>(lhs: BLNBreeder<I, E, O>, rhs: E) -> BLNBox<I, E, O> {
+  return BLNBox(run: lhs.run, input: lhs.input, expected: rhs)
 }

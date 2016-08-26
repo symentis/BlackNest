@@ -1,5 +1,5 @@
 //
-//  BlackNestBox.swift
+//  BLNBox.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -24,26 +24,26 @@
 // THE SOFTWARE.
 
 // --------------------------------------------------------------------------------
-// MARK: - BlackNestBreeding
+// MARK: - BLNBreeding
 // --------------------------------------------------------------------------------
 
-/// BlackNestBreeding
-public typealias BlackNestBreeding<I, E> = (I, E) throws -> ()
+/// BLNBreeding
+public typealias BLNBreeding<I, E, O> = (I, E) throws -> O
 
-/// BlackNestBreeder
-public struct BlackNestBreeder<I, E> {
-  let run: BlackNestBreeding<I, E>
+/// BLNBreeder
+public struct BLNBreeder<I, E, O> {
+  let run: BLNBreeding<I, E, O>
   let input: I
 }
 
-/// BlackNestBox
-public struct BlackNestBox<I, E> {
-  let run: BlackNestBreeding<I, E>
+/// BLNBox
+public struct BLNBox<I, E, O> {
+  let run: BLNBreeding<I, E, O>
   let input: I
   let expected: E
 
 
-  func runIt() throws {
-     try run(input, expected)
+  func runIt() throws -> O {
+     return try run(input, expected)
   }
 }
