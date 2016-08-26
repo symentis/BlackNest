@@ -1,5 +1,5 @@
 //
-//  Operators.swift
+//  BreedingOperators.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -52,7 +52,7 @@ public func | <I, E, O>(rhs: I, lhs: BLNBreeding<I, E, O>) -> BLNBreeder<I, E, O
   return BLNBreeder(run: lhs, input: rhs)
 }
 
-/// Lift Expected into BLNBreeder and get BLNBox
-public func => <I, E, O>(lhs: BLNBreeder<I, E, O>, rhs: E) -> BLNBox<I, E, O> {
-  return BLNBox(run: lhs.run, input: lhs.input, expected: rhs)
+/// Lift Expected into BLNBreeder and get BLNNest
+public func => <I, E, O>(lhs: BLNBreeder<I, E, O>, rhs: E) -> BLNNest<I, E, O> {
+  return BLNNest(run: lhs.run, input: lhs.input, expected: rhs)
 }

@@ -1,5 +1,5 @@
 //
-//  BLNBox.swift
+//  Nest.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -36,12 +36,11 @@ public struct BLNBreeder<I, E, O> {
   let input: I
 }
 
-/// BLNBox
-public struct BLNBox<I, E, O> {
+/// BLNNest
+public struct BLNNest<I, E, O> {
   let run: BLNBreeding<I, E, O>
   let input: I
   let expected: E
-
 
   func runIt() throws -> O {
      return try run(input, expected)

@@ -1,5 +1,5 @@
 //
-//  BlackNestXCAssert.swift
+//  XCAssert.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -26,13 +26,13 @@
 import XCTest
 
 // --------------------------------------------------------------------------------
-// MARK: - expect for BLNBox
+// MARK: - expect for BLNNest
 // --------------------------------------------------------------------------------
 
-/// Expect takes a BLNBox and checks for error
-/// - parameter run: BLNBox
+/// Expect takes a BLNNest and checks for error
+/// - parameter run: BLNNest
 /// - returns: Void
-public func expect<I, E, O>(_ run: BLNBox<I, E, O>,
+public func expect<I, E, O>(_ run: BLNNest<I, E, O>,
             line: UInt = #line,
             file: StaticString = #file) -> O? {
   do {
@@ -43,8 +43,8 @@ public func expect<I, E, O>(_ run: BLNBox<I, E, O>,
   return nil
 }
 
-/// Expect takes a BLNBox and checks for error
-/// - parameter run: BLNBox
+/// Expect takes a BLNNest and checks for error
+/// - parameter run: BLNNest
 /// - returns: Void
 public func expect<I, E, O>(_ run: BLNBreeding<I, E, O>,
             at input: I,

@@ -1,5 +1,5 @@
 //
-//  BreederOperator.swift
+//  EggOperator.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 26.08.16.
