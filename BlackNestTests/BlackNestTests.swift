@@ -48,15 +48,15 @@ class BlackNestTests: XCTestCase {
     expect(012, in:doubleTuple, is:(12, 24))
     expect(100, in:doubleTuple, is:(100, 200))
 
+    expect(004, in: doubleTuple => (04, 08))
+    expect(008, in: doubleTuple => (08, 16))
+    expect(012, in: doubleTuple => (12, 24))
+    expect(100, in: doubleTuple => (100, 200))
+
     expect(004 | doubleTuple => (04, 08))
     expect(008 | doubleTuple => (08, 16))
     expect(012 | doubleTuple => (12, 24))
     expect(100 | doubleTuple => (100, 200))
-
-    expect(when: 004, then: doubleTuple => (04, 08))
-    expect(when: 008, then: doubleTuple => (08, 16))
-    expect(when: 012, then: doubleTuple => (12, 24))
-    expect(when: 100, then: doubleTuple => (100, 200))
 
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).runIt()) { e in
         guard let _ = e as? BLNShellCrack else {
@@ -74,7 +74,6 @@ class BlackNestTests: XCTestCase {
     expect(12, in:doubleTuple, is:(12, 24))
       .then(tupleSum, is:36)
 
-
     expect(004 | doubleTuple => (04, 08))
               .then(tupleSum => 12)
     expect(008 | doubleTuple => (08, 16))
@@ -83,7 +82,6 @@ class BlackNestTests: XCTestCase {
               .then(tupleSum => 36)
     expect(100 | doubleTuple => (100, 200))
               .then(tupleSum => 300)
-
 
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).runIt()) { e in
       guard let _ = e as? BLNShellCrack else {

@@ -35,13 +35,13 @@ public typealias BLNBreeding<I, E, O> = (I, E) throws -> O
 // --------------------------------------------------------------------------------
 
 public struct BLNBreederInput<I, E, O> {
-  let run: BLNBreeding<I, E, O>
+  let breeding: BLNBreeding<I, E, O>
   let input: I
 }
 
 /// BLNBreeder
 public struct BLNBreederExpected<I, E, O> {
-  let run: BLNBreeding<I, E, O>
+  let breeding: BLNBreeding<I, E, O>
   let expected: E
 }
 
@@ -57,20 +57,16 @@ public struct BLNBranch<I> {
                    is expected: E,
                    line: UInt = #line,
                    file: StaticString = #file) -> BLNBranch<O> {
-    guard let input = input else {
-      return BLNBranch<O>(input: nil)
-    }
-    return expect(when: input, then: breeding => expected, line: line, file: file)
+    guard let input = input else { return BLNBranch<O>(input: nil) }
+    return expect(input, in: breeding => expected, line: line, file: file)
   }
 
   @discardableResult
   public func then<E, O>(_ breeder: BLNBreederExpected<I, E, O>,
                    line: UInt = #line,
                    file: StaticString = #file) -> BLNBranch<O> {
-    guard let input = input else {
-      return BLNBranch<O>(input: nil)
-    }
-    return expect(when: input, then: breeder.run => breeder.expected, line: line, file: file)
+    guard let input = input else { return BLNBranch<O>(input: nil) }
+    return expect(input, in: breeder.breeding => breeder.expected, line: line, file: file)
   }
 }
 
@@ -80,11 +76,11 @@ public struct BLNBranch<I> {
 
 /// BLNNest
 public struct BLNNest<I, E, O> {
-  let run: BLNBreeding<I, E, O>
+  let breeding: BLNBreeding<I, E, O>
   let input: I
   let expected: E
 
   func runIt() throws -> O {
-     return try run(input, expected)
+     return try breeding(input, expected)
   }
 }

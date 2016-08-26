@@ -32,16 +32,12 @@ import Foundation
 
 /// in order to make `==` evaluate after `?>`
 /// we reduce the Precedence of the Blacknest operator
-precedencegroup BlackNestSpecPrecedence {
+precedencegroup BLNSpecPrecedence {
   higherThan: ComparisonPrecedence
   lowerThan: AdditionPrecedence
 }
 
-precedencegroup BlackNestChainPrecedence {
-}
-
-infix operator => : BlackNestSpecPrecedence
-infix operator && : BlackNestChainPrecedence
+infix operator => : BLNSpecPrecedence
 
 // --------------------------------------------------------------------------------
 // MARK: - BLNBreeding Operators
@@ -49,15 +45,15 @@ infix operator && : BlackNestChainPrecedence
 
 /// Lift Input into BLNBreeding and get BLNBreeder
 public func | <I, E, O>(rhs: I, lhs: BLNBreeding<I, E, O>) -> BLNBreederInput<I, E, O> {
-  return BLNBreederInput(run: lhs, input: rhs)
-}
-
-/// Lift Expected into BLNBreeder and get BLNNest
-public func => <I, E, O>(lhs: BLNBreederInput<I, E, O>, rhs: E) -> BLNNest<I, E, O> {
-  return BLNNest(run: lhs.run, input: lhs.input, expected: rhs)
+  return BLNBreederInput(breeding: lhs, input: rhs)
 }
 
 /// Lift BLNBreeding and E into BLNBreederExpected
 public func => <I, E, O>(lhs: BLNBreeding<I, E, O>, rhs: E) -> BLNBreederExpected<I, E, O> {
-  return BLNBreederExpected(run: lhs, expected: rhs)
+  return BLNBreederExpected(breeding: lhs, expected: rhs)
+}
+
+/// Lift Expected into BLNBreeder and get BLNNest
+public func => <I, E, O>(lhs: BLNBreederInput<I, E, O>, rhs: E) -> BLNNest<I, E, O> {
+  return BLNNest(breeding: lhs.breeding, input: lhs.input, expected: rhs)
 }

@@ -28,7 +28,7 @@ public func => <S>(subject: S?, spec: String) -> BLNEgg<S>
 /// - parameter subject: S?
 /// - returns: BLNEgg<S>
 public func => <S>(subject: S?, spec: String) -> BLNEgg<S>
-  where S: RawRepresentable {
+  where S: Equatable {
     return BLNEgg(expectation: spec, subject: subject)
 }
 

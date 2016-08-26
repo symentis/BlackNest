@@ -62,11 +62,11 @@ public func expect<I, E, O>(_ nest: BLNNest<I, E, O>,
 /// - parameter run: BLNNest
 /// - returns: Void
 @discardableResult
-public func expect<I, E, O>(when input: I,
-                   then breeder: BLNBreederExpected<I, E, O>,
+public func expect<I, E, O>(_ input: I,
+                   in breeder: BLNBreederExpected<I, E, O>,
                    line: UInt = #line,
                    file: StaticString = #file) -> BLNBranch<O> {
-  let nest = input | breeder.run => breeder.expected
+  let nest = input | breeder.breeding => breeder.expected
   return BLNBranch(input: lookAt(nest, line:line, file: file))
 }
 
@@ -105,4 +105,3 @@ public func expect<I, E, O>(_ breeding: BLNBreeding<I, E, O>,
   let nest = input | breeding => expected
   return BLNBranch(input: lookAt(nest, line:line, file: file))
 }
-
