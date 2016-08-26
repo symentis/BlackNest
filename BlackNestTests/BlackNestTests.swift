@@ -35,9 +35,9 @@ class BlackNestTests: XCTestCase {
         => "second entry is duplicate"
     }
 
-    expect(runTupleWithDoubled => 04 == (04, 08))
-    expect(runTupleWithDoubled => 08 == (08, 16))
-    expect(runTupleWithDoubled => 12 == (12, 24))
+    expect(04 | runTupleWithDoubled => (04, 08))
+    expect(08 | runTupleWithDoubled => (08, 16))
+    expect(12 | runTupleWithDoubled => (12, 24))
 
     expect(runTupleWithDoubled,
            at: 100,
@@ -45,7 +45,7 @@ class BlackNestTests: XCTestCase {
     )
 
 
-    XCTAssertThrowsError(try (runTupleWithDoubled => (12) == (13, 24)).runIt()) { e in
+    XCTAssertThrowsError(try (12 | runTupleWithDoubled => (13, 24)).runIt()) { e in
         guard let _ = e as? BlacknestHatchOutError else {
           return XCTFail("BlacknestHatchOutError not coming")
         }

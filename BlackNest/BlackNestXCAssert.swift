@@ -50,5 +50,5 @@ public func expect<I, E>(_ run: BlackNestTestRunner<I, E>,
             is expected: E,
             line: UInt = #line,
             file: StaticString = #file) {
-  expect(run => input == expected)
+  expect(input | run => expected)
 }

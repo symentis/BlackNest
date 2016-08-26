@@ -34,19 +34,9 @@ import Foundation
 /// we reduce the Precedence of the Blacknest operator
 precedencegroup BlackNestSpecPrecedence {
   higherThan: ComparisonPrecedence
+  lowerThan: AdditionPrecedence
 }
 
-precedencegroup BlackNestInputPrecedence {
-  higherThan: BlackNestExpectPrecedence, BlackNestSpecPrecedence
-  associativity: left
-}
-
-precedencegroup BlackNestExpectPrecedence {
-  associativity: left
-}
-
-
-infix operator =/ : BlackNestInputPrecedence
 infix operator => : BlackNestSpecPrecedence
 
 // --------------------------------------------------------------------------------
@@ -140,11 +130,11 @@ public func != <S>(rhs: S?, lhs: BlackNestBreeder<S>) throws
 // --------------------------------------------------------------------------------
 
 /// Lift Input into BlackNestTestRunner and get BlackNestTestRunnerWithInput
-public func => <I, E>(lhs: BlackNestTestRunner<I, E>, rhs: I) -> BlackNestTestRunnerWithInput<I, E> {
+public func | <I, E>(rhs: I, lhs: BlackNestTestRunner<I, E>) -> BlackNestTestRunnerWithInput<I, E> {
   return BlackNestTestRunnerWithInput(run: lhs, input: rhs)
 }
 
 /// Lift Expected into BlackNestTestRunnerWithInput and get BlackNestTestRun
-public func == <I, E>(lhs: BlackNestTestRunnerWithInput<I, E>, rhs: E) -> BlackNestTestRun<I, E> {
+public func => <I, E>(lhs: BlackNestTestRunnerWithInput<I, E>, rhs: E) -> BlackNestTestRun<I, E> {
   return BlackNestTestRun(run: lhs.run, input: lhs.input, expected: rhs)
 }
