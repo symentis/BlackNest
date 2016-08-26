@@ -44,7 +44,7 @@ public func == <S>(rhs: S?, lhs: BLNEgg<S>) throws
   where S: Comparable {
     guard lhs.subject != nil && rhs != nil else { return }
     guard lhs.subject == rhs else {
-      throw shellCracked(lhs.expectation, "is >\(lhs.subject)<", "expected >\(rhs)<")
+      throw shellCracked(lhs.expectation, "is >\(rhs)<", "expected >\(lhs.subject)<")
     }
 }
 

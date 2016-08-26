@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9CEA0DD31D6B826C006B0158 /* ShellCrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD21D6B826C006B0158 /* ShellCrack.swift */; };
-		9CEA0DD81D6B843C006B0158 /* BreedingOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD71D6B843C006B0158 /* BreedingOperators.swift */; };
+		9CEA0DD81D6B843C006B0158 /* NestOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD71D6B843C006B0158 /* NestOperators.swift */; };
 		9CEA0DDA1D6B8507006B0158 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD91D6B8507006B0158 /* Egg.swift */; };
 		9CEA0DDC1D6B8533006B0158 /* Nest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDB1D6B8533006B0158 /* Nest.swift */; };
 		9CEA0DDE1D6B8563006B0158 /* XCAssert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDD1D6B8563006B0158 /* XCAssert.swift */; };
@@ -30,7 +30,7 @@
 /* Begin PBXFileReference section */
 		9CEA0DD21D6B826C006B0158 /* ShellCrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellCrack.swift; sourceTree = "<group>"; };
 		9CEA0DD51D6B8288006B0158 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		9CEA0DD71D6B843C006B0158 /* BreedingOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreedingOperators.swift; sourceTree = "<group>"; };
+		9CEA0DD71D6B843C006B0158 /* NestOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NestOperators.swift; sourceTree = "<group>"; };
 		9CEA0DD91D6B8507006B0158 /* Egg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Egg.swift; sourceTree = "<group>"; };
 		9CEA0DDB1D6B8533006B0158 /* Nest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nest.swift; sourceTree = "<group>"; };
 		9CEA0DDD1D6B8563006B0158 /* XCAssert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssert.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 			children = (
 				9CEE039B1D6B81F0006B8079 /* Info.plist */,
 				9CEA0DDB1D6B8533006B0158 /* Nest.swift */,
-				9CEA0DD71D6B843C006B0158 /* BreedingOperators.swift */,
+				9CEA0DD71D6B843C006B0158 /* NestOperators.swift */,
 				9CEA0DD91D6B8507006B0158 /* Egg.swift */,
 				C59655811D70759F00E786D2 /* EggOperator.swift */,
 				9CEA0DD21D6B826C006B0158 /* ShellCrack.swift */,
@@ -248,7 +248,7 @@
 				9CEA0DDC1D6B8533006B0158 /* Nest.swift in Sources */,
 				C59655821D70759F00E786D2 /* EggOperator.swift in Sources */,
 				9CEA0DDA1D6B8507006B0158 /* Egg.swift in Sources */,
-				9CEA0DD81D6B843C006B0158 /* BreedingOperators.swift in Sources */,
+				9CEA0DD81D6B843C006B0158 /* NestOperators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

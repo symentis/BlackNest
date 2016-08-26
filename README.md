@@ -4,7 +4,7 @@
    <img width="400px" src="https://github.com/elm4ward/BlackNest/blob/master/resources/blacknest.png?raw=true" alt="blacknest.png">
 </p>
 
-## BlackNest - Swift Test Breeding - Spec Based - Data Driven 
+## BlackNest - Swift Test Breeding - Spec Based - Data Driven
 
 
 Working:
@@ -13,47 +13,34 @@ Working:
 // MARK: - Single Run - Inline
 // --------------------------------------------------------------------------------
 
-func run1(input: Int, expected: Int) throws {
+func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
+  // Act:
+  let subject = (input, input * 2)
 
-    try input == expected  
-      => "number matches"
-          
+  // Assert:
+  try subject.0 == expect.0
+    => "first entry should be the same"
+  try subject.1 == expect.1
+    => "second entry should be duplicate"
+
+  return subject
 }
 
-// inline ... blazing fast
-expect(4 | run1 => 4)
-expect(5 | run1 => 5)
-expect(6 | run1 => 6)
-expect(7 | run1 => 7)
+expect(004, in:doubleTuple, is:(04, 08))
+expect(008, in:doubleTuple, is:(08, 16))
+expect(012, in:doubleTuple, is:(12, 24))
+expect(100, in:doubleTuple, is:(100, 200))
 
-// --------------------------------------------------------------------------------
-// MARK: - Single Run - Multiline
-// --------------------------------------------------------------------------------
+expect(004 | doubleTuple => (04, 08))
+expect(008 | doubleTuple => (08, 16))
+expect(012 | doubleTuple => (12, 24))
+expect(100 | doubleTuple => (100, 200))
 
-typealias Input_Run2 = (Int?, Int?, String?)
-typealias Expected_Run2 = (Int, Int, String)
-func run2(input: Input_Run2, expected: Expected_Run2) throws {
+expect(when: 004, then: doubleTuple => (04, 08))
+expect(when: 008, then: doubleTuple => (08, 16))
+expect(when: 012, then: doubleTuple => (12, 24))
+expect(when: 100, then: doubleTuple => (100, 200))
 
-    try input.0 == expected.0
-      => "first is same"
-        
-    try input.1 == expected.1
-      => "second is the same"
-        
-    try input.2 == expected.2 
-      => "third is the same"
-        
-}
-
-// multiline ... clean
-expect(run2,
-    at: (1, 2, "3"),
-    is: (1, 2, "3")
-)
-expect(run2,
-    at: (2, 3, "4"),
-    is: (2, 3, "4")
-)
 ```
 
 Next up:
@@ -62,48 +49,56 @@ Next up:
 // MARK: - Combined Run - Multi and Single
 // --------------------------------------------------------------------------------
 
-func runA(input: Int, expected: Int) throws -> Int {
 
-    let subject = input * 2
-    
-    try subject == expected 
-        => "subject is double"
-        
-    return subject
+func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
+  // Act:
+  let subject = (input, input * 2)
+
+  // Assert:
+  try subject.0 == expect.0
+    => "first entry should be the same"
+  try subject.1 == expect.1
+    => "second entry should be duplicate"
+
+  return subject
 }
 
-func runB(input: Int, expected: Int) throws {
+func tupleSum(input: (Int, Int), expect: (Int)) throws {
+  // Act:
+  let subject = input.0 + input.1
 
-    let subject = input * 3
-    
-    try subject == expected 
-        => "number is tripple"   
+  // Assert:
+  try subject == expect
+    => "sum calculation"
 }
 
+expect(4, in:doubleTuple, is:(04, 08))
+ .then(tupleSum, is:12)
+expect(8, in:doubleTuple, is:(08, 16))
+ .then(tupleSum, is:24)
+expect(12, in:doubleTuple, is:(12, 24))
+ .then(tupleSum, is:36)
+
+expect(004 | doubleTuple => (04, 08))
+         .then(tupleSum => 12)
+expect(008 | doubleTuple => (08, 16))
+         .then(tupleSum => 24)
+expect(012 | doubleTuple => (12, 24))
+         .then(tupleSum => 36)
+expect(100 | doubleTuple => (100, 200))
+         .then(tupleSum => 300)
+
+// Maybe?
 // inline versatile
-expect(runA • runB => 4 == 8 • 16)
-expect(runA • runA • runB => 4 == 8 • 16 • 32)
+// expect(runA • runB => 4 == 8 • 16)
+// expect(runA • runA • runB => 4 == 8 • 16 • 32)
 
-// clearer?
 
-let c = expected(runA => 8 == 6)
-let d = expected(runA => c == 5)
-let e = expected(runA => d == 5)
+// Or Maybe?
+// expect(4 | runA => 6)
+// expect(4 | createCheckpoint => 7
+//          & storeCheckpoint => true
+// )
 
-// 
-expect(4 | runA => 6)
-expect(4 | createCheckpoint => 7
-           && storeCheckpoint => true
-)
-    
 
-// multiline
-expect(runA • runB,
-    at: 4,
-    is: 8 • 16
-)
-expect(runA • runA • runB,
-    at: 4,
-    is: 8 • 16 • 32
-)
 ```

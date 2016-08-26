@@ -11,78 +11,81 @@ import XCTest
 
 class BlackNestTests: XCTestCase {
 
+  // --------------------------------------------------------------------------------
+  // MARK: - Specs
+  // --------------------------------------------------------------------------------
+
+  func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
+    // Act:
+    let subject = (input, input * 2)
+
+    // Assert:
+    try subject.0 == expect.0
+      => "first entry should be the same"
+    try subject.1 == expect.1
+      => "second entry should be duplicate"
+
+    return subject
+  }
+
+  func tupleSum(input: (Int, Int), expect: (Int)) throws {
+    // Act:
+    let subject = input.0 + input.1
+
+    // Assert:
+    try subject == expect
+      => "sum calculation"
+  }
+
+  // --------------------------------------------------------------------------------
+  // MARK: - Tests
+  // --------------------------------------------------------------------------------
+
   func testPlain() {
 
-    func asTupleWithDoubledValue(_ int: Int) -> (Int, Int) {
-      return (int, int * 2)
-    }
+    expect(004, in:doubleTuple, is:(04, 08))
+    expect(008, in:doubleTuple, is:(08, 16))
+    expect(012, in:doubleTuple, is:(12, 24))
+    expect(100, in:doubleTuple, is:(100, 200))
 
-    func runTupleWithDoubled(input: (Int), expect: (Int, Int)) throws {
+    expect(004 | doubleTuple => (04, 08))
+    expect(008 | doubleTuple => (08, 16))
+    expect(012 | doubleTuple => (12, 24))
+    expect(100 | doubleTuple => (100, 200))
 
-      let subject = asTupleWithDoubledValue(input)
+    expect(when: 004, then: doubleTuple => (04, 08))
+    expect(when: 008, then: doubleTuple => (08, 16))
+    expect(when: 012, then: doubleTuple => (12, 24))
+    expect(when: 100, then: doubleTuple => (100, 200))
 
-      try subject.0 == expect.0
-        => "first entry is still the same"
-      try subject.1 == expect.1
-        => "second entry is duplicate"
-    }
-
-    expect(04 | runTupleWithDoubled => (04, 08))
-    expect(08 | runTupleWithDoubled => (08, 16))
-    expect(12 | runTupleWithDoubled => (12, 24))
-
-    expect(runTupleWithDoubled,
-           at: 100,
-           is: (100, 200)
-    )
-
-    XCTAssertThrowsError(try (12 | runTupleWithDoubled => (13, 24)).runIt()) { e in
+    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).runIt()) { e in
         guard let _ = e as? BLNShellCrack else {
           return XCTFail("BLNShellCrack not coming")
         }
     }
   }
 
-  func testWithReturn() {
+  func testChain() {
 
-    func asTupleWithDoubledValue(_ int: Int) -> (Int, Int) {
-      return (int, int * 2)
-    }
-    func asTupleSum(_ tuple: (Int, Int)) -> (Int) {
-      return tuple.0 + tuple.1
-    }
+    expect(4, in:doubleTuple, is:(04, 08))
+      .then(tupleSum, is:12)
+    expect(8, in:doubleTuple, is:(08, 16))
+      .then(tupleSum, is:24)
+    expect(12, in:doubleTuple, is:(12, 24))
+      .then(tupleSum, is:36)
 
 
-    func runTupleWithDoubled(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
-      let subject = asTupleWithDoubledValue(input)
+    expect(004 | doubleTuple => (04, 08))
+              .then(tupleSum => 12)
+    expect(008 | doubleTuple => (08, 16))
+              .then(tupleSum => 24)
+    expect(012 | doubleTuple => (12, 24))
+              .then(tupleSum => 36)
+    expect(100 | doubleTuple => (100, 200))
+              .then(tupleSum => 300)
 
-      try subject.0 == expect.0
-        => "first entry is still the same"
-      try subject.1 == expect.1
-        => "second entry is duplicate"
 
-      return subject
-    }
-
-    func runTupleSum(input: (Int, Int), expect: (Int)) throws {
-      let subject = asTupleSum(input)
-
-      try subject == expect
-        => "sum is correct"
-    }
-
-    if let sum = expect(04 | runTupleWithDoubled => (04, 08)) {
-      _ = expect(sum | runTupleSum => 12)
-    }
-    _ = expect(08 | runTupleWithDoubled => (08, 16))
-    _ = expect(12 | runTupleWithDoubled => (12, 24))
-
-    _ = expect(runTupleWithDoubled,
-           at: 100,
-           is: (100, 200)
-    )
-
-    XCTAssertThrowsError(try (12 | runTupleWithDoubled => (13, 24)).runIt()) { e in
+    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).runIt()) { e in
       guard let _ = e as? BLNShellCrack else {
         return XCTFail("BLNShellCrack not coming")
       }
