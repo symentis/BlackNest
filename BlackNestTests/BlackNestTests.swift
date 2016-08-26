@@ -87,8 +87,8 @@ class BlackNestTests: XCTestCase {
 
 
     expectAll(4,
-              in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum,
-              is: (04, 08)    • 12       • (12, 24)    • 36
+              in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum ◦ doubleTuple,
+              is: (04, 08)    • 12       • (12, 24)    • 36       • (36, 72)
     )
 
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).runIt()) { e in
