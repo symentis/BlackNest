@@ -90,7 +90,7 @@ expect(100 | doubleTuple => (100, 200))
 
 expectAll(4, 
   in: doubleTuple ◦ tupleSum ◦ doubleTuple,
-  is: (04, 08) • 12 • (12, 24)
+  is: (04, 08)    • 12       • (12, 24)
 )
 
 // Maybe?
