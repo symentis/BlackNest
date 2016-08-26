@@ -37,7 +37,15 @@ precedencegroup BLNSpecPrecedence {
   lowerThan: AdditionPrecedence
 }
 
+precedencegroup BLNBreedPrecedence {
+  higherThan: BLNSpecPrecedence
+  associativity: right
+}
+
+
 infix operator => : BLNSpecPrecedence
+infix operator • : BLNBreedPrecedence
+infix operator ◦ : BLNBreedPrecedence
 
 // --------------------------------------------------------------------------------
 // MARK: - BLNBreeding Operators
@@ -56,4 +64,18 @@ public func => <I, E, O>(lhs: BLNBreeding<I, E, O>, rhs: E) -> BLNBreederExpecte
 /// Lift Expected into BLNBreeder and get BLNNest
 public func => <I, E, O>(lhs: BLNBreederInput<I, E, O>, rhs: E) -> BLNNest<I, E, O> {
   return BLNNest(breeding: lhs.breeding, input: lhs.input, expected: rhs)
+}
+
+func ◦ <I, E, O, J, P>(lhs: @escaping (I, E) throws -> O, rhs: @escaping (O, J) throws -> P)
+  -> BLNTree<BLNBreeder<I, E, O>, BLNBreeder<O, J, P>> {
+    return BLNTree(left: BLNBreeder(breeding: lhs), right: BLNBreeder(breeding: rhs))
+}
+
+func ◦ <I, E, O, L, R>(lhs: @escaping (I, E) throws -> O, rhs: BLNTree<L, R>)
+  -> BLNTree<BLNBreeder<I, E, O>, BLNTree<L, R>> {
+    return BLNTree(left: BLNBreeder(breeding: lhs), right: rhs)
+}
+
+func • <L, R>(lhs: L, rhs: R) -> BLNTree<L, R> {
+  return BLNTree(left: lhs, right: rhs)
 }

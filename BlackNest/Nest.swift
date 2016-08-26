@@ -27,12 +27,23 @@
 // MARK: - BLNBreeding
 // --------------------------------------------------------------------------------
 
-/// BLNBreeding
+/// Typealias for a breeding function.
 public typealias BLNBreeding<I, E, O> = (I, E) throws -> O
 
 // --------------------------------------------------------------------------------
 // MARK: - Breeder
 // --------------------------------------------------------------------------------
+
+public protocol BLNBreedable {
+  associatedtype BI
+  associatedtype BE
+  associatedtype BO
+  var breeding: (BI, BE) throws -> BO { get }
+}
+
+public struct BLNBreeder<I, E, O>: BLNBreedable {
+  public let breeding: BLNBreeding<I, E, O>
+}
 
 public struct BLNBreederInput<I, E, O> {
   let breeding: BLNBreeding<I, E, O>
@@ -83,4 +94,25 @@ public struct BLNNest<I, E, O> {
   func runIt() throws -> O {
      return try breeding(input, expected)
   }
+}
+
+// --------------------------------------------------------------------------------
+// MARK: - Tree
+// --------------------------------------------------------------------------------
+
+public struct BLNTree<A, B>: BLNBranchable {
+  public let left: A
+  public let right: B
+}
+
+// --------------------------------------------------------------------------------
+// MARK: - BLNBranchable
+// --------------------------------------------------------------------------------
+
+public protocol BLNBranchable {
+  associatedtype BA
+  associatedtype BB
+
+  var left: BA { get }
+  var right: BB { get }
 }

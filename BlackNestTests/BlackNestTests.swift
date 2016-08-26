@@ -28,13 +28,15 @@ class BlackNestTests: XCTestCase {
     return subject
   }
 
-  func tupleSum(input: (Int, Int), expect: (Int)) throws {
+  func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
     // Act:
     let subject = input.0 + input.1
 
     // Assert:
     try subject == expect
       => "sum calculation"
+
+    return subject
   }
 
   // --------------------------------------------------------------------------------
@@ -82,6 +84,12 @@ class BlackNestTests: XCTestCase {
               .then(tupleSum => 36)
     expect(100 | doubleTuple => (100, 200))
               .then(tupleSum => 300)
+
+
+    expectAll(4,
+              in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum,
+              is: (04, 08)    • 12       • (12, 24)    • 36
+    )
 
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).runIt()) { e in
       guard let _ = e as? BLNShellCrack else {

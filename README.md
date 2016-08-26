@@ -88,17 +88,15 @@ expect(012 | doubleTuple => (12, 24))
 expect(100 | doubleTuple => (100, 200))
          .then(tupleSum => 300)
 
+expectAll(4, 
+  in: doubleTuple ◦ tupleSum ◦ doubleTuple,
+  is: (04, 08) • 12 • (12, 24)
+)
+
 // Maybe?
-// inline versatile
-// expect(runA • runB => 4 == 8 • 16)
-// expect(runA • runA • runB => 4 == 8 • 16 • 32)
+// expect(4 | runA • runA • runB => 8 • 16 • 32)
 
 
 // Or Maybe?
-// expect(4 | runA => 6)
-// expect(4 | createCheckpoint => 7
-//          & storeCheckpoint => true
-// )
-
-
+// expect(4 | runA => 6 + runB => 8 + runA => 8)
 ```
