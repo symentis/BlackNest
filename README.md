@@ -22,8 +22,6 @@ func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
     => "first entry should be the same"
   try subject.1 == expect.1
     => "second entry should be duplicate"
-
-  return subject
 }
 
 expect(004, in:doubleTuple, is:(04, 08))
