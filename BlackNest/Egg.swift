@@ -1,5 +1,5 @@
 //
-//  BlackNestBreeder.swift
+//  BlackNestEgg.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -24,11 +24,11 @@
 // THE SOFTWARE.
 
 // --------------------------------------------------------------------------------
-// MARK: - BlackNestBreeder
+// MARK: - BlackNestEgg
 // --------------------------------------------------------------------------------
 
-/// BlackNestBreeder contains `expectation` and `subject`
-public struct BlackNestBreeder<S> {
+/// BlackNestEgg contains `expectation` and `subject`
+public struct BlackNestEgg<S> {
   let expectation: String
   let subject: S?
 }

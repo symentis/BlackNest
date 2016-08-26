@@ -1,9 +1,10 @@
 //
-//  BlackNestTestRun.swift
+//  Operators.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
 //  Copyright © 2016 symentis GmbH. All rights reserved.
+//
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +24,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Foundation
+
 // --------------------------------------------------------------------------------
-// MARK: - BlackNestTestRunner
+// MARK: - BlackNest Operators
 // --------------------------------------------------------------------------------
 
-/// Typealias for BlackNestTestRunner
-public typealias BlackNestTestRunner<I, E> = (I, E) throws -> ()
-
-/// BlackNestTestRunnerWithInput
-public struct BlackNestTestRunnerWithInput<I, E> {
-  let run: BlackNestTestRunner<I, E>
-  let input: I
+/// in order to make `==` evaluate after `?>`
+/// we reduce the Precedence of the Blacknest operator
+precedencegroup BlackNestSpecPrecedence {
+  higherThan: ComparisonPrecedence
+  lowerThan: AdditionPrecedence
 }
 
-/// BlackNestTestRun
-public struct BlackNestTestRun<I, E> {
-  let run: BlackNestTestRunner<I, E>
-  let input: I
-  let expected: E
+precedencegroup BlackNestChainPrecedence {
+}
 
+infix operator => : BlackNestSpecPrecedence
+infix operator && : BlackNestChainPrecedence
+// --------------------------------------------------------------------------------
+// MARK: - BlackNestBreeding Operators
+// --------------------------------------------------------------------------------
 
-  func runIt() throws {
-     try run(input, expected)
-  }
+/// Lift Input into BlackNestBreeding and get BlackNestBreeder
+public func | <I, E>(rhs: I, lhs: BlackNestBreeding<I, E>) -> BlackNestBreeder<I, E> {
+  return BlackNestBreeder(run: lhs, input: rhs)
+}
+
+/// Lift Expected into BlackNestBreeder and get BlackNestBox
+public func => <I, E>(lhs: BlackNestBreeder<I, E>, rhs: E) -> BlackNestBox<I, E> {
+  return BlackNestBox(run: lhs.run, input: lhs.input, expected: rhs)
 }

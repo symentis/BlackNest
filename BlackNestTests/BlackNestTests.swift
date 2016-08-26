@@ -46,8 +46,8 @@ class BlackNestTests: XCTestCase {
 
 
     XCTAssertThrowsError(try (12 | runTupleWithDoubled => (13, 24)).runIt()) { e in
-        guard let _ = e as? BlacknestHatchOutError else {
-          return XCTFail("BlacknestHatchOutError not coming")
+        guard let _ = e as? BlackNestShellCrack else {
+          return XCTFail("BlackNestShellCrack not coming")
         }
     }
 

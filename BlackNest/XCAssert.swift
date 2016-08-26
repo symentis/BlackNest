@@ -1,5 +1,5 @@
 //
-//  BlackNest.swift
+//  BlackNestXCAssert.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -23,25 +23,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
 import XCTest
 
 // --------------------------------------------------------------------------------
-// MARK: - BlacknestHatchOutError
+// MARK: - expect for BlackNestBox
 // --------------------------------------------------------------------------------
 
-/// Create a HatchOut Error
-/// - parameter message: Any...
-/// - returns: BlacknestHatchOutError
-func hatchOut(_ message: Any...) -> BlacknestHatchOutError {
-  return BlacknestHatchOutError(message: message.map { "\($0)" } .joined(separator: ", "))
+/// Expect takes a BlackNestBox and checks for error
+/// - parameter run: BlackNestBox
+/// - returns: Void
+public func expect<I, E>(_ run: BlackNestBox<I, E>,
+            line: UInt = #line,
+            file: StaticString = #file) {
+  do {
+    try run.runIt()
+  } catch let error {
+    XCTAssert(false, "\(error)", file: file, line: line)
+  }
 }
 
-/// BlacknestHatchOutError
-struct BlacknestHatchOutError: Error, CustomStringConvertible {
-  let message: String
-
-  var description: String {
-    return "\(message)\n\n"
-  }
+/// Expect takes a BlackNestBox and checks for error
+/// - parameter run: BlackNestBox
+/// - returns: Void
+public func expect<I, E>(_ run: BlackNestBreeding<I, E>,
+            at input: I,
+            is expected: E,
+            line: UInt = #line,
+            file: StaticString = #file) {
+  expect(input | run => expected)
 }

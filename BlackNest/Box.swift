@@ -1,5 +1,5 @@
 //
-//  BlackNestXCAssert.swift
+//  BlackNestBox.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -23,32 +23,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import XCTest
-
 // --------------------------------------------------------------------------------
-// MARK: - expect for BlackNestTestRun
+// MARK: - BlackNestBreeding
 // --------------------------------------------------------------------------------
 
-/// Expect takes a BlackNestTestRun and checks for error
-/// - parameter run: BlackNestTestRun
-/// - returns: Void
-public func expect<I, E>(_ run: BlackNestTestRun<I, E>,
-            line: UInt = #line,
-            file: StaticString = #file) {
-  do {
-    try run.runIt()
-  } catch let error {
-    XCTAssert(false, "\(error)", file: file, line: line)
-  }
+/// BlackNestBreeding
+public typealias BlackNestBreeding<I, E> = (I, E) throws -> ()
+
+/// BlackNestBreeder
+public struct BlackNestBreeder<I, E> {
+  let run: BlackNestBreeding<I, E>
+  let input: I
 }
 
-/// Expect takes a BlackNestTestRun and checks for error
-/// - parameter run: BlackNestTestRun
-/// - returns: Void
-public func expect<I, E>(_ run: BlackNestTestRunner<I, E>,
-            at input: I,
-            is expected: E,
-            line: UInt = #line,
-            file: StaticString = #file) {
-  expect(input | run => expected)
+/// BlackNestBox
+public struct BlackNestBox<I, E> {
+  let run: BlackNestBreeding<I, E>
+  let input: I
+  let expected: E
+
+
+  func runIt() throws {
+     try run(input, expected)
+  }
 }
