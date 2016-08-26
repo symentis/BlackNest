@@ -63,13 +63,15 @@ func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
   return subject
 }
 
-func tupleSum(input: (Int, Int), expect: (Int)) throws {
+func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
   // Act:
   let subject = input.0 + input.1
 
   // Assert:
   try subject == expect
     => "sum calculation"
+    
+  return subject
 }
 
 expect(4, in:doubleTuple, is:(04, 08))
