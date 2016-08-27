@@ -31,29 +31,43 @@
 public typealias BLNBreeding<I, E, O> = (I, E) throws -> O
 
 // --------------------------------------------------------------------------------
-// MARK: - Breeder
+// MARK: - BLNBreedable
 // --------------------------------------------------------------------------------
 
 public protocol BLNBreedable {
-  associatedtype BI
-  associatedtype BE
-  associatedtype BO
-  var breeding: (BI, BE) throws -> BO { get }
+  associatedtype I
+  associatedtype E
+  associatedtype O
+  var breeding: (I, E) throws -> O { get }
 }
 
 public struct BLNBreeder<I, E, O>: BLNBreedable {
   public let breeding: BLNBreeding<I, E, O>
 }
 
-public struct BLNBreederInput<I, E, O> {
-  let breeding: BLNBreeding<I, E, O>
+public struct BLNBreederInput<I, E, O>: BLNBreedable {
+  public let breeding: BLNBreeding<I, E, O>
   let input: I
 }
 
-/// BLNBreeder
-public struct BLNBreederExpected<I, E, O> {
-  let breeding: BLNBreeding<I, E, O>
+public struct BLNBreederExpected<I, E, O>: BLNBreedable {
+  public let breeding: BLNBreeding<I, E, O>
   let expected: E
+}
+
+// --------------------------------------------------------------------------------
+// MARK: - Nest
+// --------------------------------------------------------------------------------
+
+/// BLNNest
+public struct BLNNest<I, E, O> {
+  let breeding: BLNBreeding<I, E, O>
+  let input: I
+  let expected: E
+
+  func runIt() throws -> O {
+    return try breeding(input, expected)
+  }
 }
 
 // --------------------------------------------------------------------------------
@@ -82,18 +96,15 @@ public struct BLNBranch<I> {
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - Nest
+// MARK: - BLNBranchable
 // --------------------------------------------------------------------------------
 
-/// BLNNest
-public struct BLNNest<I, E, O> {
-  let breeding: BLNBreeding<I, E, O>
-  let input: I
-  let expected: E
+public protocol BLNBranchable {
+  associatedtype L
+  associatedtype R
 
-  func runIt() throws -> O {
-     return try breeding(input, expected)
-  }
+  var left: L { get }
+  var right: R { get }
 }
 
 // --------------------------------------------------------------------------------
@@ -103,16 +114,4 @@ public struct BLNNest<I, E, O> {
 public struct BLNTree<A, B>: BLNBranchable {
   public let left: A
   public let right: B
-}
-
-// --------------------------------------------------------------------------------
-// MARK: - BLNBranchable
-// --------------------------------------------------------------------------------
-
-public protocol BLNBranchable {
-  associatedtype BA
-  associatedtype BB
-
-  var left: BA { get }
-  var right: BB { get }
 }

@@ -51,7 +51,7 @@ class BlackNestTests: XCTestCase {
     expect(100, in:doubleTuple, is:(100, 200))
 
     expect(004, in: doubleTuple => (04, 08))
-    expect(008, in: doubleTuple => (09, 16))
+    expect(008, in: doubleTuple => (08, 16))
     expect(012, in: doubleTuple => (12, 24))
     expect(100, in: doubleTuple => (100, 200))
 

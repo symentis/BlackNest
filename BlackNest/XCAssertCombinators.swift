@@ -13,20 +13,20 @@ import XCTest
 // --------------------------------------------------------------------------------
 
 @discardableResult
-public func expectAll<A, B, C>(_ input: C,
+public func expectAll<I, B, E>(_ input: I,
                       in breeding: B,
-                      is expected: A,
+                      is expected: E,
                       line: UInt = #line,
-                      file: StaticString = #file) -> B.BB.BO?
+                      file: StaticString = #file) -> B.R.O?
   where
-  A: BLNBranchable,
+  E: BLNBranchable,
   B: BLNBranchable,
-  B.BA: BLNBreedable,
-  B.BB: BLNBreedable,
-  B.BA.BI == C,
-  B.BA.BE == A.BA,
-  B.BB.BI == B.BA.BO,
-  B.BB.BE == A.BB {
+  B.L: BLNBreedable,
+  B.R: BLNBreedable,
+  B.L.I == I,
+  B.L.E == E.L,
+  B.R.I == B.L.O,
+  B.R.E == E.R {
     do {
       let m1 = try breeding.left.breeding(input, expected.left)
       let m2 = try breeding.right.breeding(m1, expected.right)
@@ -43,25 +43,25 @@ public func expectAll<A, B, C>(_ input: C,
 // --------------------------------------------------------------------------------
 
 @discardableResult
-public func expectAll<A, B, C>(_ input: C,
+public func expectAll<I, B, E>(_ input: I,
                               in breeding: B,
-                              is expected: A,
+                              is expected: E,
                               line: UInt = #line,
-                              file: StaticString = #file) -> B.BB.BB.BO?
+                              file: StaticString = #file) -> B.R.R.O?
   where
-  A: BLNBranchable,
+  E: BLNBranchable,
   B: BLNBranchable,
-  A.BB: BLNBranchable,
-  B.BB: BLNBranchable,
-  B.BA: BLNBreedable,
-  B.BB.BA: BLNBreedable,
-  B.BB.BB: BLNBreedable,
-  B.BA.BI == C,
-  B.BA.BE == A.BA,
-  B.BB.BA.BI == B.BA.BO,
-  B.BB.BA.BE == A.BB.BA,
-  B.BB.BB.BI == B.BB.BA.BO,
-  B.BB.BB.BE == A.BB.BB {
+  E.R: BLNBranchable,
+  B.R: BLNBranchable,
+  B.L: BLNBreedable,
+  B.R.L: BLNBreedable,
+  B.R.R: BLNBreedable,
+  B.L.I == I,
+  B.L.E == E.L,
+  B.R.L.I == B.L.O,
+  B.R.L.E == E.R.L,
+  B.R.R.I == B.R.L.O,
+  B.R.R.E == E.R.R {
   do {
     let m1 = try breeding.left.breeding(input, expected.left)
     let m2 = try breeding.right.left.breeding(m1, expected.right.left)
@@ -78,30 +78,30 @@ public func expectAll<A, B, C>(_ input: C,
 // --------------------------------------------------------------------------------
 
 @discardableResult
-public func expectAll<A, B, C>(_ input: C,
+public func expectAll<I, B, E>(_ input: I,
                       in breeding: B,
-                      is expected: A,
+                      is expected: E,
                       line: UInt = #line,
-                      file: StaticString = #file) -> B.BB.BB.BB.BO?
+                      file: StaticString = #file) -> B.R.R.R.O?
   where
-  A: BLNBranchable,
+  E: BLNBranchable,
   B: BLNBranchable,
-  A.BB: BLNBranchable,
-  A.BB.BB: BLNBranchable,
-  B.BB: BLNBranchable,
-  B.BB.BB: BLNBranchable,
-  B.BA: BLNBreedable,
-  B.BB.BA: BLNBreedable,
-  B.BB.BB.BA: BLNBreedable,
-  B.BB.BB.BB: BLNBreedable,
-  B.BA.BI == C,
-  B.BA.BE == A.BA,
-  B.BB.BA.BI == B.BA.BO,
-  B.BB.BA.BE == A.BB.BA,
-  B.BB.BB.BA.BI == B.BB.BA.BO,
-  B.BB.BB.BA.BE == A.BB.BB.BA,
-  B.BB.BB.BB.BI == B.BB.BB.BA.BO,
-  B.BB.BB.BB.BE == A.BB.BB.BB {
+  E.R: BLNBranchable,
+  E.R.R: BLNBranchable,
+  B.R: BLNBranchable,
+  B.R.R: BLNBranchable,
+  B.L: BLNBreedable,
+  B.R.L: BLNBreedable,
+  B.R.R.L: BLNBreedable,
+  B.R.R.R: BLNBreedable,
+  B.L.I == I,
+  B.L.E == E.L,
+  B.R.L.I == B.L.O,
+  B.R.L.E == E.R.L,
+  B.R.R.L.I == B.R.L.O,
+  B.R.R.L.E == E.R.R.L,
+  B.R.R.R.I == B.R.R.L.O,
+  B.R.R.R.E == E.R.R.R {
     do {
       let m1 = try breeding.left.breeding(input, expected.left)
       let m2 = try breeding.right.left.breeding(m1, expected.right.left)
@@ -119,35 +119,35 @@ public func expectAll<A, B, C>(_ input: C,
 // --------------------------------------------------------------------------------
 
 @discardableResult
-public func expectAll<A, B, C>(_ input: C,
+public func expectAll<I, B, E>(_ input: I,
                       in breeding: B,
-                      is expected: A,
+                      is expected: E,
                       line: UInt = #line,
-                      file: StaticString = #file) -> B.BB.BB.BB.BB.BO?
+                      file: StaticString = #file) -> B.R.R.R.R.O?
   where
-  A: BLNBranchable,
+  E: BLNBranchable,
   B: BLNBranchable,
-  A.BB: BLNBranchable,
-  A.BB.BB: BLNBranchable,
-  A.BB.BB.BB: BLNBranchable,
-  B.BB: BLNBranchable,
-  B.BB.BB: BLNBranchable,
-  B.BB.BB.BB: BLNBranchable,
-  B.BA: BLNBreedable,
-  B.BB.BA: BLNBreedable,
-  B.BB.BB.BA: BLNBreedable,
-  B.BB.BB.BB.BA: BLNBreedable,
-  B.BB.BB.BB.BB: BLNBreedable,
-  B.BA.BI == C,
-  B.BA.BE == A.BA,
-  B.BB.BA.BI == B.BA.BO,
-  B.BB.BA.BE == A.BB.BA,
-  B.BB.BB.BA.BI == B.BB.BA.BO,
-  B.BB.BB.BA.BE == A.BB.BB.BA,
-  B.BB.BB.BB.BA.BI == B.BB.BB.BA.BO,
-  B.BB.BB.BB.BA.BE == A.BB.BB.BB.BA,
-  B.BB.BB.BB.BB.BI == B.BB.BB.BB.BA.BO,
-  B.BB.BB.BB.BB.BE == A.BB.BB.BB.BB {
+  E.R: BLNBranchable,
+  E.R.R: BLNBranchable,
+  E.R.R.R: BLNBranchable,
+  B.R: BLNBranchable,
+  B.R.R: BLNBranchable,
+  B.R.R.R: BLNBranchable,
+  B.L: BLNBreedable,
+  B.R.L: BLNBreedable,
+  B.R.R.L: BLNBreedable,
+  B.R.R.R.L: BLNBreedable,
+  B.R.R.R.R: BLNBreedable,
+  B.L.I == I,
+  B.L.E == E.L,
+  B.R.L.I == B.L.O,
+  B.R.L.E == E.R.L,
+  B.R.R.L.I == B.R.L.O,
+  B.R.R.L.E == E.R.R.L,
+  B.R.R.R.L.I == B.R.R.L.O,
+  B.R.R.R.L.E == E.R.R.R.L,
+  B.R.R.R.R.I == B.R.R.R.L.O,
+  B.R.R.R.R.E == E.R.R.R.R {
     do {
       let m1 = try breeding.left.breeding(input, expected.left)
       let m2 = try breeding.right.left.breeding(m1, expected.right.left)
