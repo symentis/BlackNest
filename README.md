@@ -9,6 +9,8 @@
 ## Want to test input combinations for a SUT?
 
 Let's write a test for a simple function.
+The simple function, which is by the way so easy that it will hardly fail,
+looks like this:
 
 ```swift
 /// Not that hard. 👍
@@ -16,18 +18,19 @@ func asTuple(_ int: Int) -> (Int, Int) {
   return (int, int * 2)
 }
 ```
-
-We add a general function, taking `Input` and `Expected`.
+Before we write the test we add the spec:
+A general function, taking `Input` and `Expected`.
 This function performs all assertions in a DSL.
+You can take whatever you want - Real Types, Tuples, Optionals. Feel free.
 
 ```swift
 /// This is the spec.
 /// The error message contains the values.
 func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
-  // Act:
+  // Act: do the tuple
   let subject = asTuple(input)
 
-  // Assert:
+  // Assert: check the spec
   try subject.0 == expect.0
     => "first entry should be the same"
   try subject.1 == expect.1
@@ -36,8 +39,11 @@ func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
   return subject
 }
 ```
+_Looks like an equation?_
 
-Now perform different combinations.
+__Yeah - no Boilerplate - pure definitions.__
+Easy to re-read and remember.
+Now we perform different combinations.
 
 ```swift
 // You like named arguments?
@@ -75,14 +81,14 @@ func asSum(_ tuple: Int, Int) -> Int {
 }
 ```
 
-And another generic test function.
+And another test function for this.
 
 ```swift
 func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
-  // Act:
+  // Act: do the sum
   let subject = asSum(input)
 
-  // Assert:
+  // Assert: check the spec
   try subject == expect
     => "sum calculation"
 
@@ -90,7 +96,10 @@ func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
 }
 ```
 
-And now you can easily combine the tests.
+Now you can __combine both__.
+Each call to the test function can return and can take __individual expectations__.
+__Return values will be carried on__ to the next test run.
+Same code - no duplication - and again - easy to remember.
 
 ```swift
 /// Again, you prefer multiline named arguments: Cool!
@@ -121,10 +130,17 @@ expect(4,
 
 ```
 
+## Why BlackNest
+
+Named after [Black-nest Swiftlet](https://en.wikipedia.org/wiki/Black-nest_swiftlet).
+All we want do in our tests, is take care of the precious eggs.
+None should get a crack. That's it - taking care of your code.
+
 ## Why Custom Operators?
 
-You are not forced to use them.
-But when comparing both versions, sometimes custom operators are easier to reason about.
+__You are not forced to use them.__
+But when comparing both versions, sometimes custom
+operators are easier to reason about.
 
 How we call them? Just like their named argument counterpart.
 

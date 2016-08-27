@@ -64,13 +64,13 @@ public protocol BLNHatchable: BLNBreedable {
 
 // --------------------------------------------------------------------------------
 // MARK: - Breedable Types
-// 
-// These types are intermediate types. 
+//
+// These types are intermediate types.
 // Waiting for Input, Expected, or both.
 // They are used when combining tests.
 // --------------------------------------------------------------------------------
 
-/// Just a `BLNBreeding` function.
+/// Just a `BLNBreeding` function as a Type.
 public struct BLNBreeder<I, E, O>: BLNBreedable {
   public let breeding: BLNBreeding<I, E, O>
 }
@@ -94,7 +94,7 @@ public struct BLNWaitingForInput<I, E, O>: BLNBreedableExpected {
 // --------------------------------------------------------------------------------
 // MARK: - Egg a.k.a Hatchable
 //
-// This has everything. The input, the expected, the breeding. 
+// This has everything. The input, the expected, the breeding.
 // We can start to breed!
 // --------------------------------------------------------------------------------
 
