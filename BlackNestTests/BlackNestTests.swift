@@ -85,8 +85,12 @@ class BlackNestTests: XCTestCase {
     expect(100 | doubleTuple => (100, 200))
               .then(tupleSum => 300)
 
+    expect(4,
+           in: doubleTuple ◦ tupleSum,
+           is: (04, 08)    • 12
+    )
 
-    expectAll(4,
+    expect(4,
               in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum ◦ doubleTuple,
               is: (04, 08)    • 12       • (12, 24)    • 36       • (36, 72)
     )

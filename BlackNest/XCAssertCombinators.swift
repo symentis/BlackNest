@@ -13,7 +13,7 @@ import XCTest
 // --------------------------------------------------------------------------------
 
 @discardableResult
-public func expectAll<I, B, E>(_ input: I,
+public func expect<I, B, E>(_ input: I,
                       in breeding: B,
                       is expected: E,
                       line: UInt = #line,
@@ -61,7 +61,7 @@ public func expect<T>(_ tree: T,
 // --------------------------------------------------------------------------------
 
 @discardableResult
-public func expectAll<I, B, E>(_ input: I,
+public func expect<I, B, E>(_ input: I,
                               in breeding: B,
                               is expected: E,
                               line: UInt = #line,
@@ -119,7 +119,7 @@ public func expect<T>(_ tree: T,
 // --------------------------------------------------------------------------------
 
 @discardableResult
-public func expectAll<I, B, E>(_ input: I,
+public func expect<I, B, E>(_ input: I,
                       in breeding: B,
                       is expected: E,
                       line: UInt = #line,
@@ -187,7 +187,7 @@ public func expect<T>(_ tree: T,
 // --------------------------------------------------------------------------------
 
 @discardableResult
-public func expectAll<I, B, E>(_ input: I,
+public func expect<I, B, E>(_ input: I,
                       in breeding: B,
                       is expected: E,
                       line: UInt = #line,

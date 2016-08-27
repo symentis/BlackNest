@@ -25,12 +25,11 @@
 
 import XCTest
 
-
-private func lookAt<I, E, O>(_ nest: BLNNest<I, E, O>,
-                    line: UInt,
-                    file: StaticString) -> O? {
+func lookAt<H>(_ hatchable: H, line: UInt, file: StaticString) -> H.O?
+  where
+  H: BLNHatchable {
   do {
-    let moveOn = try nest.breed()
+    let moveOn = try hatchable.breed()
     return moveOn
   } catch let error {
     XCTAssert(false, "\(error)", file: file, line: line)
@@ -49,9 +48,9 @@ private func lookAt<I, E, O>(_ nest: BLNNest<I, E, O>,
 /// - parameter run: BLNNest
 /// - returns: Void
 @discardableResult
-public func expect<I, E, O>(_ nest: BLNNest<I, E, O>,
-            line: UInt = #line,
-            file: StaticString = #file) -> BLNBranch<O> {
+public func expect<H>(_ nest: H, line: UInt = #line, file: StaticString = #file)
+  -> BLNBranch<H.O>
+  where H: BLNHatchable {
   return BLNBranch(input: lookAt(nest, line:line, file: file))
 }
 
@@ -62,10 +61,11 @@ public func expect<I, E, O>(_ nest: BLNNest<I, E, O>,
 /// - parameter run: BLNNest
 /// - returns: Void
 @discardableResult
-public func expect<I, E, O>(_ input: I,
-                   in breeder: BLNBreederExpected<I, E, O>,
+public func expect<B>(_ input: B.I,
+                   in breeder: B,
                    line: UInt = #line,
-                   file: StaticString = #file) -> BLNBranch<O> {
+                   file: StaticString = #file) -> BLNBranch<B.O>
+where B: BLNBreedableExpected {
   let nest = input | breeder.breeding => breeder.expected
   return BLNBranch(input: lookAt(nest, line:line, file: file))
 }

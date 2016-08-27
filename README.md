@@ -104,7 +104,7 @@ expect(008 | doubleTuple => (08, 16)).then(tupleSum => 24)
 expect(012 | doubleTuple => (12, 24)).then(tupleSum => 36)
 
 /// You took the red pill, and all you see is tests, tests, test.
-expectAll(4,
+expect(4,
   in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum,
   is: (04, 08)    • 12       • (12, 24)    • 36
 )
@@ -118,10 +118,3 @@ expect(
  )
 
 ```
-
-### TODOS
-
-##### Find a away to avoid 'expectAll'
-
-Right now expect cannot be overloaded to work on the upper examples and this one.
-There might be a chance if upper examples are also written in a protocol manner.
