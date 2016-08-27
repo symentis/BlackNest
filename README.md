@@ -108,6 +108,15 @@ expectAll(4,
   in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum,
   is: (04, 08)    • 12       • (12, 24)    • 36
 )
+
+/// Maybe table based is even better for your eyes?
+expect(
+   4 |  doubleTuple => (04, 08)
+     |> tupleSum    => (12)
+     |> doubleTuple => (12, 24)
+     |> tupleSum    => (36)
+ )
+
 ```
 
 ### TODOS

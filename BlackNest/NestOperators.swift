@@ -33,7 +33,7 @@ import Foundation
 /// in order to make `==` evaluate after `?>`
 /// we reduce the Precedence of the Blacknest operator
 precedencegroup BLNSpecPrecedence {
-  higherThan: ComparisonPrecedence
+  higherThan: ComparisonPrecedence, BLNBreedChainPrecedence
   lowerThan: AdditionPrecedence
 }
 
@@ -42,10 +42,15 @@ precedencegroup BLNBreedPrecedence {
   associativity: right
 }
 
+precedencegroup BLNBreedChainPrecedence {
+  associativity: right
+}
+
 
 infix operator => : BLNSpecPrecedence
 infix operator • : BLNBreedPrecedence
 infix operator ◦ : BLNBreedPrecedence
+infix operator |> : BLNBreedChainPrecedence
 
 // --------------------------------------------------------------------------------
 // MARK: - BLNBreeding Operators
@@ -78,4 +83,24 @@ func ◦ <I, E, O, L, R>(lhs: @escaping (I, E) throws -> O, rhs: BLNTree<L, R>)
 
 func • <L, R>(lhs: L, rhs: R) -> BLNTree<L, R> {
   return BLNTree(left: lhs, right: rhs)
+}
+
+func |> <I, E, O, L, R>(lhs: BLNNest<I, E, O>, rhs: BLNTree<L, R>) ->
+  BLNTree<BLNNest<I, E, O>, BLNTree<L, R>> {
+  return BLNTree(left: lhs, right: rhs)
+}
+
+func |> <I, E, O, F, P>(lhs: BLNNest<I, E, O>, rhs: BLNBreederExpected<O, F, P>) ->
+  BLNTree<BLNNest<I, E, O>, BLNBreederExpected<O, F, P>> {
+    return BLNTree(left: lhs, right: rhs)
+}
+
+func |> <I, E, O, L, R>(lhs: BLNBreederExpected<I, E, O>, rhs: BLNTree<L, R>) ->
+  BLNTree<BLNBreederExpected<I, E, O>, BLNTree<L, R>> {
+    return BLNTree(left: lhs, right: rhs)
+}
+
+func |> <I, E, O, F, P>(lhs: BLNBreederExpected<I, E, O>, rhs: BLNBreederExpected<O, F, P>) ->
+  BLNTree<BLNBreederExpected<I, E, O>, BLNBreederExpected<O, F, P>> {
+    return BLNTree(left: lhs, right: rhs)
 }

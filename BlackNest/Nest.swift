@@ -41,6 +41,11 @@ public protocol BLNBreedable {
   var breeding: (I, E) throws -> O { get }
 }
 
+public protocol BLNBreedableExpected: BLNBreedable {
+  var expected: E { get }
+  func breed(_ input: I) throws -> O
+}
+
 public struct BLNBreeder<I, E, O>: BLNBreedable {
   public let breeding: BLNBreeding<I, E, O>
 }
@@ -50,22 +55,32 @@ public struct BLNBreederInput<I, E, O>: BLNBreedable {
   let input: I
 }
 
-public struct BLNBreederExpected<I, E, O>: BLNBreedable {
+public struct BLNBreederExpected<I, E, O>: BLNBreedableExpected {
   public let breeding: BLNBreeding<I, E, O>
-  let expected: E
+  public let expected: E
+
+  public func breed(_ input: I) throws -> O {
+    return try breeding(input, expected)
+  }
 }
 
 // --------------------------------------------------------------------------------
 // MARK: - Nest
 // --------------------------------------------------------------------------------
 
-/// BLNNest
-public struct BLNNest<I, E, O> {
-  let breeding: BLNBreeding<I, E, O>
-  let input: I
-  let expected: E
+public protocol BLNHatchable: BLNBreedable {
+  var input: I { get }
+  var expected: E { get }
+  func breed() throws -> O
+}
 
-  func breed() throws -> O {
+/// BLNNest
+public struct BLNNest<I, E, O>: BLNHatchable {
+  public let breeding: BLNBreeding<I, E, O>
+  public let input: I
+  public let expected: E
+
+  public func breed() throws -> O {
     return try breeding(input, expected)
   }
 }

@@ -37,6 +37,24 @@ public func expectAll<I, B, E>(_ input: I,
     return nil
 }
 
+@discardableResult
+public func expect<T>(_ tree: T,
+                      line: UInt = #line,
+                      file: StaticString = #file) -> T.R.O?
+  where
+  T: BLNBranchable,
+  T.L: BLNHatchable,
+  T.R: BLNBreedableExpected,
+  T.L.O == T.R.I {
+    do {
+      let m1 = try tree.left.breed()
+      let m2 = try tree.right.breeding(m1, tree.right.expected)
+      return m2
+    } catch let error {
+      XCTAssert(false, "\(error)", file: file, line: line)
+    }
+    return nil
+}
 
 // --------------------------------------------------------------------------------
 // MARK: - 3 Level
@@ -73,6 +91,29 @@ public func expectAll<I, B, E>(_ input: I,
   return nil
 }
 
+@discardableResult
+public func expect<T>(_ tree: T,
+                      line: UInt = #line,
+                      file: StaticString = #file) -> T.R.R.O?
+  where
+  T: BLNBranchable,
+  T.R: BLNBranchable,
+  T.L: BLNHatchable,
+  T.R.L: BLNBreedableExpected,
+  T.R.R: BLNBreedableExpected,
+  T.L.O == T.R.L.I,
+  T.R.L.O == T.R.R.I {
+    do {
+      let m1 = try tree.left.breed()
+      let m2 = try tree.right.left.breed(m1)
+      let m3 = try tree.right.right.breed(m2)
+      return m3
+    } catch let error {
+      XCTAssert(false, "\(error)", file: file, line: line)
+    }
+    return nil
+}
+
 // --------------------------------------------------------------------------------
 // MARK: - 4 Level
 // --------------------------------------------------------------------------------
@@ -107,6 +148,33 @@ public func expectAll<I, B, E>(_ input: I,
       let m2 = try breeding.right.left.breeding(m1, expected.right.left)
       let m3 = try breeding.right.right.left.breeding(m2, expected.right.right.left)
       let m4 = try breeding.right.right.right.breeding(m3, expected.right.right.right)
+      return m4
+    } catch let error {
+      XCTAssert(false, "\(error)", file: file, line: line)
+    }
+    return nil
+}
+
+@discardableResult
+public func expect<T>(_ tree: T,
+                      line: UInt = #line,
+                      file: StaticString = #file) -> T.R.R.R.O?
+  where
+  T: BLNBranchable,
+  T.L: BLNHatchable,
+  T.R: BLNBranchable,
+  T.R.R: BLNBranchable,
+  T.R.L: BLNBreedableExpected,
+  T.R.R.L: BLNBreedableExpected,
+  T.R.R.R: BLNBreedableExpected,
+  T.L.O == T.R.L.I,
+  T.R.L.O == T.R.R.L.I,
+  T.R.R.L.O == T.R.R.R.I {
+    do {
+      let m1 = try tree.left.breed()
+      let m2 = try tree.right.left.breed(m1)
+      let m3 = try tree.right.right.left.breed(m2)
+      let m4 = try tree.right.right.right.breed(m3)
       return m4
     } catch let error {
       XCTAssert(false, "\(error)", file: file, line: line)

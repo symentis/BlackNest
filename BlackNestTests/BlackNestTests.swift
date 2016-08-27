@@ -91,6 +91,18 @@ class BlackNestTests: XCTestCase {
               is: (04, 08)    • 12       • (12, 24)    • 36       • (36, 72)
     )
 
+    expect(
+      4 |  doubleTuple => (04, 08)
+        |> tupleSum    => (12)
+    )
+
+    expect(
+      4 |  doubleTuple => (04, 08)
+        |> tupleSum    => (12)
+        |> doubleTuple => (12, 24)
+        |> tupleSum    => (36)
+    )
+
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).breed()) { e in
       guard let _ = e as? BLNShellCrack else {
         return XCTFail("BLNShellCrack not coming")
