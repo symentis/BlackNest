@@ -125,14 +125,3 @@ expect(
 
 Right now expect cannot be overloaded to work on the upper examples and this one.
 There might be a chance if upper examples are also written in a protocol manner.
-
-##### Try new syntax for comninations
-
-```swift
-//This could possibly be a better way of writing it.
-expect(4 | runA => 8
-         + runB => 16
-         + runB => 32)
-
-expect(4 | runA => 6 + runB => 8 + runA => 8)
-```
