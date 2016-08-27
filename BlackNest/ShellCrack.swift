@@ -38,10 +38,6 @@ func shellCracked(_ message: Any...) -> BLNShellCrack {
 }
 
 /// BLNShellCrack
-struct BLNShellCrack: Error, CustomStringConvertible {
+struct BLNShellCrack: Error {
   let message: String
-
-  var description: String {
-    return "\(message)\n\n"
-  }
 }

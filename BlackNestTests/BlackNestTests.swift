@@ -22,6 +22,8 @@ class BlackNestTests: XCTestCase {
     // Assert:
     try subject.0 == expect.0
       => "first entry should be the same"
+    try subject.0 != expect.1
+      => "first entry should not be euqal to second"
     try subject.1 == expect.1
       => "second entry should be duplicate"
 
