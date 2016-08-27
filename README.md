@@ -103,12 +103,6 @@ expect(004 | doubleTuple => (04, 08)).then(tupleSum => 12)
 expect(008 | doubleTuple => (08, 16)).then(tupleSum => 24)
 expect(012 | doubleTuple => (12, 24)).then(tupleSum => 36)
 
-/// You took the red pill, and all you see is tests, tests, test.
-expect(4,
-  in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum,
-  is: (04, 08)    • 12       • (12, 24)    • 36
-)
-
 /// Maybe table based is even better for your eyes?
 expect(
    4 |  doubleTuple => (04, 08)
@@ -117,4 +111,25 @@ expect(
      |> tupleSum    => (36)
  )
 
+/// HIGHLY EXPERIMENTAL
+/// ~ the egg operator ~
+/// You took the red pill, and all you see is tests, tests, test.
+expect(4,
+  in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum,
+  is: (04, 08)    • 12       • (12, 24)    • 36
+)
+
 ```
+
+## Why Custom Operators?
+
+You are not forced to use them.
+But when comparing both versions, sometimes custom operators are easier to reason about.
+
+How we call them? Just like their named argument counterpart.
+
+`|`  is called _in_
+
+`=>` is called _is_
+
+ `|>` is called _then_
