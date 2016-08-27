@@ -30,7 +30,7 @@ private func lookAt<I, E, O>(_ nest: BLNNest<I, E, O>,
                     line: UInt,
                     file: StaticString) -> O? {
   do {
-    let moveOn = try nest.runIt()
+    let moveOn = try nest.breed()
     return moveOn
   } catch let error {
     XCTAssert(false, "\(error)", file: file, line: line)

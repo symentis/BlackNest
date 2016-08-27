@@ -65,7 +65,7 @@ public struct BLNNest<I, E, O> {
   let input: I
   let expected: E
 
-  func runIt() throws -> O {
+  func breed() throws -> O {
     return try breeding(input, expected)
   }
 }

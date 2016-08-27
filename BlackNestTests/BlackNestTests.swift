@@ -60,7 +60,7 @@ class BlackNestTests: XCTestCase {
     expect(012 | doubleTuple => (12, 24))
     expect(100 | doubleTuple => (100, 200))
 
-    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).runIt()) { e in
+    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).breed()) { e in
         guard let _ = e as? BLNShellCrack else {
           return XCTFail("BLNShellCrack not coming")
         }
@@ -91,7 +91,7 @@ class BlackNestTests: XCTestCase {
               is: (04, 08)    • 12       • (12, 24)    • 36       • (36, 72)
     )
 
-    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).runIt()) { e in
+    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).breed()) { e in
       guard let _ = e as? BLNShellCrack else {
         return XCTFail("BLNShellCrack not coming")
       }
