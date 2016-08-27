@@ -1,5 +1,5 @@
 //
-//  ShellCrack.swift
+//  EggShell.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -23,21 +23,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
-import XCTest
-
 // --------------------------------------------------------------------------------
-// MARK: - ShellCrackError
+// MARK: - BLNEggShell
 // --------------------------------------------------------------------------------
 
-/// Create a Shell crack.
-/// - parameter message: Any...
-/// - returns: BLNShellCrackError
-func shellCracked(_ message: Any...) -> BLNShellCrackError {
-  return BLNShellCrackError(message: message.map { "\($0)" } .joined(separator: ", "))
-}
-
-/// BLNShellCrackError
-struct BLNShellCrackError: Error {
-  let message: String
+/// BLNEggShell contains `expectation` and `subject`
+public struct BLNEggShell<S> {
+  let expectation: String
+  let subject: S?
 }

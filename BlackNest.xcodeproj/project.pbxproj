@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		9CD2F56C1D70E67E00DFE0E7 /* XCAssertCombinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2F56B1D70E67E00DFE0E7 /* XCAssertCombinators.swift */; };
 		9CEA0DD31D6B826C006B0158 /* ShellCrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD21D6B826C006B0158 /* ShellCrack.swift */; };
-		9CEA0DD81D6B843C006B0158 /* NestOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD71D6B843C006B0158 /* NestOperators.swift */; };
-		9CEA0DDA1D6B8507006B0158 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD91D6B8507006B0158 /* Egg.swift */; };
-		9CEA0DDC1D6B8533006B0158 /* Nest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDB1D6B8533006B0158 /* Nest.swift */; };
+		9CEA0DD81D6B843C006B0158 /* EggOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD71D6B843C006B0158 /* EggOperators.swift */; };
+		9CEA0DDA1D6B8507006B0158 /* EggShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD91D6B8507006B0158 /* EggShell.swift */; };
+		9CEA0DDC1D6B8533006B0158 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDB1D6B8533006B0158 /* Egg.swift */; };
 		9CEA0DDE1D6B8563006B0158 /* XCAssert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDD1D6B8563006B0158 /* XCAssert.swift */; };
 		9CEE03A11D6B81F0006B8079 /* BlackNest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEE03971D6B81F0006B8079 /* BlackNest.framework */; };
 		9CEE03A61D6B81F0006B8079 /* BlackNestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEE03A51D6B81F0006B8079 /* BlackNestTests.swift */; };
-		C59655821D70759F00E786D2 /* EggOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59655811D70759F00E786D2 /* EggOperator.swift */; };
+		C59655821D70759F00E786D2 /* EggShellOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59655811D70759F00E786D2 /* EggShellOperator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,9 +32,9 @@
 		9CD2F56B1D70E67E00DFE0E7 /* XCAssertCombinators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssertCombinators.swift; sourceTree = "<group>"; };
 		9CEA0DD21D6B826C006B0158 /* ShellCrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellCrack.swift; sourceTree = "<group>"; };
 		9CEA0DD51D6B8288006B0158 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		9CEA0DD71D6B843C006B0158 /* NestOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NestOperators.swift; sourceTree = "<group>"; };
-		9CEA0DD91D6B8507006B0158 /* Egg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Egg.swift; sourceTree = "<group>"; };
-		9CEA0DDB1D6B8533006B0158 /* Nest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nest.swift; sourceTree = "<group>"; };
+		9CEA0DD71D6B843C006B0158 /* EggOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EggOperators.swift; sourceTree = "<group>"; };
+		9CEA0DD91D6B8507006B0158 /* EggShell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EggShell.swift; sourceTree = "<group>"; };
+		9CEA0DDB1D6B8533006B0158 /* Egg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Egg.swift; sourceTree = "<group>"; };
 		9CEA0DDD1D6B8563006B0158 /* XCAssert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssert.swift; sourceTree = "<group>"; };
 		9CEE03971D6B81F0006B8079 /* BlackNest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BlackNest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CEE039B1D6B81F0006B8079 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 		9CEE03A51D6B81F0006B8079 /* BlackNestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackNestTests.swift; sourceTree = "<group>"; };
 		9CEE03A71D6B81F0006B8079 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C537E8A21D6D775D0026CEBC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		C59655811D70759F00E786D2 /* EggOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EggOperator.swift; sourceTree = "<group>"; };
+		C59655811D70759F00E786D2 /* EggShellOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EggShellOperator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,10 +96,10 @@
 			isa = PBXGroup;
 			children = (
 				9CEE039B1D6B81F0006B8079 /* Info.plist */,
-				9CEA0DDB1D6B8533006B0158 /* Nest.swift */,
-				9CEA0DD71D6B843C006B0158 /* NestOperators.swift */,
-				9CEA0DD91D6B8507006B0158 /* Egg.swift */,
-				C59655811D70759F00E786D2 /* EggOperator.swift */,
+				9CEA0DDB1D6B8533006B0158 /* Egg.swift */,
+				9CEA0DD71D6B843C006B0158 /* EggOperators.swift */,
+				9CEA0DD91D6B8507006B0158 /* EggShell.swift */,
+				C59655811D70759F00E786D2 /* EggShellOperator.swift */,
 				9CEA0DD21D6B826C006B0158 /* ShellCrack.swift */,
 				9CEA0DDD1D6B8563006B0158 /* XCAssert.swift */,
 				9CD2F56B1D70E67E00DFE0E7 /* XCAssertCombinators.swift */,
@@ -248,11 +248,11 @@
 			files = (
 				9CEA0DDE1D6B8563006B0158 /* XCAssert.swift in Sources */,
 				9CEA0DD31D6B826C006B0158 /* ShellCrack.swift in Sources */,
-				9CEA0DDC1D6B8533006B0158 /* Nest.swift in Sources */,
+				9CEA0DDC1D6B8533006B0158 /* Egg.swift in Sources */,
 				9CD2F56C1D70E67E00DFE0E7 /* XCAssertCombinators.swift in Sources */,
-				C59655821D70759F00E786D2 /* EggOperator.swift in Sources */,
-				9CEA0DDA1D6B8507006B0158 /* Egg.swift in Sources */,
-				9CEA0DD81D6B843C006B0158 /* NestOperators.swift in Sources */,
+				C59655821D70759F00E786D2 /* EggShellOperator.swift in Sources */,
+				9CEA0DDA1D6B8507006B0158 /* EggShell.swift in Sources */,
+				9CEA0DD81D6B843C006B0158 /* EggOperators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

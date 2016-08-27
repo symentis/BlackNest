@@ -41,49 +41,49 @@ func lookAt<H>(_ hatchable: H, line: UInt, file: StaticString) -> H.O?
 // MARK: - Input first?
 // --------------------------------------------------------------------------------
 
-/// Expect takes a BLNNest and checks for error
+/// Expect takes a BLNEgg and checks for error
 ///
 ///     expect(12 | doubleTuple => (12, 24))
 ///
-/// - parameter run: BLNNest
+/// - parameter run: BLNEgg
 /// - returns: Void
 @discardableResult
 public func expect<H>(_ nest: H, line: UInt = #line, file: StaticString = #file)
-  -> BLNBranch<H.O>
+  -> BLNFreeRangeEgg<H.O>
   where H: BLNHatchable {
-  return BLNBranch(input: lookAt(nest, line:line, file: file))
+  return BLNFreeRangeEgg(input: lookAt(nest, line:line, file: file))
 }
 
-/// Expect takes a BLNNest and checks for error
+/// Expect takes a BLNEgg and checks for error
 ///
 ///     expect(when: 12, then: doubleTuple => (12, 24))
 ///
-/// - parameter run: BLNNest
+/// - parameter run: BLNEgg
 /// - returns: Void
 @discardableResult
 public func expect<B>(_ input: B.I,
                    in breeder: B,
                    line: UInt = #line,
-                   file: StaticString = #file) -> BLNBranch<B.O>
+                   file: StaticString = #file) -> BLNFreeRangeEgg<B.O>
 where B: BLNBreedableExpected {
   let nest = input | breeder.breeding => breeder.expected
-  return BLNBranch(input: lookAt(nest, line:line, file: file))
+  return BLNFreeRangeEgg(input: lookAt(nest, line:line, file: file))
 }
 
-/// Expect takes a BLNNest and checks for error
+/// Expect takes a BLNEgg and checks for error
 ///
 ///     expect(12, in:doubleTuple, is:(12, 24))
 ///
-/// - parameter run: BLNNest
+/// - parameter run: BLNEgg
 /// - returns: Void
 @discardableResult
 public func expect<I, E, O>(_ input: I,
                    in breeding: BLNBreeding<I, E, O>,
                    is expected: E,
                    line: UInt = #line,
-                   file: StaticString = #file) -> BLNBranch<O> {
+                   file: StaticString = #file) -> BLNFreeRangeEgg<O> {
   let nest = input | breeding => expected
-  return BLNBranch(input: lookAt(nest, line:line, file: file))
+  return BLNFreeRangeEgg(input: lookAt(nest, line:line, file: file))
 }
 
 
@@ -91,17 +91,17 @@ public func expect<I, E, O>(_ input: I,
 // MARK: - Breeding first?
 // --------------------------------------------------------------------------------
 
-/// Expect takes a BLNNest and checks for error
+/// Expect takes a BLNEgg and checks for error
 ///
 ///     expect(doubleTuple, at:12, is:(12, 24))
 ///
-/// - parameter run: BLNNest
+/// - parameter run: BLNEgg
 /// - returns: Void
 public func expect<I, E, O>(_ breeding: BLNBreeding<I, E, O>,
             at input: I,
             is expected: E,
             line: UInt = #line,
-            file: StaticString = #file) -> BLNBranch<O> {
+            file: StaticString = #file) -> BLNFreeRangeEgg<O> {
   let nest = input | breeding => expected
-  return BLNBranch(input: lookAt(nest, line:line, file: file))
+  return BLNFreeRangeEgg(input: lookAt(nest, line:line, file: file))
 }
