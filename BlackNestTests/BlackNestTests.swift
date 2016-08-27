@@ -116,5 +116,57 @@ class BlackNestTests: XCTestCase {
     }
   }
 
+  // --------------------------------------------------------------------------------
+  // MARK: - Tasty
+  // --------------------------------------------------------------------------------
+
+  struct Tasty {
+    var firstName: String?
+    var lastName: String?
+    var age: Int?
+
+    init() { }
+
+    var displayName: String {
+      switch (firstName, lastName, age) {
+      case let (fn?, ln?, age?):
+        return "\(fn) \(ln) (\(age))"
+      case let (fn?, ln?, .none):
+        return "\(fn) \(ln)"
+      case let (fn?, .none, _):
+        return "\(fn)"
+      default:
+        return "unknown"
+      }
+    }
+  }
+
+  func testExample() {
+
+    typealias ChangeTasty = @escaping (inout Tasty) -> ()
+
+    func change(_ handler: ChangeTasty) -> (Tasty, String) throws -> (Tasty) {
+      return { input, expect in
+
+        // Act:
+        var subject = input
+        handler(&subject)
+
+        // Assert:
+        try subject.displayName == expect
+          => "displayname is correct built"
+
+        return subject
+      }
+    }
+
+    expect(
+      Tasty() |  change { $0.age = 10 }            => "unknown"
+              |> change { $0.firstName = "test" }  => "test"
+              |> change { $0.lastName = "test" }   => "test test (10)"
+              |> change { $0.age = 20 }            => "test test (20)"
+    )
+
+  }
 
 }
