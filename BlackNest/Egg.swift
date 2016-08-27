@@ -1,5 +1,5 @@
 //
-//  Nest.swift
+//  Egg.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -64,6 +64,10 @@ public protocol BLNHatchable: BLNBreedable {
 
 // --------------------------------------------------------------------------------
 // MARK: - Breedable Types
+// 
+// These types are intermediate types. 
+// Waiting for Input, Expected, or both.
+// They are used when combining tests.
 // --------------------------------------------------------------------------------
 
 /// Just a `BLNBreeding` function.
@@ -89,6 +93,9 @@ public struct BLNWaitingForInput<I, E, O>: BLNBreedableExpected {
 
 // --------------------------------------------------------------------------------
 // MARK: - Egg a.k.a Hatchable
+//
+// This has everything. The input, the expected, the breeding. 
+// We can start to breed!
 // --------------------------------------------------------------------------------
 
 /// Egg
@@ -145,7 +152,7 @@ public protocol BLNCombinable {
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - Nest
+// MARK: - A couple og anything
 // --------------------------------------------------------------------------------
 
 public struct BLNCouple<A, B>: BLNCombinable {

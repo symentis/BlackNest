@@ -25,12 +25,11 @@
 
 import XCTest
 
-func lookAt<H>(_ hatchable: H, line: UInt, file: StaticString) -> H.O?
+func examine<H>(_ hatchable: H, line: UInt, file: StaticString) -> H.O?
   where
   H: BLNHatchable {
   do {
-    let moveOn = try hatchable.breed()
-    return moveOn
+    return try hatchable.breed()
   } catch let error {
     XCTAssert(false, "\(error)", file: file, line: line)
   }
@@ -48,10 +47,10 @@ func lookAt<H>(_ hatchable: H, line: UInt, file: StaticString) -> H.O?
 /// - parameter run: BLNEgg
 /// - returns: Void
 @discardableResult
-public func expect<H>(_ nest: H, line: UInt = #line, file: StaticString = #file)
+public func expect<H>(_ hatchable: H, line: UInt = #line, file: StaticString = #file)
   -> BLNFreeRangeEgg<H.O>
   where H: BLNHatchable {
-  return BLNFreeRangeEgg(input: lookAt(nest, line:line, file: file))
+  return BLNFreeRangeEgg(input: examine(hatchable, line:line, file: file))
 }
 
 /// Expect takes a BLNEgg and checks for error
@@ -66,8 +65,8 @@ public func expect<B>(_ input: B.I,
                    line: UInt = #line,
                    file: StaticString = #file) -> BLNFreeRangeEgg<B.O>
 where B: BLNBreedableExpected {
-  let nest = input | breeder.breeding => breeder.expected
-  return BLNFreeRangeEgg(input: lookAt(nest, line:line, file: file))
+  let egg = input | breeder.breeding => breeder.expected
+  return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
 }
 
 /// Expect takes a BLNEgg and checks for error
@@ -82,8 +81,8 @@ public func expect<I, E, O>(_ input: I,
                    is expected: E,
                    line: UInt = #line,
                    file: StaticString = #file) -> BLNFreeRangeEgg<O> {
-  let nest = input | breeding => expected
-  return BLNFreeRangeEgg(input: lookAt(nest, line:line, file: file))
+  let egg = input | breeding => expected
+  return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
 }
 
 
@@ -102,6 +101,6 @@ public func expect<I, E, O>(_ breeding: BLNBreeding<I, E, O>,
             is expected: E,
             line: UInt = #line,
             file: StaticString = #file) -> BLNFreeRangeEgg<O> {
-  let nest = input | breeding => expected
-  return BLNFreeRangeEgg(input: lookAt(nest, line:line, file: file))
+  let egg = input | breeding => expected
+  return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
 }

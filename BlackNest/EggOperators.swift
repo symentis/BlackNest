@@ -1,5 +1,5 @@
 //
-//  NestOperators.swift
+//  EggOperators.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
