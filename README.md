@@ -8,10 +8,7 @@
 
 ## Want to test input combinations for a SUT?
 
-Let's write a test for a very simple function.
-
-The function, which is by the way so simple
-that it can hardly fail, looks like this:
+Let's write a test for a very simple function. The function, which is by the way so simple that it can hardly fail, looks like this:
 
 ```swift
 /// Easy 👍
@@ -20,12 +17,9 @@ func asTuple(_ int: Int) -> (Int, Int) {
 }
 ```
 
-Before we write a test we add the specification.<br />
-Which is a function, taking `Input` and `Expected`.<br />
+Before we write a test we add the specification, which is a function, taking `Input` and `Expected`.
 
-Inside all assertions (DSL Style) are performed.<br />
-For `Input` and `Expected` you can take whatever you want -<br />
-Real Types, Tuples, Optionals. Feel free.
+Inside the function, all assertions are performed via a DSL. For `Input` and `Expected` you can take whatever you want - Real Types, Tuples, Optionals. Feel free.
 
 
 ```swift
@@ -46,9 +40,8 @@ func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
 ```
 _Looks like an equation?_
 
-__Yeah - no Boilerplate - pure definitions.__
-
-Easy to re-read and remember.<br />
+__Yeah__  - no Boilerplate - pure definitions.
+Easy to re-read and remember.
 Now we perform different combinations.
 
 ```swift
@@ -103,10 +96,9 @@ func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
 }
 ```
 
-Now you can __combine both__.<br />
-Each call to the test function can return and can take __individual expectations__.<br />
+Now you can __combine both__.
 
-__Return values will be carried on__ to the next test run.<br />
+Each call to the test function can return and can take __individual expectations__. __Return values will be carried on__ to the next test run.
 Same code - no duplication - and again - easy to remember.
 
 ```swift

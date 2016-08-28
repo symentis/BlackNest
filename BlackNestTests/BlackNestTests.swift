@@ -126,7 +126,7 @@ class BlackNestTests: XCTestCase {
     var experience: Int?
     var birdsSeen: Int?
 
-    init(name: String) {
+    init(_ name: String) {
       self.name = name
     }
 
@@ -151,18 +151,14 @@ class BlackNestTests: XCTestCase {
 
     /// typealias for closure
     typealias ChangeBirdWatcher = @escaping (inout BirdWatcher) -> ()
-
     /// typealias for Expected Data Tuple
     typealias Data = (name: String, experience: Int?, birdsSeen: Int?, display: String)
-
     /// the function that returns our breeding function.
     func set(_ handler: ChangeBirdWatcher) -> (BirdWatcher, Data) throws -> BirdWatcher {
       return { input, expect in
-
         // Act:
         var subject = input
         handler(&subject)
-
         // Assert:
         try subject.name == expect.name
           => "name is correct"
@@ -178,12 +174,11 @@ class BlackNestTests: XCTestCase {
     }
 
 
-    let watcher = BirdWatcher(name: "Burt")
     expect(
-      watcher |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
-              |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")
-              |> set { $0.experience = 0 }  => ("Burt", 0, 100, "Burt - The Talent.")
-              |> set { $0.birdsSeen = 0 }   => ("Burt", 0, 0, "Burt - The Bloody Rookie.")
+      BirdWatcher("Burt") |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
+                          |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")
+                          |> set { $0.experience = 0 }  => ("Burt", 0, 100, "Burt - The Talent.")
+                          |> set { $0.birdsSeen = 0 }   => ("Burt", 0, 0, "Burt - The Bloody Rookie.")
     )
 
   }
