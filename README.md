@@ -130,6 +130,53 @@ expect(4,
 
 ```
 
+## Please more complex examples?
+
+Of course - it will not make sense to use this approach everywhere.
+But some things are really neat. Look at the following example.
+We have a Birdwatcher and depending on his skills we show a display name.
+
+```swift
+/// typealias for closure
+typealias ChangeBirdWatcher = @escaping (inout BirdWatcher) -> ()
+
+/// typealias for Expected Data Tuple
+typealias Data = (name: String, experience: Int?, birdsSeen: Int?, display: String)
+
+/// the function that returns our breeding function.
+func set(_ handler: ChangeBirdWatcher) -> (BirdWatcher, Data) throws -> BirdWatcher {
+  return { input, expect in
+
+    // Act:
+    var subject = input
+    handler(&subject)
+
+    // Assert:
+    try subject.name == expect.name
+      => "name is correct"
+    try subject.birdsSeen == expect.birdsSeen
+      => "birdsSeen is correct"
+    try subject.experience == expect.experience
+      => "experience is correct"
+    try subject.display == expect.display
+      => "display is built correctly"
+
+    return subject
+  }
+}
+
+/// Now lets change the properties and do all checks!
+let watcher = BirdWatcher(name: "Burt")
+expect(
+  watcher |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
+          |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")
+          |> set { $0.experience = 0 }  => ("Burt", 0, 100, "Burt - The Talent.")
+          |> set { $0.birdsSeen = 0 }   => ("Burt", 0, 0, "Burt - The Bloody Rookie.")
+)
+```
+
+Quite a lot tests - but still easy to understand.
+
 ## Why BlackNest
 
 Named after [Black-nest Swiftlet](https://en.wikipedia.org/wiki/Black-nest_swiftlet).

@@ -9,6 +9,7 @@
 import XCTest
 @testable import BlackNest
 
+
 class BlackNestTests: XCTestCase {
 
   // --------------------------------------------------------------------------------
@@ -117,35 +118,45 @@ class BlackNestTests: XCTestCase {
   }
 
   // --------------------------------------------------------------------------------
-  // MARK: - Tasty
+  // MARK: - BirdWatcher
   // --------------------------------------------------------------------------------
 
-  struct Tasty {
-    var firstName: String?
-    var lastName: String?
-    var age: Int?
+  struct BirdWatcher {
+    var name: String
+    var experience: Int?
+    var birdsSeen: Int?
 
-    init() { }
+    init(name: String) {
+      self.name = name
+    }
 
-    var displayName: String {
-      switch (firstName, lastName, age) {
-      case let (fn?, ln?, age?):
-        return "\(fn) \(ln) (\(age))"
-      case let (fn?, ln?, .none):
-        return "\(fn) \(ln)"
-      case let (fn?, .none, _):
-        return "\(fn)"
-      default:
-        return "unknown"
+    var display: String {
+      switch (experience, birdsSeen) {
+      case let (y?, s?) where y > 10 && s > 100:
+        return name + " - The Great Master."
+      case let (y?, s?) where y > 5 && s > 50:
+        return name + " - The Master."
+      case let (y?, s?) where y < 1 && s < 1:
+        return name + " - The Bloody Rookie."
+      case let (y?, s?) where y < 5 && s < 5:
+        return name + " - The Rookie."
+      case let (y?, s?) where y < 1 && s > 10:
+        return name + " - The Talent."
+      default: return name
       }
     }
   }
 
   func testExample() {
 
-    typealias ChangeTasty = @escaping (inout Tasty) -> ()
+    /// typealias for closure
+    typealias ChangeBirdWatcher = @escaping (inout BirdWatcher) -> ()
 
-    func change(_ handler: ChangeTasty) -> (Tasty, String) throws -> (Tasty) {
+    /// typealias for Expected Data Tuple
+    typealias Data = (name: String, experience: Int?, birdsSeen: Int?, display: String)
+
+    /// the function that returns our breeding function.
+    func set(_ handler: ChangeBirdWatcher) -> (BirdWatcher, Data) throws -> BirdWatcher {
       return { input, expect in
 
         // Act:
@@ -153,18 +164,26 @@ class BlackNestTests: XCTestCase {
         handler(&subject)
 
         // Assert:
-        try subject.displayName == expect
-          => "displayname is correct built"
+        try subject.name == expect.name
+          => "name is correct"
+        try subject.birdsSeen == expect.birdsSeen
+          => "birdsSeen is correct"
+        try subject.experience == expect.experience
+          => "experience is correct"
+        try subject.display == expect.display
+          => "display is built correctly"
 
         return subject
       }
     }
 
+
+    let watcher = BirdWatcher(name: "Burt")
     expect(
-      Tasty() |  change { $0.age = 10 }            => "unknown"
-              |> change { $0.firstName = "test" }  => "test"
-              |> change { $0.lastName = "test" }   => "test test (10)"
-              |> change { $0.age = 20 }            => "test test (20)"
+      watcher |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
+              |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")
+              |> set { $0.experience = 0 }  => ("Burt", 0, 100, "Burt - The Talent.")
+              |> set { $0.birdsSeen = 0 }   => ("Burt", 0, 0, "Burt - The Bloody Rookie.")
     )
 
   }
