@@ -203,11 +203,12 @@ expect(
 
 Quite a lot tests - but still easy to understand.
 
-## Why BlackNest
+## Why BlackNest?
 
 Named after [Black-nest Swiftlet](https://en.wikipedia.org/wiki/Black-nest_swiftlet).
-All we want do in our tests, is take care of the precious eggs.
-None should get a crack. That's it - taking care of your code.
+
+> All we want to do in tests is taking care of the precious eggs.
+> None should get a crack. That's it - taking care of your code.
 
 ## Why Custom Operators?
 
