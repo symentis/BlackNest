@@ -8,20 +8,25 @@
 
 ## Want to test input combinations for a SUT?
 
-Let's write a test for a simple function.
-The simple function, which is by the way so easy that it will hardly fail,
-looks like this:
+Let's write a test for a very simple function.
+
+The function, which is by the way so simple
+that it can hardly fail, looks like this:
 
 ```swift
-/// Not that hard. 👍
+/// Easy 👍
 func asTuple(_ int: Int) -> (Int, Int) {
   return (int, int * 2)
 }
 ```
-Before we write the test we add the spec:
-A general function, taking `Input` and `Expected`.
-This function performs all assertions in a DSL.
-You can take whatever you want - Real Types, Tuples, Optionals. Feel free.
+
+Before we write a test we add the specification.<br />
+Which is a function, taking `Input` and `Expected`.<br />
+
+Inside all assertions (DSL Style) are performed.<br />
+For `Input` and `Expected` you can take whatever you want -<br />
+Real Types, Tuples, Optionals. Feel free.
+
 
 ```swift
 /// This is the spec.
@@ -42,7 +47,8 @@ func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
 _Looks like an equation?_
 
 __Yeah - no Boilerplate - pure definitions.__
-Easy to re-read and remember.
+
+Easy to re-read and remember.<br />
 Now we perform different combinations.
 
 ```swift
@@ -66,6 +72,7 @@ expect(100 | doubleTuple => (100, 200))
 ```
 
 What? It failed?
+
 Relax - you will understand why:
 
    <img  src="https://github.com/elm4ward/BlackNest/blob/master/resources/error.png?raw=true" alt="error output by BlackNest">
@@ -81,7 +88,7 @@ func asSum(_ tuple: Int, Int) -> Int {
 }
 ```
 
-And another test function for this.
+And another spec function for this.
 
 ```swift
 func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
@@ -96,9 +103,10 @@ func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
 }
 ```
 
-Now you can __combine both__.
-Each call to the test function can return and can take __individual expectations__.
-__Return values will be carried on__ to the next test run.
+Now you can __combine both__.<br />
+Each call to the test function can return and can take __individual expectations__.<br />
+
+__Return values will be carried on__ to the next test run.<br />
 Same code - no duplication - and again - easy to remember.
 
 ```swift
@@ -132,18 +140,49 @@ expect(4,
 
 ## Please more complex examples?
 
-Of course - it will not make sense to use this approach everywhere.
-But some things are really neat. Look at the following example.
-We have a Birdwatcher and depending on his skills we show a display name.
+__Of course__ - _it will not make sense to use this approach everywhere_.<br />
+
+But some things are really neat. Look at the following example:
+
+> We have a Birdwatcher and depending on his skills we show a display name.
 
 ```swift
-/// typealias for closure
-typealias ChangeBirdWatcher = @escaping (inout BirdWatcher) -> ()
+struct BirdWatcher {
+  var name: String
+  var experience: Int?
+  var birdsSeen: Int?
 
-/// typealias for Expected Data Tuple
+  init(name: String) {
+    self.name = name
+  }
+  /// 😱 Oh damn ...
+  var display: String {
+    switch (experience, birdsSeen) {
+    case let (y?, s?) where y > 10 && s > 100:
+      return name + " - The Great Master."
+    case let (y?, s?) where y > 5 && s > 50:
+      return name + " - The Master."
+    case let (y?, s?) where y < 1 && s < 1:
+      return name + " - The Bloody Rookie."
+    case let (y?, s?) where y < 5 && s < 5:
+      return name + " - The Rookie."
+    case let (y?, s?) where y < 1 && s > 10:
+      return name + " - The Talent."
+    default: return name
+    }
+  }
+}
+```
+
+Better test that in an easy way.
+
+```swift
+/// Typealias for closure
+typealias ChangeBirdWatcher = @escaping (inout BirdWatcher) -> ()
+/// Typealias for Expected Data Tuple
 typealias Data = (name: String, experience: Int?, birdsSeen: Int?, display: String)
 
-/// the function that returns our breeding function.
+/// The function that returns our breeding function.
 func set(_ handler: ChangeBirdWatcher) -> (BirdWatcher, Data) throws -> BirdWatcher {
   return { input, expect in
 
