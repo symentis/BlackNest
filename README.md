@@ -24,7 +24,6 @@ Inside the function, all assertions are performed via a DSL. For `Input` and `Ex
 
 ```swift
 /// This is the spec.
-/// The error message contains the values.
 func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
   // Act: do the tuple
   let subject = asTuple(input)
@@ -42,7 +41,7 @@ _Looks like an equation?_
 
 __Yeah__  - no Boilerplate - pure definitions.
 Easy to re-read and remember.
-Now we perform different combinations.
+Now we perform different combinations for the test.
 
 ```swift
 // You like named arguments?
@@ -144,7 +143,7 @@ struct BirdWatcher {
   var experience: Int?
   var birdsSeen: Int?
 
-  init(name: String) {
+  init(_ name: String) {
     self.name = name
   }
   /// 😱 Oh damn ...
@@ -177,11 +176,9 @@ typealias Data = (name: String, experience: Int?, birdsSeen: Int?, display: Stri
 /// The function that returns our breeding function.
 func set(_ handler: ChangeBirdWatcher) -> (BirdWatcher, Data) throws -> BirdWatcher {
   return { input, expect in
-
     // Act:
     var subject = input
     handler(&subject)
-
     // Assert:
     try subject.name == expect.name
       => "name is correct"
@@ -191,18 +188,16 @@ func set(_ handler: ChangeBirdWatcher) -> (BirdWatcher, Data) throws -> BirdWatc
       => "experience is correct"
     try subject.display == expect.display
       => "display is built correctly"
-
     return subject
   }
 }
 
 /// Now lets change the properties and do all checks!
-let watcher = BirdWatcher(name: "Burt")
 expect(
-  watcher |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
-          |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")
-          |> set { $0.experience = 0 }  => ("Burt", 0, 100, "Burt - The Talent.")
-          |> set { $0.birdsSeen = 0 }   => ("Burt", 0, 0, "Burt - The Bloody Rookie.")
+  BirdWatcher("Burt") |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
+                      |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")
+                      |> set { $0.experience = 0 }  => ("Burt", 0, 100, "Burt - The Talent.")
+                      |> set { $0.birdsSeen = 0 }   => ("Burt", 0, 0, "Burt - The Bloody Rookie.")
 )
 ```
 
