@@ -225,14 +225,14 @@ How we call them? Just like their named argument counterpart.
  `|>` is called _then_
 
 
- ## Credits
- Palau is owned and maintained by [Symentis GmbH](http://symentis.com).
+## Credits
+BlackNest is owned and maintained by [Symentis GmbH](http://symentis.com).
 
- Developed by: Elmar Kretzer &amp; Madhava Jay
+Developed by: Elmar Kretzer &amp; Madhava Jay
 
- Follow for more Swift Goodness:
- [![Twitter](https://img.shields.io/badge/twitter-@elmkretzer-blue.svg?style=flat)](http://twitter.com/elmkretzer)
- [![Twitter](https://img.shields.io/badge/twitter-@madhavajay-blue.svg?style=flat)](http://twitter.com/madhavajay)
+Follow for more Swift Goodness:
+[![Twitter](https://img.shields.io/badge/twitter-@elmkretzer-blue.svg?style=flat)](http://twitter.com/elmkretzer)
+[![Twitter](https://img.shields.io/badge/twitter-@madhavajay-blue.svg?style=flat)](http://twitter.com/madhavajay)
 
- ## License
- Palau is released under the Apache 2.0 license. See LICENSE for details.
+## License
+BlackNest is released under the Apache 2.0 license. See LICENSE for details.
