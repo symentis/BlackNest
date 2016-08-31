@@ -8,7 +8,7 @@
 
 ## Want to test input combinations for a SUT?
 
-Let's write a test for a very simple function. The function, which is by the way so simple that it can hardly fail, looks like this:
+Let's write a very simple function. The function, which is by the way so simple that it can hardly fail, looks like this:
 
 ```swift
 /// Easy 👍
