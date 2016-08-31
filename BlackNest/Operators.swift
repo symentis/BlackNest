@@ -1,5 +1,5 @@
 //
-//  ShellCrack.swift
+//  EggOperators.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -23,21 +23,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
-import XCTest
-
 // --------------------------------------------------------------------------------
-// MARK: - ShellCrackError
+// MARK: - BlackNest Operators
 // --------------------------------------------------------------------------------
 
-/// Create a Shell crack.
-/// - parameter message: Any...
-/// - returns: BLNShellCrackError
-func shellCracked(_ message: Any...) -> BLNShellCrackError {
-  return BLNShellCrackError(message: message.map { "\($0)" } .joined(separator: ", "))
+/// In order to make `==` evaluate after `=>`
+/// we increase the Precedence of the `=>` operator
+precedencegroup BLNEggShellCreatingPrecedence {
+  higherThan: ComparisonPrecedence, BLNCombinableWaitingPrecedence
+  lowerThan: AdditionPrecedence
 }
 
-/// BLNShellCrackError
-struct BLNShellCrackError: Error {
-  let message: String
+/// In order to make `•` and `•´ evaluate after `=>`
+/// we decrease the Precedence of those operators.
+/// Associativity is right, as we build up the recursive type.
+precedencegroup BLNCombinablePrecedence {
+  higherThan: BLNEggShellCreatingPrecedence
+  associativity: right
 }
+
+/// Associativity is right, as we build up the recursive type.
+precedencegroup BLNCombinableWaitingPrecedence {
+  associativity: right
+}
+
+infix operator => : BLNEggShellCreatingPrecedence
+infix operator •  : BLNCombinablePrecedence
+infix operator ◦  : BLNCombinablePrecedence
+infix operator |> : BLNCombinableWaitingPrecedence

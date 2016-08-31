@@ -34,11 +34,9 @@ class BlackNestTests: XCTestCase {
   func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
     // Act:
     let subject = input.0 + input.1
-
     // Assert:
     try subject == expect
       => "sum calculation"
-
     return subject
   }
 
@@ -148,7 +146,6 @@ class BlackNestTests: XCTestCase {
   }
 
   func testExample() {
-
     /// typealias for closure
     typealias ChangeBirdWatcher = @escaping (inout BirdWatcher) -> ()
     /// typealias for Expected Data Tuple
@@ -172,8 +169,6 @@ class BlackNestTests: XCTestCase {
         return subject
       }
     }
-
-
     expect(
       BirdWatcher("Burt") |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
                           |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")

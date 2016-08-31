@@ -228,3 +228,35 @@ public func expect<I, B, E>(_ input: I,
     }
     return nil
 }
+
+
+@discardableResult
+public func expect<T>(_ tree: T,
+                   line: UInt = #line,
+                   file: StaticString = #file) -> T.R.R.R.R.O?
+  where
+  T: BLNCombinable,
+  T.L: BLNHatchable,
+  T.R: BLNCombinable,
+  T.R.R: BLNCombinable,
+  T.R.R.R: BLNCombinable,
+  T.R.L: BLNBreedableExpected,
+  T.R.R.L: BLNBreedableExpected,
+  T.R.R.R.L: BLNBreedableExpected,
+  T.R.R.R.R: BLNBreedableExpected,
+  T.L.O == T.R.L.I,
+  T.R.L.O == T.R.R.L.I,
+  T.R.R.L.O == T.R.R.R.L.I,
+  T.R.R.R.L.O == T.R.R.R.R.I {
+    do {
+      let m1 = try tree.left.breed()
+      let m2 = try tree.right.left.breed(m1)
+      let m3 = try tree.right.right.left.breed(m2)
+      let m4 = try tree.right.right.right.left.breed(m3)
+      let m5 = try tree.right.right.right.right.breed(m4)
+      return m5
+    } catch let error {
+      XCTAssert(false, "\(error)", file: file, line: line)
+    }
+    return nil
+}

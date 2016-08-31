@@ -24,71 +24,16 @@
 // THE SOFTWARE.
 
 // --------------------------------------------------------------------------------
-// MARK: - Breeding
+// MARK: - Hatchable
 // --------------------------------------------------------------------------------
 
-/// Typealias for a breeding function.
-/// Breeding is when we have:
-/// - input `I`
-/// - expected `E`
-/// - output `O`
-public typealias BLNBreeding<I, E, O> = (I, E) throws -> O
-
-// --------------------------------------------------------------------------------
-// MARK: - Breedable and Hatchable
-// --------------------------------------------------------------------------------
-
-/// This protocol wraps a `BLNBreeding`.
-public protocol BLNBreedable {
-  associatedtype I
-  associatedtype E
-  associatedtype O
-  var breeding: (I, E) throws -> O { get }
-}
-
-/// This protocol wraps `BLNBreeding` and `expected`.
-/// It is waiting for an input `I` which can
-/// be provided by `breed(_:)`.
-public protocol BLNBreedableExpected: BLNBreedable {
-  var expected: E { get }
-  func breed(_ input: I) throws -> O
-}
-
+/// Build on top of BLNBreedable.
 /// This protocol wraps `BLNBreeding`, `input` and `expected`.
 /// Breeding starts by calling `breed`
 public protocol BLNHatchable: BLNBreedable {
   var input: I { get }
   var expected: E { get }
   func breed() throws -> O
-}
-
-// --------------------------------------------------------------------------------
-// MARK: - Breedable Types
-//
-// These types are intermediate types.
-// Waiting for Input, Expected, or both.
-// They are used when combining tests.
-// --------------------------------------------------------------------------------
-
-/// Just a `BLNBreeding` function as a Type.
-public struct BLNBreeder<I, E, O>: BLNBreedable {
-  public let breeding: BLNBreeding<I, E, O>
-}
-
-/// A `BLNBreeding` function and a input `I`.
-public struct BLNWaitingForExpected<I, E, O>: BLNBreedable {
-  public let breeding: BLNBreeding<I, E, O>
-  let input: I
-}
-
-/// A `BLNBreeding` function and a expected `E`.
-public struct BLNWaitingForInput<I, E, O>: BLNBreedableExpected {
-  public let breeding: BLNBreeding<I, E, O>
-  public let expected: E
-
-  public func breed(_ input: I) throws -> O {
-    return try breeding(input, expected)
-  }
 }
 
 // --------------------------------------------------------------------------------
@@ -137,25 +82,4 @@ public struct BLNFreeRangeEgg<I> {
     guard let input = input else { return BLNFreeRangeEgg<O>(input: nil) }
     return expect(input, in: breeder.breeding => breeder.expected, line: line, file: file)
   }
-}
-
-// --------------------------------------------------------------------------------
-// MARK: - Combinable
-// --------------------------------------------------------------------------------
-
-public protocol BLNCombinable {
-  associatedtype L
-  associatedtype R
-
-  var left: L { get }
-  var right: R { get }
-}
-
-// --------------------------------------------------------------------------------
-// MARK: - A couple og anything
-// --------------------------------------------------------------------------------
-
-public struct BLNCouple<A, B>: BLNCombinable {
-  public let left: A
-  public let right: B
 }

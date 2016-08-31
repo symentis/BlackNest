@@ -1,10 +1,9 @@
 //
-//  EggOperators.swift
+//  Combinable.swift
 //  BlackNest
 //
-//  Created by Elmar Kretzer on 22.08.16.
+//  Created by Elmar Kretzer on 31.08.16.
 //  Copyright © 2016 symentis GmbH. All rights reserved.
-//
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,76 +23,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
-
 // --------------------------------------------------------------------------------
-// MARK: - BlackNest Operators
+// MARK: - Combinable
 // --------------------------------------------------------------------------------
 
-/// in order to make `==` evaluate after `?>`
-/// we reduce the Precedence of the Blacknest operator
-precedencegroup BLNSpecPrecedence {
-  higherThan: ComparisonPrecedence, BLNBreedChainPrecedence
-  lowerThan: AdditionPrecedence
-}
+public protocol BLNCombinable {
+  associatedtype L
+  associatedtype R
 
-precedencegroup BLNBreedPrecedence {
-  higherThan: BLNSpecPrecedence
-  associativity: right
+  var left: L { get }
+  var right: R { get }
 }
-
-precedencegroup BLNBreedChainPrecedence {
-  associativity: right
-}
-
-infix operator => : BLNSpecPrecedence
-infix operator • : BLNBreedPrecedence
-infix operator ◦ : BLNBreedPrecedence
-infix operator |> : BLNBreedChainPrecedence
 
 // --------------------------------------------------------------------------------
-// MARK: - BLNBreeding Operators
+// MARK: - A couple of anything
 // --------------------------------------------------------------------------------
 
-/// Lift Input with BLNBreeding into BLNWaitingForExpected.
-public func | <I, E, O>(rhs: I, lhs: BLNBreeding<I, E, O>) -> BLNWaitingForExpected<I, E, O> {
-  return BLNWaitingForExpected(breeding: lhs, input: rhs)
-}
-
-/// Lift BLNBreeding and Expected into BLNWaitingForInput.
-public func => <I, E, O>(lhs: BLNBreeding<I, E, O>, rhs: E) -> BLNWaitingForInput<I, E, O> {
-  return BLNWaitingForInput(breeding: lhs, expected: rhs)
-}
-
-/// Lift BLNWaitingForExpected and Expected into Egg
-public func => <I, E, O>(lhs: BLNWaitingForExpected<I, E, O>, rhs: E) -> BLNEgg<I, E, O> {
-  return BLNEgg(breeding: lhs.breeding, input: lhs.input, expected: rhs)
+public struct BLNCouple<A, B>: BLNCombinable {
+  public let left: A
+  public let right: B
 }
 
 // --------------------------------------------------------------------------------
 // MARK: - Combinators - multi line
 // --------------------------------------------------------------------------------
 
-func |> <I, E, O, L, R>(lhs: BLNEgg<I, E, O>,
-         rhs: BLNCouple<L, R>)
+func |> <I, E, O, L, R>(lhs: BLNEgg<I, E, O>, rhs: BLNCouple<L, R>)
   -> BLNCouple<BLNEgg<I, E, O>, BLNCouple<L, R>> {
-  return BLNCouple(left: lhs, right: rhs)
+    return BLNCouple(left: lhs, right: rhs)
 }
 
-func |> <I, E, O, F, P>(lhs: BLNEgg<I, E, O>,
-         rhs: BLNWaitingForInput<O, F, P>)
+func |> <I, E, O, F, P>(lhs: BLNEgg<I, E, O>, rhs: BLNWaitingForInput<O, F, P>)
   -> BLNCouple<BLNEgg<I, E, O>, BLNWaitingForInput<O, F, P>> {
     return BLNCouple(left: lhs, right: rhs)
 }
 
-func |> <I, E, O, L, R>(lhs: BLNWaitingForInput<I, E, O>,
-         rhs: BLNCouple<L, R>)
+func |> <I, E, O, L, R>(lhs: BLNWaitingForInput<I, E, O>, rhs: BLNCouple<L, R>)
   -> BLNCouple<BLNWaitingForInput<I, E, O>, BLNCouple<L, R>> {
     return BLNCouple(left: lhs, right: rhs)
 }
 
-func |> <I, E, O, F, P>(lhs: BLNWaitingForInput<I, E, O>,
-         rhs: BLNWaitingForInput<O, F, P>)
+func |> <I, E, O, F, P>(lhs: BLNWaitingForInput<I, E, O>, rhs: BLNWaitingForInput<O, F, P>)
   -> BLNCouple<BLNWaitingForInput<I, E, O>, BLNWaitingForInput<O, F, P>> {
     return BLNCouple(left: lhs, right: rhs)
 }
