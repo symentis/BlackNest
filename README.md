@@ -8,16 +8,17 @@
 
 ## Want to test input combinations for a SUT?
 
-Let's write a very simple function. The function, which is by the way so simple that it can hardly fail, looks like this:
+Let's write a very simple function. The functio is that simple - it can hardly fail.
+Looks like this:
 
 ```swift
-/// Easy 👍
+/// Easy
 func asTuple(_ int: Int) -> (Int, Int) {
   return (int, int * 2)
 }
 ```
 
-Before we write a test we add the specification, which is a function, taking `Input` and `Expected`.
+Before we write a test for that function we add the specification, which is a function, taking `Input` and `Expected`, it return `Output` or it throws an Error.
 
 Inside the function, all assertions are performed via a DSL. For `Input` and `Expected` you can take whatever you want - Real Types, Tuples, Optionals. Feel free.
 
@@ -30,9 +31,9 @@ func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
 
   // Assert: check the spec
   try subject.0 == expect.0
-    => "first entry should be the same"
+    => "First entry should still be the same"
   try subject.1 == expect.1
-    => "second entry should be duplicate"
+    => "Second entry should be double the first"
 
   return subject
 }
@@ -71,7 +72,7 @@ Relax - you will understand why:
 
 ## Want to test combinations of your tests?
 
-Let's add another simple function.
+Let's add one more simple function.
 
 ```swift
 /// Cool. 👍
@@ -80,7 +81,7 @@ func asSum(_ tuple: Int, Int) -> Int {
 }
 ```
 
-And another spec function for this.
+And one more spec for this.
 
 ```swift
 func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
@@ -97,7 +98,7 @@ func tupleSum(input: (Int, Int), expect: (Int)) throws -> Int {
 
 Now you can __combine both__.
 
-Each call to the test function can return and can take __individual expectations__. __Return values will be carried on__ to the next test run.
+Each call to a function can return and can take __individual expectations__. __Return values will be carried on__ to the next test run.
 Same code - no duplication - and again - easy to remember.
 
 ```swift
@@ -168,40 +169,39 @@ struct BirdWatcher {
 Better test that in an easy way.
 
 ```swift
-/// Typealias for closure
-typealias ChangeBirdWatcher = @escaping (inout BirdWatcher) -> ()
-/// Typealias for Expected Data Tuple
+/// typealias for Input
+typealias BirdWatcherInput = (name: String, experience: Int?, birdsSeen: Int?)
+/// typealias for Expected Data Tuple
 typealias Data = (name: String, experience: Int?, birdsSeen: Int?, display: String)
 
-/// The function that returns our breeding function.
-func set(_ handler: ChangeBirdWatcher) -> (BirdWatcher, Data) throws -> BirdWatcher {
-  return { input, expect in
-    // Act:
-    var subject = input
-    handler(&subject)
-    // Assert:
-    try subject.name == expect.name
-      => "name is correct"
-    try subject.birdsSeen == expect.birdsSeen
-      => "birdsSeen is correct"
-    try subject.experience == expect.experience
-      => "experience is correct"
-    try subject.display == expect.display
-      => "display is built correctly"
-    return subject
-  }
+/// the function that returns our breeding function.
+func birdWatcher(_ input: BirdWatcherInput, expect: Data) throws {
+  // Act:
+  let subject = BirdWatcher(
+    name: input.name,
+    experience: input.experience,
+    birdsSeen: input.birdsSeen
+  )
+  // Assert:
+  try subject.name == expect.name
+    => "name is correct"
+  try subject.birdsSeen == expect.birdsSeen
+    => "birdsSeen is correct"
+  try subject.experience == expect.experience
+    => "experience is correct"
+  try subject.display == expect.display
+    => "display is built correctly"
 }
 
-/// Now lets change the properties and do all checks!
-expect(
-  BirdWatcher("Burt") |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
-                      |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")
-                      |> set { $0.experience = 0 }  => ("Burt", 0, 100, "Burt - The Talent.")
-                      |> set { $0.birdsSeen = 0 }   => ("Burt", 0, 0, "Burt - The Bloody Rookie.")
-)
+expect(("Burt", nil, 100) |  birdWatcher => ("Burt", nil, 100, "Burt"))
+expect(("Burt", 20, 100)  |  birdWatcher => ("Burt", 20, 100, "Burt - The Master."))
+expect(("Burt", 20, 0)    |  birdWatcher => ("Burt", 0, 100, "Burt - The Talent."))
+expect(("Burt", nil, 0)   |  birdWatcher => ("Burt", 0, 0, "Burt - The Bloody Rookie."))
 ```
 
 Quite a lot tests - but still easy to understand.
+
+More examples to come.
 
 ## Why BlackNest?
 
@@ -223,3 +223,16 @@ How we call them? Just like their named argument counterpart.
 `=>` is called _is_
 
  `|>` is called _then_
+
+
+ ## Credits
+ Palau is owned and maintained by [Symentis GmbH](http://symentis.com).
+
+ Developed by: Elmar Kretzer &amp; Madhava Jay
+
+ Follow for more Swift Goodness:
+ [![Twitter](https://img.shields.io/badge/twitter-@elmkretzer-blue.svg?style=flat)](http://twitter.com/elmkretzer)
+ [![Twitter](https://img.shields.io/badge/twitter-@madhavajay-blue.svg?style=flat)](http://twitter.com/madhavajay)
+
+ ## License
+ Palau is released under the Apache 2.0 license. See LICENSE for details.

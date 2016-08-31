@@ -124,10 +124,6 @@ class BlackNestTests: XCTestCase {
     var experience: Int?
     var birdsSeen: Int?
 
-    init(_ name: String) {
-      self.name = name
-    }
-
     var display: String {
       switch (experience, birdsSeen) {
       case let (y?, s?) where y > 10 && s > 100:
@@ -146,36 +142,34 @@ class BlackNestTests: XCTestCase {
   }
 
   func testExample() {
-    /// typealias for closure
-    typealias ChangeBirdWatcher = @escaping (inout BirdWatcher) -> ()
+    /// typealias for Input
+    typealias BirdWatcherInput = (name: String, experience: Int?, birdsSeen: Int?)
     /// typealias for Expected Data Tuple
     typealias Data = (name: String, experience: Int?, birdsSeen: Int?, display: String)
+
     /// the function that returns our breeding function.
-    func set(_ handler: ChangeBirdWatcher) -> (BirdWatcher, Data) throws -> BirdWatcher {
-      return { input, expect in
-        // Act:
-        var subject = input
-        handler(&subject)
-        // Assert:
-        try subject.name == expect.name
-          => "name is correct"
-        try subject.birdsSeen == expect.birdsSeen
-          => "birdsSeen is correct"
-        try subject.experience == expect.experience
-          => "experience is correct"
-        try subject.display == expect.display
-          => "display is built correctly"
-
-        return subject
-      }
+    func birdWatcher(_ input: BirdWatcherInput, expect: Data) throws {
+      // Act:
+      let subject = BirdWatcher(
+        name: input.name,
+        experience: input.experience,
+        birdsSeen: input.birdsSeen
+      )
+      // Assert:
+      try subject.name == expect.name
+        => "name is correct"
+      try subject.birdsSeen == expect.birdsSeen
+        => "birdsSeen is correct"
+      try subject.experience == expect.experience
+        => "experience is correct"
+      try subject.display == expect.display
+        => "display is built correctly"
     }
-    expect(
-      BirdWatcher("Burt") |  set { $0.birdsSeen = 100 } => ("Burt", nil, 100, "Burt")
-                          |> set { $0.experience = 20 } => ("Burt", 20, 100, "Burt - The Master.")
-                          |> set { $0.experience = 0 }  => ("Burt", 0, 100, "Burt - The Talent.")
-                          |> set { $0.birdsSeen = 0 }   => ("Burt", 0, 0, "Burt - The Bloody Rookie.")
-    )
 
+    expect(("Burt", nil, 100) |  birdWatcher => ("Burt", nil, 100, "Burt"))
+    expect(("Burt", 20, 100)  |  birdWatcher => ("Burt", 20, 100, "Burt - The Master."))
+    expect(("Burt", 20, 0)    |  birdWatcher => ("Burt", 0, 100, "Burt - The Talent."))
+    expect(("Burt", nil, 0)   |  birdWatcher => ("Burt", 0, 0, "Burt - The Bloody Rookie."))
   }
 
 }
