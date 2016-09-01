@@ -8,7 +8,7 @@
 
 ## Want to test input combinations for a SUT?
 
-Let's write a very simple function. The functio is that simple - it can hardly fail.
+Let's write a very simple function. The function is that simple - it can hardly fail.
 Looks like this:
 
 ```swift
@@ -18,7 +18,8 @@ func asTuple(_ int: Int) -> (Int, Int) {
 }
 ```
 
-Before we write a test for that function we add the specification, which is a function, taking `Input` and `Expected`, it return `Output` or it throws an Error.
+Before we write a test for that function we add the specification. The specification is a function, 
+taking `Input` and `Expected`, it returns `Output` or it throws an Error (You don't need to have a return type).
 
 Inside the function, all assertions are performed via a DSL. For `Input` and `Expected` you can take whatever you want - Real Types, Tuples, Optionals. Feel free.
 
