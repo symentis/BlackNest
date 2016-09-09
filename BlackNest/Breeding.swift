@@ -115,7 +115,7 @@ public struct BLNWaitingForInput<I, E, O>: BLNBreedableExpected {
 ///      expect(100 | doubleTuple => (100, 200))
 ///
 ///
-public func | <I, E, O>(lhs: I, rhs: BLNBreeding<I, E, O>) -> BLNWaitingForExpected<I, E, O> {
+public func | <I, E, O>(lhs: I, rhs: @escaping BLNBreeding<I, E, O>) -> BLNWaitingForExpected<I, E, O> {
   return BLNWaitingForExpected(breeding: rhs, input: lhs)
 }
 
@@ -126,7 +126,7 @@ public func | <I, E, O>(lhs: I, rhs: BLNBreeding<I, E, O>) -> BLNWaitingForExpec
 ///      expect(100, in: doubleTuple => (100, 200))
 ///
 ///
-public func => <I, E, O>(lhs: BLNBreeding<I, E, O>, rhs: E) -> BLNWaitingForInput<I, E, O> {
+public func => <I, E, O>(lhs: @escaping BLNBreeding<I, E, O>, rhs: E) -> BLNWaitingForInput<I, E, O> {
   return BLNWaitingForInput(breeding: lhs, expected: rhs)
 }
 

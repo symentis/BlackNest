@@ -72,12 +72,12 @@ func |> <I, E, O, F, P>(lhs: BLNWaitingForInput<I, E, O>, rhs: BLNWaitingForInpu
 // MARK: - Combinators - inline
 // --------------------------------------------------------------------------------
 
-func ◦ <I, E, O, F, P>(lhs: BLNBreeding<I, E, O>, rhs: BLNBreeding<O, F, P>)
+func ◦ <I, E, O, F, P>(lhs: @escaping BLNBreeding<I, E, O>, rhs: @escaping BLNBreeding<O, F, P>)
   -> BLNCouple<BLNBreeder<I, E, O>, BLNBreeder<O, F, P>> {
     return BLNCouple(left: BLNBreeder(breeding: lhs), right: BLNBreeder(breeding: rhs))
 }
 
-func ◦ <I, E, O, L, R>(lhs: BLNBreeding<I, E, O>, rhs: BLNCouple<L, R>)
+func ◦ <I, E, O, L, R>(lhs: @escaping BLNBreeding<I, E, O>, rhs: BLNCouple<L, R>)
   -> BLNCouple<BLNBreeder<I, E, O>, BLNCouple<L, R>> {
     return BLNCouple(left: BLNBreeder(breeding: lhs), right: rhs)
 }

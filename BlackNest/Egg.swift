@@ -67,7 +67,7 @@ public struct BLNFreeRangeEgg<I> {
   let input: I?
 
   @discardableResult
-  public func then<E, O>(_ breeding: BLNBreeding<I, E, O>,
+  public func then<E, O>(_ breeding: @escaping BLNBreeding<I, E, O>,
                    is expected: E,
                    line: UInt = #line,
                    file: StaticString = #file) -> BLNFreeRangeEgg<O> {

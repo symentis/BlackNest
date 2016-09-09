@@ -77,7 +77,7 @@ where B: BLNBreedableExpected {
 /// - returns: Void
 @discardableResult
 public func expect<I, E, O>(_ input: I,
-                   in breeding: BLNBreeding<I, E, O>,
+                   in breeding: @escaping BLNBreeding<I, E, O>,
                    is expected: E,
                    line: UInt = #line,
                    file: StaticString = #file) -> BLNFreeRangeEgg<O> {
@@ -96,7 +96,7 @@ public func expect<I, E, O>(_ input: I,
 ///
 /// - parameter run: BLNEgg
 /// - returns: Void
-public func expect<I, E, O>(_ breeding: BLNBreeding<I, E, O>,
+public func expect<I, E, O>(_ breeding: @escaping BLNBreeding<I, E, O>,
             at input: I,
             is expected: E,
             line: UInt = #line,
