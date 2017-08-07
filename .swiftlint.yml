@@ -1,0 +1,12 @@
+disabled_rules:
+ - identifier_name
+
+type_name:
+  min_length: 1 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+
+identifier_name:
+  min_length: 1 # only min_length
+  error: 0 

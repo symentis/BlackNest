@@ -33,7 +33,7 @@ public struct BLNEggShell<E> {
   let expected: E?
 
   func shellCracked(by value: E?) -> BLNShellCrackError {
-    let message = "\(expectation) - got \(value) expected \(expected)"
+    let message = "\(expectation) - got \(String(describing: value)) expected \(String(describing: expected))"
     return BLNShellCrackError(message: message)
   }
 }
