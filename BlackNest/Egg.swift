@@ -68,17 +68,17 @@ public struct BLNFreeRangeEgg<I> {
 
   @discardableResult
   public func then<E, O>(_ breeding: @escaping BLNBreeding<I, E, O>,
-                   is expected: E,
-                   line: UInt = #line,
-                   file: StaticString = #file) -> BLNFreeRangeEgg<O> {
+                         is expected: E,
+                         line: UInt = #line,
+                         file: StaticString = #file) -> BLNFreeRangeEgg<O> {
     guard let input = input else { return BLNFreeRangeEgg<O>(input: nil) }
     return expect(input, in: breeding => expected, line: line, file: file)
   }
 
   @discardableResult
   public func then<E, O>(_ breeder: BLNWaitingForInput<I, E, O>,
-                   line: UInt = #line,
-                   file: StaticString = #file) -> BLNFreeRangeEgg<O> {
+                         line: UInt = #line,
+                         file: StaticString = #file) -> BLNFreeRangeEgg<O> {
     guard let input = input else { return BLNFreeRangeEgg<O>(input: nil) }
     return expect(input, in: breeder.breeding => breeder.expected, line: line, file: file)
   }

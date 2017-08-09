@@ -9,7 +9,6 @@
 import XCTest
 @testable import BlackNest
 
-
 class BlackNestTests: XCTestCase {
 
   // --------------------------------------------------------------------------------

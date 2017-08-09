@@ -14,10 +14,10 @@ import XCTest
 
 @discardableResult
 public func expect<I, B, E>(_ input: I,
-                      in breeding: B,
-                      is expected: E,
-                      line: UInt = #line,
-                      file: StaticString = #file) -> B.R.O?
+                            in breeding: B,
+                            is expected: E,
+                            line: UInt = #line,
+                            file: StaticString = #file) -> B.R.O?
   where
   E: BLNCombinable,
   B: BLNCombinable,
@@ -62,10 +62,10 @@ public func expect<T>(_ tree: T,
 
 @discardableResult
 public func expect<I, B, E>(_ input: I,
-                              in breeding: B,
-                              is expected: E,
-                              line: UInt = #line,
-                              file: StaticString = #file) -> B.R.R.O?
+                            in breeding: B,
+                            is expected: E,
+                            line: UInt = #line,
+                            file: StaticString = #file) -> B.R.R.O?
   where
   E: BLNCombinable,
   B: BLNCombinable,
@@ -120,10 +120,10 @@ public func expect<T>(_ tree: T,
 
 @discardableResult
 public func expect<I, B, E>(_ input: I,
-                      in breeding: B,
-                      is expected: E,
-                      line: UInt = #line,
-                      file: StaticString = #file) -> B.R.R.R.O?
+                            in breeding: B,
+                            is expected: E,
+                            line: UInt = #line,
+                            file: StaticString = #file) -> B.R.R.R.O?
   where
   E: BLNCombinable,
   B: BLNCombinable,
@@ -188,10 +188,10 @@ public func expect<T>(_ tree: T,
 
 @discardableResult
 public func expect<I, B, E>(_ input: I,
-                      in breeding: B,
-                      is expected: E,
-                      line: UInt = #line,
-                      file: StaticString = #file) -> B.R.R.R.R.O?
+                            in breeding: B,
+                            is expected: E,
+                            line: UInt = #line,
+                            file: StaticString = #file) -> B.R.R.R.R.O?
   where
   E: BLNCombinable,
   B: BLNCombinable,
@@ -229,11 +229,10 @@ public func expect<I, B, E>(_ input: I,
     return nil
 }
 
-
 @discardableResult
 public func expect<T>(_ tree: T,
-                   line: UInt = #line,
-                   file: StaticString = #file) -> T.R.R.R.R.O?
+                      line: UInt = #line,
+                      file: StaticString = #file) -> T.R.R.R.R.O?
   where
   T: BLNCombinable,
   T.L: BLNHatchable,

@@ -61,9 +61,9 @@ public func expect<H>(_ hatchable: H, line: UInt = #line, file: StaticString = #
 /// - returns: Void
 @discardableResult
 public func expect<B>(_ input: B.I,
-                   in breeder: B,
-                   line: UInt = #line,
-                   file: StaticString = #file) -> BLNFreeRangeEgg<B.O>
+                      in breeder: B,
+                      line: UInt = #line,
+                      file: StaticString = #file) -> BLNFreeRangeEgg<B.O>
 where B: BLNBreedableExpected {
   let egg = input | breeder.breeding => breeder.expected
   return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
@@ -77,14 +77,13 @@ where B: BLNBreedableExpected {
 /// - returns: Void
 @discardableResult
 public func expect<I, E, O>(_ input: I,
-                   in breeding: @escaping BLNBreeding<I, E, O>,
-                   is expected: E,
-                   line: UInt = #line,
-                   file: StaticString = #file) -> BLNFreeRangeEgg<O> {
+                            in breeding: @escaping BLNBreeding<I, E, O>,
+                            is expected: E,
+                            line: UInt = #line,
+                            file: StaticString = #file) -> BLNFreeRangeEgg<O> {
   let egg = input | breeding => expected
   return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
 }
-
 
 // --------------------------------------------------------------------------------
 // MARK: - Breeding first?
@@ -97,10 +96,10 @@ public func expect<I, E, O>(_ input: I,
 /// - parameter run: BLNEgg
 /// - returns: Void
 public func expect<I, E, O>(_ breeding: @escaping BLNBreeding<I, E, O>,
-            at input: I,
-            is expected: E,
-            line: UInt = #line,
-            file: StaticString = #file) -> BLNFreeRangeEgg<O> {
+                            at input: I,
+                            is expected: E,
+                            line: UInt = #line,
+                            file: StaticString = #file) -> BLNFreeRangeEgg<O> {
   let egg = input | breeding => expected
   return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
 }
