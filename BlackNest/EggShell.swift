@@ -35,7 +35,9 @@ public struct BLNEggShell<E> {
   let expected: E?
 
   func shellCracked(by value: E?) -> BLNShellCrackError {
-    let message = "\(expectation) - got \(String(describing: value)) expected \(String(describing: expected))"
+    let valueString = value != nil ? String(describing: value!) : "nil"
+    let expectedString = expected != nil ? String(describing: expected!) : "nil"
+    let message = "\(expectation) \nResult: \(valueString) \nExpected: \(expectedString)"
     return BLNShellCrackError(message: message)
   }
 }
@@ -45,8 +47,12 @@ public struct BLNEggShell<E> {
 // --------------------------------------------------------------------------------
 
 /// BLNShellCrackError
-struct BLNShellCrackError: Error {
+struct BLNShellCrackError: Error, CustomStringConvertible {
   let message: String
+
+  var description: String {
+    return message
+  }
 }
 
 // --------------------------------------------------------------------------------

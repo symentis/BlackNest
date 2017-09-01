@@ -61,7 +61,7 @@ class BlackNestTests: XCTestCase {
     expect(100 | doubleTuple => (100, 200))
 
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).breed()) { e in
-        guard let _ = e as? BLNShellCrackError else {
+        guard nil != e as? BLNShellCrackError else {
           return XCTFail("BLNShellCrackError not coming")
         }
     }
@@ -108,7 +108,7 @@ class BlackNestTests: XCTestCase {
     )
 
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).breed()) { e in
-      guard let _ = e as? BLNShellCrackError else {
+      guard nil != e as? BLNShellCrackError else {
         return XCTFail("BLNShellCrackError not coming")
       }
     }
