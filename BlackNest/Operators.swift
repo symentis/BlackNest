@@ -48,7 +48,7 @@ precedencegroup BLNCombinableWaitingPrecedence {
 }
 
 infix operator => : BLNEggShellCreatingPrecedence
-infix operator .= : BLNEggShellCreatingPrecedence
+infix operator ==> : BLNEggShellCreatingPrecedence
 
 infix operator •  : BLNCombinablePrecedence
 infix operator ◦  : BLNCombinablePrecedence

@@ -78,12 +78,12 @@ public func => <E>(expected: E, spec: String) -> BLNEggShell<E>
 /// - parameter spec: String
 /// - parameter subject: S?
 /// - returns: BLNEggShell<S>
-public func .= <E>(spec: String, expected: E?) -> BLNEggShell<E>
+public func ==> <E>(spec: String, expected: E?) -> BLNEggShell<E>
   where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
-public func .= <E>(spec: String, expected: E) -> BLNEggShell<E>
+public func ==> <E>(spec: String, expected: E) -> BLNEggShell<E>
   where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
