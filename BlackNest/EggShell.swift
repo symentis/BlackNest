@@ -23,6 +23,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import XCTest
+
 // --------------------------------------------------------------------------------
 // MARK: - BLNEggShell
 // --------------------------------------------------------------------------------
@@ -62,12 +64,12 @@ public func => <E>(expected: E?, spec: String) -> BLNEggShell<E>
 }
 
 /// Returns a BLNEggShell that contains the `spec` and
-/// the `subject` S which must conform to `RawRepresentable`.
+/// the `subject` S which must conform to `Comparable`.
 /// - parameter spec: String
 /// - parameter subject: S?
 /// - returns: BLNEggShell<S>
-public func => <E>(expected: E?, spec: String) -> BLNEggShell<E>
-  where E: Equatable {
+public func =>> <E>(spec: String, expected: E?) -> BLNEggShell<E>
+  where E: Comparable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
@@ -86,16 +88,15 @@ public func == <E>(rhs: E?, lhs: BLNEggShell<E>) throws where E: Comparable {
   }
 }
 
-/// Lifts expected S? conforming to RawRepresentable into the `BLNEggShell` for a `==`.
+/// Lifts expected S? into the `BLNEggShell` for a `==`.
 /// - parameter param: lhs BLNEggShell<S>
 /// - parameter param: lhs S?
 /// - throws: BLNShellCrackError
-public func == <E>(rhs: E?, lhs: BLNEggShell<E>) throws
-  where E: Equatable {
-    guard lhs.expected != nil && rhs != nil else { return }
-    guard lhs.expected == rhs else {
-      throw lhs.shellCracked(by: rhs)
-    }
+public func == <E>(lhs: BLNEggShell<E>, rhs: E?) throws where E: Comparable {
+  guard lhs.expected != nil && rhs != nil else { return }
+  guard lhs.expected == rhs else {
+    throw lhs.shellCracked(by: rhs)
+  }
 }
 
 // --------------------------------------------------------------------------------
@@ -108,21 +109,6 @@ public func == <E>(rhs: E?, lhs: BLNEggShell<E>) throws
 /// - throws: BLNShellCrackError
 public func != <E>(rhs: E?, lhs: BLNEggShell<E>) throws
   where E: Comparable {
-    guard lhs.expected != nil && rhs != nil else {
-      //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
-      return
-    }
-    guard lhs.expected != rhs else {
-      throw lhs.shellCracked(by: rhs)
-    }
-}
-
-/// Lifts expected S? conforming to RawRepresentable into the `BLNEggShell` for a `!=`.
-/// - parameter param: lhs BLNEggShell<S>
-/// - parameter param: lhs S?
-/// - throws: BLNShellCrackError
-public func != <E>(rhs: E?, lhs: BLNEggShell<E>) throws
-  where E: Equatable {
     guard lhs.expected != nil && rhs != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
       return

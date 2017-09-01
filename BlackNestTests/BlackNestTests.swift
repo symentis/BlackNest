@@ -161,8 +161,9 @@ class BlackNestTests: XCTestCase {
         => "birdsSeen is correct"
       try subject.experience == expect.experience
         => "experience is correct"
-      try subject.display == expect.display
-        => "display is built correctly"
+
+      try "display is built correctly"
+        =>> subject.display == expect.display
     }
 
     expect(("Burt", nil, 100) |  birdWatcher => ("Burt", nil, 100, "Burt"))
