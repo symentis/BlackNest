@@ -43,7 +43,7 @@ public struct BLNEggShell<E> {
     } else {
       expectedString = expected != nil ? String(describing: expected!) : "nil"
     }
-    let message = "\(expectation) \nResult: \(valueString) \nExpected: \(expectedString)"
+    let message = "\(expectation) \nExpected: \(valueString) \nResult: \(expectedString)"
     return BLNShellCrackError(message: message)
   }
 }
