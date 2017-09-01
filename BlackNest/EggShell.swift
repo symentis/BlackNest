@@ -24,6 +24,7 @@
 // THE SOFTWARE.
 
 import XCTest
+import Foundation
 
 // --------------------------------------------------------------------------------
 // MARK: - BLNEggShell
@@ -34,7 +35,7 @@ public struct BLNEggShell<E> {
   let expectation: String
   let expected: E?
 
-  func shellCracked(by value: E?) -> BLNShellCrackError {
+  func shellCracked<V>(by value: V?) -> BLNShellCrackError {
     let valueString = value != nil ? String(describing: value!) : "nil"
     let expectedString = expected != nil ? String(describing: expected!) : "nil"
     let message = "\(expectation) \nResult: \(valueString) \nExpected: \(expectedString)"
@@ -94,6 +95,11 @@ public func ==> <E>(spec: String, expected: E) -> BLNEggShell<E>
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
+public func ==> <E>(spec: String, expected: @escaping () -> E?) -> BLNEggShell<() -> E?>
+  where E: Equatable {
+    return BLNEggShell(expectation: spec, expected: expected)
+}
+
 // --------------------------------------------------------------------------------
 // MARK: - BLNEggShell == Operators
 // --------------------------------------------------------------------------------
@@ -136,6 +142,24 @@ public func == <E>(lhs: BLNEggShell<E>, rhs: E) throws
   guard lhs.expected == rhs else {
     throw lhs.shellCracked(by: rhs)
   }
+}
+
+public func == <E>(lhs: BLNEggShell<() -> E?>, rhs: E?) throws
+  where E: Equatable {
+    guard lhs.expected != nil && rhs != nil else { return }
+    guard await({ lhs.expected?() == rhs }) else {
+      throw lhs.shellCracked(by: rhs)
+    }
+}
+
+func await(until: Date = Date().addingTimeInterval(1), _ condition:() -> Bool) -> Bool {
+  while condition() == false || Date() < until {
+    if condition() || Date() > until {
+      break
+    }
+    RunLoop.current.run(until: until)
+  }
+  return condition()
 }
 
 // --------------------------------------------------------------------------------
