@@ -35,9 +35,14 @@ public struct BLNEggShell<E> {
   let expectation: String
   let expected: E?
 
-  func shellCracked<V>(by value: V?) -> BLNShellCrackError {
+  func shellCracked<V>(by value: V?, insteadOf: V? = nil) -> BLNShellCrackError {
     let valueString = value != nil ? String(describing: value!) : "nil"
-    let expectedString = expected != nil ? String(describing: expected!) : "nil"
+    let expectedString: String
+    if let instead = insteadOf {
+      expectedString = String(describing: instead)
+    } else {
+      expectedString = expected != nil ? String(describing: expected!) : "nil"
+    }
     let message = "\(expectation) \nResult: \(valueString) \nExpected: \(expectedString)"
     return BLNShellCrackError(message: message)
   }
@@ -148,7 +153,7 @@ public func == <E>(lhs: BLNEggShell<() -> E?>, rhs: E?) throws
   where E: Equatable {
     guard lhs.expected != nil && rhs != nil else { return }
     guard await({ lhs.expected?() == rhs }) else {
-      throw lhs.shellCracked(by: rhs)
+      throw lhs.shellCracked(by: rhs, insteadOf: lhs.expected?())
     }
 }
 
