@@ -59,7 +59,7 @@ struct BLNShellCrackError: Error {
 /// - parameter subject: S?
 /// - returns: BLNEggShell<S>
 public func => <E>(expected: E?, spec: String) -> BLNEggShell<E>
-  where E: Comparable {
+  where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
@@ -69,7 +69,7 @@ public func => <E>(expected: E?, spec: String) -> BLNEggShell<E>
 /// - parameter subject: S?
 /// - returns: BLNEggShell<S>
 public func => <E>(expected: E, spec: String) -> BLNEggShell<E>
-  where E: Comparable {
+  where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
@@ -79,12 +79,12 @@ public func => <E>(expected: E, spec: String) -> BLNEggShell<E>
 /// - parameter subject: S?
 /// - returns: BLNEggShell<S>
 public func .= <E>(spec: String, expected: E?) -> BLNEggShell<E>
-  where E: Comparable {
+  where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
 public func .= <E>(spec: String, expected: E) -> BLNEggShell<E>
-  where E: Comparable {
+  where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
@@ -96,14 +96,16 @@ public func .= <E>(spec: String, expected: E) -> BLNEggShell<E>
 /// - parameter param: lhs BLNEggShell<S>
 /// - parameter param: lhs S?
 /// - throws: BLNShellCrackError
-public func == <E>(rhs: E?, lhs: BLNEggShell<E>) throws where E: Comparable {
+public func == <E>(rhs: E?, lhs: BLNEggShell<E>) throws
+  where E: Equatable {
   guard lhs.expected != nil && rhs != nil else { return }
   guard lhs.expected == rhs else {
     throw lhs.shellCracked(by: rhs)
   }
 }
 
-public func == <E>(rhs: E, lhs: BLNEggShell<E>) throws where E: Comparable {
+public func == <E>(rhs: E, lhs: BLNEggShell<E>) throws
+  where E: Equatable {
   guard lhs.expected != nil else { return }
   guard lhs.expected == rhs else {
     throw lhs.shellCracked(by: rhs)
@@ -114,14 +116,16 @@ public func == <E>(rhs: E, lhs: BLNEggShell<E>) throws where E: Comparable {
 /// - parameter param: lhs BLNEggShell<S>
 /// - parameter param: lhs S?
 /// - throws: BLNShellCrackError
-public func == <E>(lhs: BLNEggShell<E>, rhs: E?) throws where E: Comparable {
+public func == <E>(lhs: BLNEggShell<E>, rhs: E?) throws
+  where E: Equatable {
   guard lhs.expected != nil && rhs != nil else { return }
   guard lhs.expected == rhs else {
     throw lhs.shellCracked(by: rhs)
   }
 }
 
-public func == <E>(lhs: BLNEggShell<E>, rhs: E) throws where E: Comparable {
+public func == <E>(lhs: BLNEggShell<E>, rhs: E) throws
+  where E: Equatable {
   guard lhs.expected != nil else { return }
   guard lhs.expected == rhs else {
     throw lhs.shellCracked(by: rhs)
@@ -137,7 +141,7 @@ public func == <E>(lhs: BLNEggShell<E>, rhs: E) throws where E: Comparable {
 /// - parameter param: lhs S?
 /// - throws: BLNShellCrackError
 public func != <E>(rhs: E?, lhs: BLNEggShell<E>) throws
-  where E: Comparable {
+  where E: Equatable {
     guard lhs.expected != nil && rhs != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
       return
@@ -148,7 +152,7 @@ public func != <E>(rhs: E?, lhs: BLNEggShell<E>) throws
 }
 
 public func != <E>(rhs: E, lhs: BLNEggShell<E>) throws
-  where E: Comparable {
+  where E: Equatable {
     guard lhs.expected != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
       return
