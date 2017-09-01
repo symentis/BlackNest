@@ -154,6 +154,7 @@ class BlackNestTests: XCTestCase {
         experience: input.experience,
         birdsSeen: input.birdsSeen
       )
+
       // Assert:
       try subject.name == expect.name
         => "name is correct"
