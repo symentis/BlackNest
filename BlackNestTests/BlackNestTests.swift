@@ -163,7 +163,7 @@ class BlackNestTests: XCTestCase {
         => "experience is correct"
 
       try "display is built correctly"
-        =>> subject.display == expect.display
+        .= subject.display == expect.display
     }
 
     expect(("Burt", nil, 100) |  birdWatcher => ("Burt", nil, 100, "Burt"))
