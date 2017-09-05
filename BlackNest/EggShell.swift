@@ -61,46 +61,25 @@ struct BLNShellCrackError: Error, CustomStringConvertible {
   }
 }
 
+public prefix func ...| <T>(_ t: @escaping @autoclosure () -> T) -> () -> T {
+  return { t() }
+}
+
 // --------------------------------------------------------------------------------
 // MARK: - BLNEggShell => Operators
 // --------------------------------------------------------------------------------
 
-/// Returns a BLNEggShell that contains the `spec` and
-/// the `subject` S which must conform to `Comparable`.
-/// - parameter spec: String
-/// - parameter subject: S?
-/// - returns: BLNEggShell<S>
-public func => <E>(expected: E?, spec: String) -> BLNEggShell<E>
+public func => <E>(spec: String, expected: E?) -> BLNEggShell<E>
   where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
-/// Returns a BLNEggShell that contains the `spec` and
-/// the `subject` S which must conform to `Comparable`.
-/// - parameter spec: String
-/// - parameter subject: S?
-/// - returns: BLNEggShell<S>
-public func => <E>(expected: E, spec: String) -> BLNEggShell<E>
+public func => <E>(spec: String, expected: E) -> BLNEggShell<E>
   where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
 
-/// Returns a BLNEggShell that contains the `spec` and
-/// the `subject` S which must conform to `Comparable`.
-/// - parameter spec: String
-/// - parameter subject: S?
-/// - returns: BLNEggShell<S>
-public func ==> <E>(spec: String, expected: E?) -> BLNEggShell<E>
-  where E: Equatable {
-    return BLNEggShell(expectation: spec, expected: expected)
-}
-
-public func ==> <E>(spec: String, expected: E) -> BLNEggShell<E>
-  where E: Equatable {
-    return BLNEggShell(expectation: spec, expected: expected)
-}
-
-public func ==> <E>(spec: String, expected: @escaping () -> E?) -> BLNEggShell<() -> E?>
+public func => <E>(spec: String, expected: @escaping () -> E?) -> BLNEggShell<() -> E?>
   where E: Equatable {
     return BLNEggShell(expectation: spec, expected: expected)
 }
@@ -108,26 +87,6 @@ public func ==> <E>(spec: String, expected: @escaping () -> E?) -> BLNEggShell<(
 // --------------------------------------------------------------------------------
 // MARK: - BLNEggShell == Operators
 // --------------------------------------------------------------------------------
-
-/// Lifts expected S? into the `BLNEggShell` for a `==`.
-/// - parameter param: lhs BLNEggShell<S>
-/// - parameter param: lhs S?
-/// - throws: BLNShellCrackError
-public func == <E>(rhs: E?, lhs: BLNEggShell<E>) throws
-  where E: Equatable {
-  guard lhs.expected != nil && rhs != nil else { return }
-  guard lhs.expected == rhs else {
-    throw lhs.shellCracked(by: rhs)
-  }
-}
-
-public func == <E>(rhs: E, lhs: BLNEggShell<E>) throws
-  where E: Equatable {
-  guard lhs.expected != nil else { return }
-  guard lhs.expected == rhs else {
-    throw lhs.shellCracked(by: rhs)
-  }
-}
 
 /// Lifts expected S? into the `BLNEggShell` for a `==`.
 /// - parameter param: lhs BLNEggShell<S>
@@ -175,7 +134,7 @@ func await(until: Date = Date().addingTimeInterval(1), _ condition:() -> Bool) -
 /// - parameter param: lhs BLNEggShell<S>
 /// - parameter param: lhs S?
 /// - throws: BLNShellCrackError
-public func != <E>(rhs: E?, lhs: BLNEggShell<E>) throws
+public func != <E>(lhs: BLNEggShell<E>, rhs: E?) throws
   where E: Equatable {
     guard lhs.expected != nil && rhs != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
@@ -186,7 +145,7 @@ public func != <E>(rhs: E?, lhs: BLNEggShell<E>) throws
     }
 }
 
-public func != <E>(rhs: E, lhs: BLNEggShell<E>) throws
+public func != <E>(lhs: BLNEggShell<E>, rhs: E) throws
   where E: Equatable {
     guard lhs.expected != nil else {
       //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)

@@ -20,12 +20,12 @@ class BlackNestTests: XCTestCase {
     let subject = (input, input * 2)
 
     // Assert:
-    try subject.0 == expect.0
-      => "first entry should be the same"
-    try subject.0 != expect.1
-      => "first entry should not be euqal to second"
-    try subject.1 == expect.1
-      => "second entry should be duplicate"
+    try "first entry should be the same"
+      => subject.0 == expect.0
+    try "first entry should not be euqal to second"
+      => subject.0 != expect.1
+    try "second entry should be duplicate"
+      => subject.1 == expect.1
 
     return subject
   }
@@ -34,8 +34,8 @@ class BlackNestTests: XCTestCase {
     // Act:
     let subject = input.0 + input.1
     // Assert:
-    try subject == expect
-      => "sum calculation"
+    try "sum calculation"
+      => subject == expect
     return subject
   }
 
@@ -156,19 +156,17 @@ class BlackNestTests: XCTestCase {
       )
 
       // Assert:
-      try subject.name == expect.name
-        => "name is correct"
+      try "name is correct"
+        => subject.name == expect.name
 
-      try "name is built correctly"
-        ==> subject.name == expect.name
+      try "birdsSeen is correct"
+        => subject.birdsSeen == expect.birdsSeen
 
-      try subject.birdsSeen == expect.birdsSeen
-        => "birdsSeen is correct"
-      try subject.experience == expect.experience
-        => "experience is correct"
+      try "experience is correct"
+        => subject.experience == expect.experience
 
       try "display is built correctly"
-        ==> subject.display == expect.display
+        => ...|subject.display == expect.display
     }
 
     expect(("Burt", nil, 100) |  birdWatcher => ("Burt", nil, 100, "Burt"))
