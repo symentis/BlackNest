@@ -155,3 +155,11 @@ public func != <E>(lhs: BLNEggShell<E>, rhs: E) throws
       throw lhs.shellCracked(by: rhs)
     }
 }
+
+public func != <E>(lhs: BLNEggShell<() -> E?>, rhs: E?) throws
+  where E: Equatable {
+    guard lhs.expected != nil && rhs != nil else { return }
+    guard await({ lhs.expected?() != rhs }) else {
+      throw lhs.shellCracked(by: rhs, insteadOf: lhs.expected?())
+    }
+}
