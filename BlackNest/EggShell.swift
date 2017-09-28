@@ -111,7 +111,7 @@ public func == <E>(lhs: BLNEggShell<E>, rhs: E) throws
 public func == <E>(lhs: BLNEggShell<() -> E?>, rhs: E?) throws
   where E: Equatable {
     guard lhs.expected != nil && rhs != nil else { return }
-    guard await({ lhs.expected?() == rhs }) else {
+    guard wait(for: 1, { lhs.expected?() == rhs }) else {
       throw lhs.shellCracked(by: rhs, insteadOf: lhs.expected?())
     }
 }
@@ -124,6 +124,22 @@ func await(until: Date = Date().addingTimeInterval(1), _ condition:() -> Bool) -
     RunLoop.current.run(until: until)
   }
   return condition()
+}
+
+func wait(for duration: TimeInterval, _ condition: @escaping () -> Bool) -> Bool {
+  let waitExpectation = XCTestExpectation(description: "wait")
+  let when = DispatchTime.now() + duration
+  DispatchQueue.main.asyncAfter(deadline: when) {
+    if condition() {
+      waitExpectation.fulfill()
+    }
+  }
+  switch XCTWaiter.wait(for: [waitExpectation], timeout: duration + 0.5) {
+  case .completed:
+      return true
+  default:
+    return false
+  }
 }
 
 // --------------------------------------------------------------------------------

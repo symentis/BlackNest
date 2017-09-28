@@ -53,5 +53,3 @@ infix operator ◦  : BLNCombinablePrecedence
 infix operator |> : BLNCombinableWaitingPrecedence
 
 prefix operator ...|
-
-
