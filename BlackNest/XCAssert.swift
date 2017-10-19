@@ -25,11 +25,9 @@
 
 import XCTest
 
-func examine<H>(_ hatchable: H, line: UInt, file: StaticString) -> H.O?
-  where
-  H: BLNHatchable {
+func evaluate<S>(_ spec: S, line: UInt, file: StaticString) -> S.O? where S: RunnableSpec {
   do {
-    return try hatchable.breed()
+    return try spec.evaluate()
   } catch let error {
     XCTAssert(false, "\(error)", file: file, line: line)
   }
@@ -40,66 +38,65 @@ func examine<H>(_ hatchable: H, line: UInt, file: StaticString) -> H.O?
 // MARK: - Input first?
 // --------------------------------------------------------------------------------
 
-/// Expect takes a BLNEgg and checks for error
+/// Expect takes a specRun and checks for error
 ///
 ///     expect(12 | doubleTuple => (12, 24))
 ///
-/// - parameter run: BLNEgg
+/// - parameter run: specRun
 /// - returns: Void
 @discardableResult
-public func expect<H>(_ hatchable: H, line: UInt = #line, file: StaticString = #file)
-  -> BLNFreeRangeEgg<H.O>
-  where H: BLNHatchable {
-  return BLNFreeRangeEgg(input: examine(hatchable, line:line, file: file))
+public func expect<H>(_ spec: H, line: UInt = #line, file: StaticString = #file) -> CombinableSpecRun<H.O>
+  where H: RunnableSpec {
+  return CombinableSpecRun(input: evaluate(spec, line:line, file: file))
 }
 
-/// Expect takes a BLNEgg and checks for error
+/// Expect takes a specRun and checks for error
 ///
 ///     expect(when: 12, then: doubleTuple => (12, 24))
 ///
-/// - parameter run: BLNEgg
+/// - parameter run: specRun
 /// - returns: Void
 @discardableResult
 public func expect<B>(_ input: B.I,
-                      in breeder: B,
+                      in waitingForInput: B,
                       line: UInt = #line,
-                      file: StaticString = #file) -> BLNFreeRangeEgg<B.O>
-where B: BLNBreedableExpected {
-  let egg = input | breeder.breeding => breeder.expected
-  return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
+                      file: StaticString = #file) -> CombinableSpecRun<B.O>
+where B: HasRunAndExpected {
+  let specRun = input | waitingForInput.run => waitingForInput.expected
+  return CombinableSpecRun(input: evaluate(specRun, line:line, file: file))
 }
 
-/// Expect takes a BLNEgg and checks for error
+/// Expect takes a specRun and checks for error
 ///
 ///     expect(12, in:doubleTuple, is:(12, 24))
 ///
-/// - parameter run: BLNEgg
+/// - parameter run: specRun
 /// - returns: Void
 @discardableResult
 public func expect<I, E, O>(_ input: I,
-                            in breeding: @escaping BLNBreeding<I, E, O>,
+                            in breeding: @escaping Run<I, E, O>,
                             is expected: E,
                             line: UInt = #line,
-                            file: StaticString = #file) -> BLNFreeRangeEgg<O> {
-  let egg = input | breeding => expected
-  return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
+                            file: StaticString = #file) -> CombinableSpecRun<O> {
+  let specRun = input | breeding => expected
+  return CombinableSpecRun(input: evaluate(specRun, line:line, file: file))
 }
 
 // --------------------------------------------------------------------------------
 // MARK: - Breeding first?
 // --------------------------------------------------------------------------------
 
-/// Expect takes a BLNEgg and checks for error
+/// Expect takes a specRun and checks for error
 ///
 ///     expect(doubleTuple, at:12, is:(12, 24))
 ///
-/// - parameter run: BLNEgg
+/// - parameter run: specRun
 /// - returns: Void
-public func expect<I, E, O>(_ breeding: @escaping BLNBreeding<I, E, O>,
+public func expect<I, E, O>(_ breeding: @escaping Run<I, E, O>,
                             at input: I,
                             is expected: E,
                             line: UInt = #line,
-                            file: StaticString = #file) -> BLNFreeRangeEgg<O> {
-  let egg = input | breeding => expected
-  return BLNFreeRangeEgg(input: examine(egg, line:line, file: file))
+                            file: StaticString = #file) -> CombinableSpecRun<O> {
+  let specRun = input | breeding => expected
+  return CombinableSpecRun(input: evaluate(specRun, line:line, file: file))
 }

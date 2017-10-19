@@ -1,5 +1,5 @@
 //
-//  EggShell.swift
+//  specRunShell.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -27,15 +27,15 @@ import XCTest
 import Foundation
 
 // --------------------------------------------------------------------------------
-// MARK: - BLNEggShell
+// MARK: - Spec
 // --------------------------------------------------------------------------------
 
-/// BLNEggShell contains `expectation` and `expected`
-public struct BLNEggShell<E> {
+/// Spec contains `expectation` and `expected`
+public struct Spec<E> {
   let expectation: String
   let expected: E?
 
-  func shellCracked<V>(by value: V?, insteadOf: V? = nil) -> BLNShellCrackError {
+  func shellCracked<V>(by value: V?, insteadOf: V? = nil) -> SpecError {
     let valueString = value != nil ? String(describing: value!) : "nil"
     let expectedString: String
     if let instead = insteadOf {
@@ -44,7 +44,7 @@ public struct BLNEggShell<E> {
       expectedString = expected != nil ? String(describing: expected!) : "nil"
     }
     let message = "\(expectation) \nExpected: \(valueString) \nResult: \(expectedString)"
-    return BLNShellCrackError(message: message)
+    return SpecError(message: message)
   }
 }
 
@@ -52,8 +52,8 @@ public struct BLNEggShell<E> {
 // MARK: - ShellCrackError
 // --------------------------------------------------------------------------------
 
-/// BLNShellCrackError
-struct BLNShellCrackError: Error, CustomStringConvertible {
+/// ShellCrackError
+struct SpecError: Error, CustomStringConvertible {
   let message: String
 
   var description: String {
@@ -66,51 +66,48 @@ public prefix func ...| <T>(_ t: @escaping @autoclosure () -> T) -> () -> T {
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - BLNEggShell => Operators
+// MARK: - Spec => Operators
 // --------------------------------------------------------------------------------
 
-public func => <E>(spec: String, expected: E?) -> BLNEggShell<E>
+public func => <E>(spec: String, expected: E?) -> Spec<E>
   where E: Equatable {
-    return BLNEggShell(expectation: spec, expected: expected)
+    return Spec(expectation: spec, expected: expected)
 }
 
-public func => <E>(spec: String, expected: E) -> BLNEggShell<E>
+public func => <E>(spec: String, expected: E) -> Spec<E>
   where E: Equatable {
-    return BLNEggShell(expectation: spec, expected: expected)
+    return Spec(expectation: spec, expected: expected)
 }
 
-public func => <E>(spec: String, expected: @escaping () -> E?) -> BLNEggShell<() -> E?>
+public func => <E>(spec: String, expected: @escaping () -> E?) -> Spec<() -> E?>
   where E: Equatable {
-    return BLNEggShell(expectation: spec, expected: expected)
+    return Spec(expectation: spec, expected: expected)
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - BLNEggShell == Operators
+// MARK: - Spec == Operators
 // --------------------------------------------------------------------------------
 
-/// Lifts expected S? into the `BLNEggShell` for a `==`.
-/// - parameter param: lhs BLNEggShell<S>
+/// Lifts expected S? into the `Spec` for a `==`.
+/// - parameter param: lhs Spec<S>
 /// - parameter param: lhs S?
-/// - throws: BLNShellCrackError
-public func == <E>(lhs: BLNEggShell<E>, rhs: E?) throws
+/// - throws: ShellCrackError
+public func == <E>(lhs: Spec<E>, rhs: E?) throws
   where E: Equatable {
-  guard lhs.expected != nil && rhs != nil else { return }
   guard lhs.expected == rhs else {
     throw lhs.shellCracked(by: rhs)
   }
 }
 
-public func == <E>(lhs: BLNEggShell<E>, rhs: E) throws
+public func == <E>(lhs: Spec<E>, rhs: E) throws
   where E: Equatable {
-  guard lhs.expected != nil else { return }
   guard lhs.expected == rhs else {
     throw lhs.shellCracked(by: rhs)
   }
 }
 
-public func == <E>(lhs: BLNEggShell<() -> E?>, rhs: E?) throws
+public func == <E>(lhs: Spec<() -> E?>, rhs: E?) throws
   where E: Equatable {
-    guard lhs.expected != nil && rhs != nil else { return }
     guard wait(for: 1, { lhs.expected?() == rhs }) else {
       throw lhs.shellCracked(by: rhs, insteadOf: lhs.expected?())
     }
@@ -143,39 +140,38 @@ func wait(for duration: TimeInterval, _ condition: @escaping () -> Bool) -> Bool
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - BLNEggShell != Operators
+// MARK: - Spec != Operators
 // --------------------------------------------------------------------------------
 
-/// Lifts expected S? into the `BLNEggShell` for a `!=`.
-/// - parameter param: lhs BLNEggShell<S>
+/// Lifts expected S? into the `Spec` for a `!=`.
+/// - parameter param: lhs Spec<S>
 /// - parameter param: lhs S?
-/// - throws: BLNShellCrackError
-public func != <E>(lhs: BLNEggShell<E>, rhs: E?) throws
+/// - throws: ShellCrackError
+public func != <E>(lhs: Spec<E>, rhs: E?) throws
   where E: Equatable {
-    guard lhs.expected != nil && rhs != nil else {
-      //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
-      return
-    }
     guard lhs.expected != rhs else {
       throw lhs.shellCracked(by: rhs)
     }
 }
 
-public func != <E>(lhs: BLNEggShell<E>, rhs: E) throws
+public func != <E>(lhs: Spec<E>, rhs: E) throws
   where E: Equatable {
-    guard lhs.expected != nil else {
-      //throw yell(lhs.lookingAt, "got", lhs.subject, "but expected", rhs)
-      return
-    }
     guard lhs.expected != rhs else {
       throw lhs.shellCracked(by: rhs)
     }
 }
 
-public func != <E>(lhs: BLNEggShell<() -> E?>, rhs: E?) throws
+public func != <E>(lhs: Spec<() -> E?>, rhs: E?) throws
   where E: Equatable {
-    guard lhs.expected != nil && rhs != nil else { return }
     guard await({ lhs.expected?() != rhs }) else {
       throw lhs.shellCracked(by: rhs, insteadOf: lhs.expected?())
     }
+}
+
+public func a(_ s: String, _ f: String = #file, _ l: UInt = #line) -> String {
+  let path = NSURL(fileURLWithPath: f).filePathURL!
+  let c = try? String(contentsOf: path, encoding: .utf8)
+  let lines = c?.components(separatedBy: "\n")
+  let s2 = lines?[Int(l)].trimmingCharacters(in: CharacterSet(charactersIn: " ")) ?? ""
+  return s + ":\n" + s2
 }

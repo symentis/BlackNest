@@ -116,13 +116,13 @@ expect(012 | doubleTuple => (12, 24)).then(tupleSum => 36)
 /// Maybe table based is even better for your eyes?
 expect(
    4 |  doubleTuple => (04, 08)
-     |> tupleSum    => (12)
-     |> doubleTuple => (12, 24)
-     |> tupleSum    => (36)
+     |~ tupleSum    => (12)
+     |~ doubleTuple => (12, 24)
+     |~ tupleSum    => (36)
  )
 
 /// HIGHLY EXPERIMENTAL
-/// ~ the egg operator ~
+/// ~ the specRun operator ~
 /// You took the red pill, and all you see is tests, tests, test.
 expect(4,
   in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum,
@@ -208,7 +208,7 @@ More examples to come.
 
 Named after [Black-nest Swiftlet](https://en.wikipedia.org/wiki/Black-nest_swiftlet).
 
-> All we want to do in tests is taking care of the precious eggs.
+> All we want to do in tests is taking care of the precious specRuns.
 > None should get a crack. That's it - taking care of your code.
 
 ## Why Custom Operators?
@@ -223,7 +223,7 @@ How we call them? Just like their named argument counterpart.
 
 `=>` is called _is_
 
- `|>` is called _then_
+ `&` is called _then_
 
 
 ## Credits
