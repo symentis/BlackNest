@@ -111,12 +111,12 @@ public func == <E>(lhs: BLNEggShell<E>, rhs: E) throws
 public func == <E>(lhs: BLNEggShell<() -> E?>, rhs: E?) throws
   where E: Equatable {
     guard lhs.expected != nil && rhs != nil else { return }
-    guard wait(for: 1.5, { lhs.expected?() == rhs }) else {
+    guard await({ lhs.expected?() == rhs }) else {
       throw lhs.shellCracked(by: rhs, insteadOf: lhs.expected?())
     }
 }
 
-func await(until: Date = Date().addingTimeInterval(1), _ condition:() -> Bool) -> Bool {
+func await(until: Date = Date().addingTimeInterval(2), _ condition:() -> Bool) -> Bool {
   while condition() == false || Date() < until {
     if condition() || Date() > until {
       break
