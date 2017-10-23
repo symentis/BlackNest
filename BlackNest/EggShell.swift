@@ -111,7 +111,7 @@ public func == <E>(lhs: BLNEggShell<E>, rhs: E) throws
 public func == <E>(lhs: BLNEggShell<() -> E?>, rhs: E?) throws
   where E: Equatable {
     guard lhs.expected != nil && rhs != nil else { return }
-    guard wait(for: 1, { lhs.expected?() == rhs }) else {
+    guard wait(for: 1.5, { lhs.expected?() == rhs }) else {
       throw lhs.shellCracked(by: rhs, insteadOf: lhs.expected?())
     }
 }
