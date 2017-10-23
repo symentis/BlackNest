@@ -35,14 +35,16 @@ public struct Spec<E> {
   let expectation: String
   let expected: E?
 
-  func shellCracked<V>(by value: V?, insteadOf: V? = nil) -> SpecError {
-    let valueString = value != nil ? String(describing: value!) : "nil"
-    let expectedString: String
-    if let instead = insteadOf {
-      expectedString = String(describing: instead)
-    } else {
-      expectedString = expected != nil ? String(describing: expected!) : "nil"
-    }
+  func shellCracked<V>(by value: V?, insteadOf: V?) -> SpecError {
+    let valueString = String(describing: value)
+    let expectedString = String(describing: insteadOf)
+    let message = "\(expectation) \nExpected: \(valueString) \nResult: \(expectedString)"
+    return SpecError(message: message)
+  }
+
+  func shellCracked<V>(by value: V?) -> SpecError {
+    let valueString = String(describing: value)
+    let expectedString = String(describing: value)
     let message = "\(expectation) \nExpected: \(valueString) \nResult: \(expectedString)"
     return SpecError(message: message)
   }
