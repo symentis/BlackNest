@@ -44,7 +44,7 @@ public struct Spec<E> {
 
   func shellCracked<V>(by value: V?) -> SpecError {
     let valueString = String(describing: value)
-    let expectedString = String(describing: value)
+    let expectedString = String(describing: expected)
     let message = "\(expectation) \nExpected: \(valueString) \nResult: \(expectedString)"
     return SpecError(message: message)
   }
