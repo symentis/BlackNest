@@ -110,7 +110,7 @@ public func == <E>(lhs: Spec<E>, rhs: E) throws
 
 public func == <E>(lhs: Spec<() -> E?>, rhs: E?) throws
   where E: Equatable {
-    guard await(for: 1, { lhs.expected?() == rhs }) else {
+    guard await(until: 1, { lhs.expected?() == rhs }) else {
       throw lhs.shellCracked(by: rhs, insteadOf: lhs.expected?())
     }
 }
