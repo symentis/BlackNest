@@ -115,7 +115,7 @@ public func == <E>(lhs: Spec<() -> E?>, rhs: E?) throws
     }
 }
 
-func await(until: Date = Date().addingTimeInterval(1), _ condition:() -> Bool) -> Bool {
+func await(until: Date = Date().addingTimeInterval(2), _ condition:() -> Bool) -> Bool {
   while condition() == false || Date() < until {
     if condition() || Date() > until {
       break
