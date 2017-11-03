@@ -27,6 +27,11 @@
 // MARK: - BlackNest Operators
 // --------------------------------------------------------------------------------
 
+precedencegroup ProofConfigPrecedence {
+  higherThan: ComparisonPrecedence, ProofCreatingPrecedence
+  lowerThan: AdditionPrecedence
+}
+
 /// In order to make `==` evaluate after `=>`
 /// we increase the Precedence of the `=>` operator
 precedencegroup ProofCreatingPrecedence {
@@ -47,6 +52,7 @@ precedencegroup CombinableWaitingPrecedence {
   associativity: right
 }
 
+infix operator += : ProofConfigPrecedence
 infix operator => : ProofCreatingPrecedence
 infix operator •  : CombinablePrecedence
 infix operator ◦  : CombinablePrecedence

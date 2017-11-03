@@ -68,19 +68,19 @@ public prefix func ...| <T>(_ t: @escaping @autoclosure () -> T) -> () -> T {
 // MARK: - Proof => Operators
 // --------------------------------------------------------------------------------
 
-public func => <P>(lhs: String, rhs: P?) -> Proof<P>
+public func => <P>(lhs: ProofConfig, rhs: P?) -> Proof<P>
   where P: Equatable {
-    return Proof(requirement: lhs, probe: rhs)
+    return Proof(requirement: lhs.requirement, probe: rhs)
 }
 
-public func => <P>(lhs: String, rhs: P) -> Proof<P>
+public func => <P>(lhs: ProofConfig, rhs: P) -> Proof<P>
   where P: Equatable {
-    return Proof(requirement: lhs, probe: rhs)
+    return Proof(requirement: lhs.requirement, probe: rhs)
 }
 
-public func => <P>(lhs: String, rhs: @escaping () -> P?) -> Proof<() -> P?>
+public func => <P>(lhs: ProofConfig, rhs: @escaping () -> P?) -> Proof<() -> P?>
   where P: Equatable {
-    return Proof(requirement: lhs, probe: rhs)
+    return Proof(requirement: lhs.requirement, probe: rhs)
 }
 
 // --------------------------------------------------------------------------------
@@ -171,10 +171,39 @@ func await(until: Date = Date().addingTimeInterval(2), _ condition:() -> Bool) -
 //  }
 //}
 
-public func a(_ s: String, _ f: String = #file, _ l: UInt = #line) -> String {
+public typealias That = ProofConfig
+public struct ProofConfig: ExpressibleByStringLiteral {
+  let requirement: String
+
+  public init(stringLiteral value: String) {
+    requirement = value
+  }
+
+  public init(_ value: String) {
+    requirement = value
+  }
+
+  public init(_ value: String, withinSeconds: Int) {
+    requirement = value
+  }
+
+  func within(s: Int) -> ProofConfig {
+    return self
+  }
+}
+
+public extension Int {
+
+  public func secondsFor(_ m: String) -> ProofConfig {
+    return ProofConfig(m)
+  }
+
+}
+
+public func a(_ s: String, _ f: String = #file, _ l: UInt = #line) -> ProofConfig {
   let path = NSURL(fileURLWithPath: f).filePathURL!
   let c = try? String(contentsOf: path, encoding: .utf8)
   let lines = c?.components(separatedBy: "\n")
   let s2 = lines?[Int(l)].trimmingCharacters(in: CharacterSet(charactersIn: " ")) ?? ""
-  return s + ":\n" + s2
+  return ProofConfig(s + ":\n" + s2)
 }

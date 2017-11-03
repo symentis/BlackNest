@@ -149,22 +149,22 @@ class BlackNestTests: XCTestCase {
       )
 
       // Assert:
-      try a("name is correct")
+      try That("name is correct", withinSeconds: 5)
         => subject.name == expect.name
 
-      try a("birdsSeen is correct")
+      try a("5 seconds: birdsSeen is correct")
         => subject.birdsSeen == expect.birdsSeen
 
-      try a("experience is correct")
+      try 5.secondsFor("experience is correct")
         => subject.experience == expect.experience
 
-      try a("display is built correctly")
+      try "display is built correctly"
         => ...|subject.display == expect.display
     }
 
     expect(("Burt", nil, 100) |  birdWatcher => ("Burt", nil, 100, "Burt"))
     expect(("Burt", 20, 100)  |  birdWatcher => ("Burt", 20, 100, "Burt - The Master."))
-    expect(("Burt", 20, 10)   |  birdWatcher => ("Burt", 20, 10, "Burt"))
+    expect(("Burt", 20, 10)   |  birdWatcher => ("Burt", 20, 11, "Burt"))
     expect(("Burt", 1, 0)     |  birdWatcher => ("Burt", 1, 0, "Burt - The Rookie."))
 
     expect(birdWatcher | ("Burt", nil, 100) => ("Burt", nil, 100, "Burt"))
