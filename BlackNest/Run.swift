@@ -29,27 +29,27 @@
 // In order to have clear naming we call the function that is called
 // with Input and Expected and return Output or throws: Breeding.
 // We were searching for something like TestRunner, or TestFunction or whatever.
-// But finally - this is BlackNest - so play the Nest/Egg Metaphor.
+// But finally - this is BlackNest - so play the Nest/specRun Metaphor.
 // =)
 // --------------------------------------------------------------------------------
 
-/// Typealias for a breeding function.
-/// Breeding is when we have:
+/// Typealias for a run function.
+/// Run is when we have:
 /// - input `I`
 /// - expected `E`
 /// - output `O`
 /// - throws Error
-public typealias BLNBreeding<I, E, O> = (I, E) throws -> O
+public typealias RunFunction<I, E, O> = (I, E) throws -> O
 
 // --------------------------------------------------------------------------------
-// MARK: - Breedable
+// MARK: - HasRun
 // --------------------------------------------------------------------------------
 
-/// This protocol wraps a `BLNBreeding`.
+/// This protocol wraps a `RunFunction`.
 /// It helps to work with operators and so forth.
 /// It's a formal protocol for a concrete Type
-/// wrapping away the breeding function.
-public protocol BLNBreedable {
+/// wrapping away the run function.
+public protocol HasRun {
   /// The Input Type
   /// Can be anything - Tuple, Optional, Whatever
   associatedtype I
@@ -59,22 +59,22 @@ public protocol BLNBreedable {
   /// The Output Type
   /// Can be anything - Tuple, Optional, Whatever
   associatedtype O
-  /// The Breeding function.
+  /// The run function.
   /// Can take Input, Expected and return Output or throws.
   /// Can be anything - Tuple, Optional, Whatever
-  var breeding: (I, E) throws -> O { get }
+  var run: RunFunction<I, E, O> { get }
 }
 
-/// Build on top of BLNBreedable.
-/// This protocol wraps a `Breeding` and expected `E`.
-/// It is waiting for an input `I` which can be provided by `breed(_:)`.
-public protocol BLNBreedableExpected: BLNBreedable {
+/// Build on top of HasRun.
+/// This protocol wraps a `RunFunction` and expected `E`.
+/// It is waiting for an input `I` which can be provided by `evaluate(_:)`.
+public protocol HasRunAndExpected: HasRun {
   var expected: E { get }
-  func breed(_ input: I) throws -> O
+  func evaluate(_ input: I) throws -> O
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - Breedable Types
+// MARK: - Run Types
 //
 // These types are intermediate types.
 // Waiting for Input, Expected, or both.
@@ -82,62 +82,73 @@ public protocol BLNBreedableExpected: BLNBreedable {
 // They conform to the protocols defined above.
 // --------------------------------------------------------------------------------
 
-/// Just a `BLNBreeding` function as a Type.
-public struct BLNBreeder<I, E, O>: BLNBreedable {
-  public let breeding: BLNBreeding<I, E, O>
+/// Just a `RunFunction` function as a Type.
+public struct Run<I, E, O>: HasRun {
+  public let run: RunFunction<I, E, O>
 }
 
-/// A `BLNBreeding` function and a input `I`.
-public struct BLNWaitingForExpected<I, E, O>: BLNBreedable {
-  public let breeding: BLNBreeding<I, E, O>
+/// A `RunFunction` function and a input `I`.
+public struct RunWithInput<I, E, O>: HasRun {
+  public let run: RunFunction<I, E, O>
   let input: I
 }
 
-/// A `BLNBreeding` function and a expected `E`.
-public struct BLNWaitingForInput<I, E, O>: BLNBreedableExpected {
-  public let breeding: BLNBreeding<I, E, O>
+/// A `RunFunction` function and a expected `E`.
+public struct RunWithExpected<I, E, O>: HasRunAndExpected {
+  public let run: RunFunction<I, E, O>
   public let expected: E
 
-  /// - parameter input: `I` will be passed in and breeding starts.
-  public func breed(_ input: I) throws -> O {
-    return try breeding(input, expected)
+  /// - parameter input: `I` will be passed in and run starts.
+  public func evaluate(_ input: I) throws -> O {
+    return try run(input, expected)
   }
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - BLNBreeding Operators
+// MARK: - Run Operators
 // --------------------------------------------------------------------------------
 
-/// Lifts Input `I` and related BLNBreeding into BLNWaitingForExpected.
+/// Lifts Input `I` and related RunFunction into RunWithInput.
 /// The return Type waits for Expected `E`.
 ///
 ///      // `100 | doubleTuple`
 ///      expect(100 | doubleTuple => (100, 200))
 ///
 ///
-public func | <I, E, O>(lhs: I, rhs: @escaping BLNBreeding<I, E, O>) -> BLNWaitingForExpected<I, E, O> {
-  return BLNWaitingForExpected(breeding: rhs, input: lhs)
+public func | <I, E, O>(lhs: I, rhs: @escaping RunFunction<I, E, O>) -> RunWithInput<I, E, O> {
+  return RunWithInput(run: rhs, input: lhs)
 }
 
-/// Lifts BLNBreeding and related Expected `E` into BLNWaitingForInput.
+/// Lifts Input `I` and related RunFunction into RunWithInput.
+/// The return Type waits for Expected `E`.
+///
+///      // `100 | doubleTuple`
+///      expect(doubleTuple | 100 => (100, 200))
+///
+///
+public func | <I, E, O>(lhs: @escaping RunFunction<I, E, O>, rhs: I) -> RunWithInput<I, E, O> {
+  return RunWithInput(run: lhs, input: rhs)
+}
+
+/// Lifts RunFunction and related Expected `E` into RunWithExpected.
 /// The return Type waits for Input `I`.
 ///
 ///      // `doubleTuple => (100, 200)`
 ///      expect(100, in: doubleTuple => (100, 200))
 ///
 ///
-public func => <I, E, O>(lhs: @escaping BLNBreeding<I, E, O>, rhs: E) -> BLNWaitingForInput<I, E, O> {
-  return BLNWaitingForInput(breeding: lhs, expected: rhs)
+public func => <I, E, O>(lhs: @escaping RunFunction<I, E, O>, rhs: E) -> RunWithExpected<I, E, O> {
+  return RunWithExpected(run: lhs, expected: rhs)
 }
 
-/// Lifts BLNWaitingForExpected and related Expected `E` into BLNEgg.
-/// The return Type is ready for breed.
+/// Lifts RunWithInput and related Expected `E` into Spec.
+/// The return Type is ready for evaluate.
 ///
 ///      // `100 | doubleTuple` will be evaluated first.
 ///      // then `=> (100, 200)` is called
 ///      expect(100 | doubleTuple => (100, 200))
 ///
 ///
-public func => <I, E, O>(lhs: BLNWaitingForExpected<I, E, O>, rhs: E) -> BLNEgg<I, E, O> {
-  return BLNEgg(breeding: lhs.breeding, input: lhs.input, expected: rhs)
+public func => <I, E, O>(lhs: RunWithInput<I, E, O>, rhs: E) -> Spec<I, E, O> {
+  return Spec(run: lhs.run, input: lhs.input, expected: rhs)
 }

@@ -45,10 +45,10 @@ class BlackNestTests: XCTestCase {
 
   func testPlain() {
 
-    expect(004, in:doubleTuple, is:(04, 08))
-    expect(008, in:doubleTuple, is:(08, 16))
-    expect(012, in:doubleTuple, is:(12, 24))
-    expect(100, in:doubleTuple, is:(100, 200))
+    expect(004, in: doubleTuple, is: (04, 08))
+    expect(008, in: doubleTuple, is: (08, 16))
+    expect(012, in: doubleTuple, is: (12, 24))
+    expect(100, in: doubleTuple, is: (100, 200))
 
     expect(004, in: doubleTuple => (04, 08))
     expect(008, in: doubleTuple => (08, 16))
@@ -60,30 +60,23 @@ class BlackNestTests: XCTestCase {
     expect(012 | doubleTuple => (12, 24))
     expect(100 | doubleTuple => (100, 200))
 
-    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).breed()) { e in
-        guard nil != e as? BLNShellCrackError else {
-          return XCTFail("BLNShellCrackError not coming")
+    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).evaluate()) { e in
+        guard nil != e as? ProofError else {
+          return XCTFail("ShellCrackError not coming")
         }
     }
   }
 
   func testChain() {
 
-    expect(4, in:doubleTuple, is:(04, 08))
-      .then(tupleSum, is:12)
-    expect(8, in:doubleTuple, is:(08, 16))
-      .then(tupleSum, is:24)
-    expect(12, in:doubleTuple, is:(12, 24))
-      .then(tupleSum, is:36)
+    expect(4, in: doubleTuple, is: (04, 08)).then(tupleSum, is: 12)
+    expect(8, in: doubleTuple, is: (08, 16)).then(tupleSum, is: 24)
+    expect(12, in: doubleTuple, is: (12, 24)).then(tupleSum, is: 36)
 
-    expect(004 | doubleTuple => (04, 08))
-              .then(tupleSum => 12)
-    expect(008 | doubleTuple => (08, 16))
-              .then(tupleSum => 24)
-    expect(012 | doubleTuple => (12, 24))
-              .then(tupleSum => 36)
-    expect(100 | doubleTuple => (100, 200))
-              .then(tupleSum => 300)
+    expect(004 | doubleTuple => (04, 08)).then(tupleSum => 12)
+    expect(008 | doubleTuple => (08, 16)).then(tupleSum => 24)
+    expect(012 | doubleTuple => (12, 24)).then(tupleSum => 36)
+    expect(100 | doubleTuple => (100, 200)).then(tupleSum => 300)
 
     expect(4,
            in: doubleTuple ◦ tupleSum,
@@ -97,19 +90,19 @@ class BlackNestTests: XCTestCase {
 
     expect(
       4 |  doubleTuple => (04, 08)
-        |> tupleSum    => (12)
+        |~ tupleSum    => (12)
     )
 
     expect(
       4 |  doubleTuple => (04, 08)
-        |> tupleSum    => (12)
-        |> doubleTuple => (12, 24)
-        |> tupleSum    => (36)
+        |~ tupleSum    => (12)
+        |~ doubleTuple => (12, 24)
+        |~ tupleSum    => (36)
     )
 
-    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).breed()) { e in
-      guard nil != e as? BLNShellCrackError else {
-        return XCTFail("BLNShellCrackError not coming")
+    XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).evaluate()) { e in
+      guard nil != e as? ProofError else {
+        return XCTFail("ShellCrackError not coming")
       }
     }
   }
@@ -156,16 +149,16 @@ class BlackNestTests: XCTestCase {
       )
 
       // Assert:
-      try "name is correct"
+      try a("name is correct")
         => subject.name == expect.name
 
-      try "birdsSeen is correct"
+      try a("birdsSeen is correct")
         => subject.birdsSeen == expect.birdsSeen
 
-      try "experience is correct"
+      try a("experience is correct")
         => subject.experience == expect.experience
 
-      try "display is built correctly"
+      try a("display is built correctly")
         => ...|subject.display == expect.display
     }
 
@@ -173,6 +166,11 @@ class BlackNestTests: XCTestCase {
     expect(("Burt", 20, 100)  |  birdWatcher => ("Burt", 20, 100, "Burt - The Master."))
     expect(("Burt", 20, 10)   |  birdWatcher => ("Burt", 20, 10, "Burt"))
     expect(("Burt", 1, 0)     |  birdWatcher => ("Burt", 1, 0, "Burt - The Rookie."))
+
+    expect(birdWatcher | ("Burt", nil, 100) => ("Burt", nil, 100, "Burt"))
+    expect(birdWatcher | ("Burt", 20, 100)  => ("Burt", 20, 100, "Burt - The Master."))
+    expect(birdWatcher | ("Burt", 20, 10)   => ("Burt", 20, 10, "Burt"))
+    expect(birdWatcher | ("Burt", 1, 0)     => ("Burt", 1, 0, "Burt - The Rookie."))
   }
 
 }

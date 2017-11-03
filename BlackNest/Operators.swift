@@ -1,5 +1,5 @@
 //
-//  EggOperators.swift
+//  specRunOperators.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -29,27 +29,27 @@
 
 /// In order to make `==` evaluate after `=>`
 /// we increase the Precedence of the `=>` operator
-precedencegroup BLNEggShellCreatingPrecedence {
-  higherThan: ComparisonPrecedence, BLNCombinableWaitingPrecedence
+precedencegroup ProofCreatingPrecedence {
+  higherThan: ComparisonPrecedence, CombinableWaitingPrecedence
   lowerThan: AdditionPrecedence
 }
 
 /// In order to make `•` and `•´ evaluate after `=>`
 /// we decrease the Precedence of those operators.
 /// Associativity is right, as we build up the recursive type.
-precedencegroup BLNCombinablePrecedence {
-  higherThan: BLNEggShellCreatingPrecedence
+precedencegroup CombinablePrecedence {
+  higherThan: ProofCreatingPrecedence
   associativity: right
 }
 
 /// Associativity is right, as we build up the recursive type.
-precedencegroup BLNCombinableWaitingPrecedence {
+precedencegroup CombinableWaitingPrecedence {
   associativity: right
 }
 
-infix operator => : BLNEggShellCreatingPrecedence
-infix operator •  : BLNCombinablePrecedence
-infix operator ◦  : BLNCombinablePrecedence
-infix operator |> : BLNCombinableWaitingPrecedence
+infix operator => : ProofCreatingPrecedence
+infix operator •  : CombinablePrecedence
+infix operator ◦  : CombinablePrecedence
+infix operator |~ : CombinableWaitingPrecedence
 
 prefix operator ...|

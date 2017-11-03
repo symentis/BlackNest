@@ -1,5 +1,5 @@
 //
-//  Egg.swift
+//  specRun.swift
 //  BlackNest
 //
 //  Created by Elmar Kretzer on 22.08.16.
@@ -24,62 +24,61 @@
 // THE SOFTWARE.
 
 // --------------------------------------------------------------------------------
-// MARK: - Hatchable
+// MARK: - EvaluatableSpec
 // --------------------------------------------------------------------------------
 
-/// Build on top of BLNBreedable.
-/// This protocol wraps `BLNBreeding`, `input` and `expected`.
-/// Breeding starts by calling `breed`
-public protocol BLNHatchable: BLNBreedable {
+/// Build on top of HasRun.
+/// This protocol wraps `run`, `input` and `expected`.
+/// Run starts by calling `evaluate`
+public protocol EvaluatableSpec: HasRun {
   var input: I { get }
   var expected: E { get }
-  func breed() throws -> O
+  func evaluate() throws -> O
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - Egg a.k.a Hatchable
+// MARK: - Spec
 //
-// This has everything. The input, the expected, the breeding.
-// We can start to breed!
+// This has everything. The input, the expected, the run.
+// We can start to run!
 // --------------------------------------------------------------------------------
 
-/// Egg
-/// A egg has all: input, expected and breeding.
-/// Let's hope it does not get a crack.
-public struct BLNEgg<I, E, O>: BLNHatchable {
-  public let breeding: BLNBreeding<I, E, O>
+/// Spec
+/// A Spec has all: input, expected and run.
+public struct Spec<I, E, O>: EvaluatableSpec {
+  public let run: RunFunction<I, E, O>
   public let input: I
   public let expected: E
 
-  public func breed() throws -> O {
-    return try breeding(input, expected)
+  public func evaluate() throws -> O {
+    return try run(input, expected)
   }
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - FreeRangeEgg which moves on
+// MARK: - SpecCombinator which moves on
 // --------------------------------------------------------------------------------
 
-/// It's called FreeRangeEgg because why not.
+/// It's called SpecCombinator because why not.
 /// This is a Type for using the method `then` in order to combine tests.
-/// So the egg is moving... kinda. you know?
-public struct BLNFreeRangeEgg<I> {
+public struct SpecCombinator<I> {
+
   let input: I?
 
   @discardableResult
-  public func then<E, O>(_ breeding: @escaping BLNBreeding<I, E, O>,
+  public func then<E, O>(_ breeding: @escaping RunFunction<I, E, O>,
                          is expected: E,
                          line: UInt = #line,
-                         file: StaticString = #file) -> BLNFreeRangeEgg<O> {
-    guard let input = input else { return BLNFreeRangeEgg<O>(input: nil) }
+                         file: StaticString = #file) -> SpecCombinator<O> {
+    guard let input = input else { return SpecCombinator<O>(input: nil) }
     return expect(input, in: breeding => expected, line: line, file: file)
   }
 
   @discardableResult
-  public func then<E, O>(_ breeder: BLNWaitingForInput<I, E, O>,
+  public func then<E, O>(_ waitingForInput: RunWithExpected<I, E, O>,
                          line: UInt = #line,
-                         file: StaticString = #file) -> BLNFreeRangeEgg<O> {
-    guard let input = input else { return BLNFreeRangeEgg<O>(input: nil) }
-    return expect(input, in: breeder.breeding => breeder.expected, line: line, file: file)
+                         file: StaticString = #file) -> SpecCombinator<O> {
+    guard let input = input else { return SpecCombinator<O>(input: nil) }
+    return expect(input, in: waitingForInput.run => waitingForInput.expected, line: line, file: file)
   }
 }

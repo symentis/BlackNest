@@ -19,17 +19,17 @@ public func expect<I, B, E>(_ input: I,
                             line: UInt = #line,
                             file: StaticString = #file) -> B.R.O?
   where
-  E: BLNCombinable,
-  B: BLNCombinable,
-  B.L: BLNBreedable,
-  B.R: BLNBreedable,
+  E: IsPair,
+  B: IsPair,
+  B.L: HasRun,
+  B.R: HasRun,
   B.L.I == I,
   B.L.E == E.L,
   B.R.I == B.L.O,
   B.R.E == E.R {
     do {
-      let m1 = try breeding.left.breeding(input, expected.left)
-      let m2 = try breeding.right.breeding(m1, expected.right)
+      let m1 = try breeding.left.run(input, expected.left)
+      let m2 = try breeding.right.run(m1, expected.right)
       return m2
     } catch let error {
       XCTAssert(false, "\(error)", file: file, line: line)
@@ -42,13 +42,13 @@ public func expect<T>(_ tree: T,
                       line: UInt = #line,
                       file: StaticString = #file) -> T.R.O?
   where
-  T: BLNCombinable,
-  T.L: BLNHatchable,
-  T.R: BLNBreedableExpected,
+  T: IsPair,
+  T.L: EvaluatableSpec,
+  T.R: HasRunAndExpected,
   T.L.O == T.R.I {
     do {
-      let m1 = try tree.left.breed()
-      let m2 = try tree.right.breeding(m1, tree.right.expected)
+      let m1 = try tree.left.evaluate()
+      let m2 = try tree.right.run(m1, tree.right.expected)
       return m2
     } catch let error {
       XCTAssert(false, "\(error)", file: file, line: line)
@@ -67,13 +67,13 @@ public func expect<I, B, E>(_ input: I,
                             line: UInt = #line,
                             file: StaticString = #file) -> B.R.R.O?
   where
-  E: BLNCombinable,
-  B: BLNCombinable,
-  E.R: BLNCombinable,
-  B.R: BLNCombinable,
-  B.L: BLNBreedable,
-  B.R.L: BLNBreedable,
-  B.R.R: BLNBreedable,
+  E: IsPair,
+  B: IsPair,
+  E.R: IsPair,
+  B.R: IsPair,
+  B.L: HasRun,
+  B.R.L: HasRun,
+  B.R.R: HasRun,
   B.L.I == I,
   B.L.E == E.L,
   B.R.L.I == B.L.O,
@@ -81,9 +81,9 @@ public func expect<I, B, E>(_ input: I,
   B.R.R.I == B.R.L.O,
   B.R.R.E == E.R.R {
   do {
-    let m1 = try breeding.left.breeding(input, expected.left)
-    let m2 = try breeding.right.left.breeding(m1, expected.right.left)
-    let m3 = try breeding.right.right.breeding(m2, expected.right.right)
+    let m1 = try breeding.left.run(input, expected.left)
+    let m2 = try breeding.right.left.run(m1, expected.right.left)
+    let m3 = try breeding.right.right.run(m2, expected.right.right)
     return m3
   } catch let error {
     XCTAssert(false, "\(error)", file: file, line: line)
@@ -96,17 +96,17 @@ public func expect<T>(_ tree: T,
                       line: UInt = #line,
                       file: StaticString = #file) -> T.R.R.O?
   where
-  T: BLNCombinable,
-  T.R: BLNCombinable,
-  T.L: BLNHatchable,
-  T.R.L: BLNBreedableExpected,
-  T.R.R: BLNBreedableExpected,
+  T: IsPair,
+  T.R: IsPair,
+  T.L: EvaluatableSpec,
+  T.R.L: HasRunAndExpected,
+  T.R.R: HasRunAndExpected,
   T.L.O == T.R.L.I,
   T.R.L.O == T.R.R.I {
     do {
-      let m1 = try tree.left.breed()
-      let m2 = try tree.right.left.breed(m1)
-      let m3 = try tree.right.right.breed(m2)
+      let m1 = try tree.left.evaluate()
+      let m2 = try tree.right.left.evaluate(m1)
+      let m3 = try tree.right.right.evaluate(m2)
       return m3
     } catch let error {
       XCTAssert(false, "\(error)", file: file, line: line)
@@ -125,16 +125,16 @@ public func expect<I, B, E>(_ input: I,
                             line: UInt = #line,
                             file: StaticString = #file) -> B.R.R.R.O?
   where
-  E: BLNCombinable,
-  B: BLNCombinable,
-  E.R: BLNCombinable,
-  E.R.R: BLNCombinable,
-  B.R: BLNCombinable,
-  B.R.R: BLNCombinable,
-  B.L: BLNBreedable,
-  B.R.L: BLNBreedable,
-  B.R.R.L: BLNBreedable,
-  B.R.R.R: BLNBreedable,
+  E: IsPair,
+  B: IsPair,
+  E.R: IsPair,
+  E.R.R: IsPair,
+  B.R: IsPair,
+  B.R.R: IsPair,
+  B.L: HasRun,
+  B.R.L: HasRun,
+  B.R.R.L: HasRun,
+  B.R.R.R: HasRun,
   B.L.I == I,
   B.L.E == E.L,
   B.R.L.I == B.L.O,
@@ -144,10 +144,10 @@ public func expect<I, B, E>(_ input: I,
   B.R.R.R.I == B.R.R.L.O,
   B.R.R.R.E == E.R.R.R {
     do {
-      let m1 = try breeding.left.breeding(input, expected.left)
-      let m2 = try breeding.right.left.breeding(m1, expected.right.left)
-      let m3 = try breeding.right.right.left.breeding(m2, expected.right.right.left)
-      let m4 = try breeding.right.right.right.breeding(m3, expected.right.right.right)
+      let m1 = try breeding.left.run(input, expected.left)
+      let m2 = try breeding.right.left.run(m1, expected.right.left)
+      let m3 = try breeding.right.right.left.run(m2, expected.right.right.left)
+      let m4 = try breeding.right.right.right.run(m3, expected.right.right.right)
       return m4
     } catch let error {
       XCTAssert(false, "\(error)", file: file, line: line)
@@ -160,21 +160,21 @@ public func expect<T>(_ tree: T,
                       line: UInt = #line,
                       file: StaticString = #file) -> T.R.R.R.O?
   where
-  T: BLNCombinable,
-  T.L: BLNHatchable,
-  T.R: BLNCombinable,
-  T.R.R: BLNCombinable,
-  T.R.L: BLNBreedableExpected,
-  T.R.R.L: BLNBreedableExpected,
-  T.R.R.R: BLNBreedableExpected,
+  T: IsPair,
+  T.L: EvaluatableSpec,
+  T.R: IsPair,
+  T.R.R: IsPair,
+  T.R.L: HasRunAndExpected,
+  T.R.R.L: HasRunAndExpected,
+  T.R.R.R: HasRunAndExpected,
   T.L.O == T.R.L.I,
   T.R.L.O == T.R.R.L.I,
   T.R.R.L.O == T.R.R.R.I {
     do {
-      let m1 = try tree.left.breed()
-      let m2 = try tree.right.left.breed(m1)
-      let m3 = try tree.right.right.left.breed(m2)
-      let m4 = try tree.right.right.right.breed(m3)
+      let m1 = try tree.left.evaluate()
+      let m2 = try tree.right.left.evaluate(m1)
+      let m3 = try tree.right.right.left.evaluate(m2)
+      let m4 = try tree.right.right.right.evaluate(m3)
       return m4
     } catch let error {
       XCTAssert(false, "\(error)", file: file, line: line)
@@ -193,19 +193,19 @@ public func expect<I, B, E>(_ input: I,
                             line: UInt = #line,
                             file: StaticString = #file) -> B.R.R.R.R.O?
   where
-  E: BLNCombinable,
-  B: BLNCombinable,
-  E.R: BLNCombinable,
-  E.R.R: BLNCombinable,
-  E.R.R.R: BLNCombinable,
-  B.R: BLNCombinable,
-  B.R.R: BLNCombinable,
-  B.R.R.R: BLNCombinable,
-  B.L: BLNBreedable,
-  B.R.L: BLNBreedable,
-  B.R.R.L: BLNBreedable,
-  B.R.R.R.L: BLNBreedable,
-  B.R.R.R.R: BLNBreedable,
+  E: IsPair,
+  B: IsPair,
+  E.R: IsPair,
+  E.R.R: IsPair,
+  E.R.R.R: IsPair,
+  B.R: IsPair,
+  B.R.R: IsPair,
+  B.R.R.R: IsPair,
+  B.L: HasRun,
+  B.R.L: HasRun,
+  B.R.R.L: HasRun,
+  B.R.R.R.L: HasRun,
+  B.R.R.R.R: HasRun,
   B.L.I == I,
   B.L.E == E.L,
   B.R.L.I == B.L.O,
@@ -217,11 +217,11 @@ public func expect<I, B, E>(_ input: I,
   B.R.R.R.R.I == B.R.R.R.L.O,
   B.R.R.R.R.E == E.R.R.R.R {
     do {
-      let m1 = try breeding.left.breeding(input, expected.left)
-      let m2 = try breeding.right.left.breeding(m1, expected.right.left)
-      let m3 = try breeding.right.right.left.breeding(m2, expected.right.right.left)
-      let m4 = try breeding.right.right.right.left.breeding(m3, expected.right.right.right.left)
-      let m5 = try breeding.right.right.right.right.breeding(m4, expected.right.right.right.right)
+      let m1 = try breeding.left.run(input, expected.left)
+      let m2 = try breeding.right.left.run(m1, expected.right.left)
+      let m3 = try breeding.right.right.left.run(m2, expected.right.right.left)
+      let m4 = try breeding.right.right.right.left.run(m3, expected.right.right.right.left)
+      let m5 = try breeding.right.right.right.right.run(m4, expected.right.right.right.right)
       return m5
     } catch let error {
       XCTAssert(false, "\(error)", file: file, line: line)
@@ -234,25 +234,25 @@ public func expect<T>(_ tree: T,
                       line: UInt = #line,
                       file: StaticString = #file) -> T.R.R.R.R.O?
   where
-  T: BLNCombinable,
-  T.L: BLNHatchable,
-  T.R: BLNCombinable,
-  T.R.R: BLNCombinable,
-  T.R.R.R: BLNCombinable,
-  T.R.L: BLNBreedableExpected,
-  T.R.R.L: BLNBreedableExpected,
-  T.R.R.R.L: BLNBreedableExpected,
-  T.R.R.R.R: BLNBreedableExpected,
+  T: IsPair,
+  T.L: EvaluatableSpec,
+  T.R: IsPair,
+  T.R.R: IsPair,
+  T.R.R.R: IsPair,
+  T.R.L: HasRunAndExpected,
+  T.R.R.L: HasRunAndExpected,
+  T.R.R.R.L: HasRunAndExpected,
+  T.R.R.R.R: HasRunAndExpected,
   T.L.O == T.R.L.I,
   T.R.L.O == T.R.R.L.I,
   T.R.R.L.O == T.R.R.R.L.I,
   T.R.R.R.L.O == T.R.R.R.R.I {
     do {
-      let m1 = try tree.left.breed()
-      let m2 = try tree.right.left.breed(m1)
-      let m3 = try tree.right.right.left.breed(m2)
-      let m4 = try tree.right.right.right.left.breed(m3)
-      let m5 = try tree.right.right.right.right.breed(m4)
+      let m1 = try tree.left.evaluate()
+      let m2 = try tree.right.left.evaluate(m1)
+      let m3 = try tree.right.right.left.evaluate(m2)
+      let m4 = try tree.right.right.right.left.evaluate(m3)
+      let m5 = try tree.right.right.right.right.evaluate(m4)
       return m5
     } catch let error {
       XCTAssert(false, "\(error)", file: file, line: line)

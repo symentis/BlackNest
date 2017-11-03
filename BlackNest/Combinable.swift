@@ -27,7 +27,7 @@
 // MARK: - Combinable
 // --------------------------------------------------------------------------------
 
-public protocol BLNCombinable {
+public protocol IsPair {
   associatedtype L
   associatedtype R
 
@@ -39,7 +39,7 @@ public protocol BLNCombinable {
 // MARK: - A couple of anything
 // --------------------------------------------------------------------------------
 
-public struct BLNCouple<A, B>: BLNCombinable {
+public struct Pair<A, B>: IsPair {
   public let left: A
   public let right: B
 }
@@ -48,40 +48,40 @@ public struct BLNCouple<A, B>: BLNCombinable {
 // MARK: - Combinators - multi line
 // --------------------------------------------------------------------------------
 
-public func |> <I, E, O, L, R>(lhs: BLNEgg<I, E, O>, rhs: BLNCouple<L, R>)
-  -> BLNCouple<BLNEgg<I, E, O>, BLNCouple<L, R>> {
-    return BLNCouple(left: lhs, right: rhs)
+public func |~ <I, E, O, L, R>(lhs: Spec<I, E, O>, rhs: Pair<L, R>)
+  -> Pair<Spec<I, E, O>, Pair<L, R>> {
+    return Pair(left: lhs, right: rhs)
 }
 
-public func |> <I, E, O, F, P>(lhs: BLNEgg<I, E, O>, rhs: BLNWaitingForInput<O, F, P>)
-  -> BLNCouple<BLNEgg<I, E, O>, BLNWaitingForInput<O, F, P>> {
-    return BLNCouple(left: lhs, right: rhs)
+public func |~ <I, E, O, F, P>(lhs: Spec<I, E, O>, rhs: RunWithExpected<O, F, P>)
+  -> Pair<Spec<I, E, O>, RunWithExpected<O, F, P>> {
+    return Pair(left: lhs, right: rhs)
 }
 
-public func |> <I, E, O, L, R>(lhs: BLNWaitingForInput<I, E, O>, rhs: BLNCouple<L, R>)
-  -> BLNCouple<BLNWaitingForInput<I, E, O>, BLNCouple<L, R>> {
-    return BLNCouple(left: lhs, right: rhs)
+public func |~ <I, E, O, L, R>(lhs: RunWithExpected<I, E, O>, rhs: Pair<L, R>)
+  -> Pair<RunWithExpected<I, E, O>, Pair<L, R>> {
+    return Pair(left: lhs, right: rhs)
 }
 
-public func |> <I, E, O, F, P>(lhs: BLNWaitingForInput<I, E, O>, rhs: BLNWaitingForInput<O, F, P>)
-  -> BLNCouple<BLNWaitingForInput<I, E, O>, BLNWaitingForInput<O, F, P>> {
-    return BLNCouple(left: lhs, right: rhs)
+public func |~ <I, E, O, F, P>(lhs: RunWithExpected<I, E, O>, rhs: RunWithExpected<O, F, P>)
+  -> Pair<RunWithExpected<I, E, O>, RunWithExpected<O, F, P>> {
+    return Pair(left: lhs, right: rhs)
 }
 
 // --------------------------------------------------------------------------------
 // MARK: - Combinators - inline
 // --------------------------------------------------------------------------------
 
-public func ◦ <I, E, O, F, P>(lhs: @escaping BLNBreeding<I, E, O>, rhs: @escaping BLNBreeding<O, F, P>)
-  -> BLNCouple<BLNBreeder<I, E, O>, BLNBreeder<O, F, P>> {
-    return BLNCouple(left: BLNBreeder(breeding: lhs), right: BLNBreeder(breeding: rhs))
+public func ◦ <I, E, O, F, P>(lhs: @escaping RunFunction<I, E, O>, rhs: @escaping RunFunction<O, F, P>)
+  -> Pair<Run<I, E, O>, Run<O, F, P>> {
+    return Pair(left: Run(run: lhs), right: Run(run: rhs))
 }
 
-public func ◦ <I, E, O, L, R>(lhs: @escaping BLNBreeding<I, E, O>, rhs: BLNCouple<L, R>)
-  -> BLNCouple<BLNBreeder<I, E, O>, BLNCouple<L, R>> {
-    return BLNCouple(left: BLNBreeder(breeding: lhs), right: rhs)
+public func ◦ <I, E, O, L, R>(lhs: @escaping RunFunction<I, E, O>, rhs: Pair<L, R>)
+  -> Pair<Run<I, E, O>, Pair<L, R>> {
+    return Pair(left: Run(run: lhs), right: rhs)
 }
 
-public func • <L, R>(lhs: L, rhs: R) -> BLNCouple<L, R> {
-  return BLNCouple(left: lhs, right: rhs)
+public func • <L, R>(lhs: L, rhs: R) -> Pair<L, R> {
+  return Pair(left: lhs, right: rhs)
 }
