@@ -45,10 +45,10 @@ class BlackNestTests: XCTestCase {
 
   func testPlain() {
 
-    expect(004, in:doubleTuple, is:(04, 08))
-    expect(008, in:doubleTuple, is:(08, 16))
-    expect(012, in:doubleTuple, is:(12, 24))
-    expect(100, in:doubleTuple, is:(100, 200))
+    expect(004, in: doubleTuple, is: (04, 08))
+    expect(008, in: doubleTuple, is: (08, 16))
+    expect(012, in: doubleTuple, is: (12, 24))
+    expect(100, in: doubleTuple, is: (100, 200))
 
     expect(004, in: doubleTuple => (04, 08))
     expect(008, in: doubleTuple => (08, 16))
@@ -61,7 +61,7 @@ class BlackNestTests: XCTestCase {
     expect(100 | doubleTuple => (100, 200))
 
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).evaluate()) { e in
-        guard nil != e as? SpecError else {
+        guard nil != e as? ProofError else {
           return XCTFail("ShellCrackError not coming")
         }
     }
@@ -69,9 +69,9 @@ class BlackNestTests: XCTestCase {
 
   func testChain() {
 
-    expect(4, in:doubleTuple, is:(04, 08)).then(tupleSum, is:12)
-    expect(8, in:doubleTuple, is:(08, 16)).then(tupleSum, is:24)
-    expect(12, in:doubleTuple, is:(12, 24)).then(tupleSum, is:36)
+    expect(4, in: doubleTuple, is: (04, 08)).then(tupleSum, is: 12)
+    expect(8, in: doubleTuple, is: (08, 16)).then(tupleSum, is: 24)
+    expect(12, in: doubleTuple, is: (12, 24)).then(tupleSum, is: 36)
 
     expect(004 | doubleTuple => (04, 08)).then(tupleSum => 12)
     expect(008 | doubleTuple => (08, 16)).then(tupleSum => 24)
@@ -101,7 +101,7 @@ class BlackNestTests: XCTestCase {
     )
 
     XCTAssertThrowsError(try (12 | doubleTuple => (13, 24)).evaluate()) { e in
-      guard nil != e as? SpecError else {
+      guard nil != e as? ProofError else {
         return XCTFail("ShellCrackError not coming")
       }
     }

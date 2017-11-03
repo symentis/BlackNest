@@ -43,7 +43,7 @@ public func expect<T>(_ tree: T,
                       file: StaticString = #file) -> T.R.O?
   where
   T: IsPair,
-  T.L: RunnableSpec,
+  T.L: EvaluatableSpec,
   T.R: HasRunAndExpected,
   T.L.O == T.R.I {
     do {
@@ -98,7 +98,7 @@ public func expect<T>(_ tree: T,
   where
   T: IsPair,
   T.R: IsPair,
-  T.L: RunnableSpec,
+  T.L: EvaluatableSpec,
   T.R.L: HasRunAndExpected,
   T.R.R: HasRunAndExpected,
   T.L.O == T.R.L.I,
@@ -161,7 +161,7 @@ public func expect<T>(_ tree: T,
                       file: StaticString = #file) -> T.R.R.R.O?
   where
   T: IsPair,
-  T.L: RunnableSpec,
+  T.L: EvaluatableSpec,
   T.R: IsPair,
   T.R.R: IsPair,
   T.R.L: HasRunAndExpected,
@@ -235,7 +235,7 @@ public func expect<T>(_ tree: T,
                       file: StaticString = #file) -> T.R.R.R.R.O?
   where
   T: IsPair,
-  T.L: RunnableSpec,
+  T.L: EvaluatableSpec,
   T.R: IsPair,
   T.R.R: IsPair,
   T.R.R.R: IsPair,

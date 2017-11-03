@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		9C22C9311D7764A600B02A16 /* Combinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C22C9301D7764A600B02A16 /* Combinable.swift */; };
-		9C22C9331D776A3900B02A16 /* Breeding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C22C9321D776A3900B02A16 /* Breeding.swift */; };
-		9CD2F56C1D70E67E00DFE0E7 /* XCAssertCombinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2F56B1D70E67E00DFE0E7 /* XCAssertCombinators.swift */; };
+		9C22C9331D776A3900B02A16 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C22C9321D776A3900B02A16 /* Run.swift */; };
+		9CD2F56C1D70E67E00DFE0E7 /* ExpectCombinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2F56B1D70E67E00DFE0E7 /* ExpectCombinators.swift */; };
 		9CEA0DD81D6B843C006B0158 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD71D6B843C006B0158 /* Operators.swift */; };
-		9CEA0DDA1D6B8507006B0158 /* EggShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD91D6B8507006B0158 /* EggShell.swift */; };
-		9CEA0DDC1D6B8533006B0158 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDB1D6B8533006B0158 /* Egg.swift */; };
-		9CEA0DDE1D6B8563006B0158 /* XCAssert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDD1D6B8563006B0158 /* XCAssert.swift */; };
+		9CEA0DDA1D6B8507006B0158 /* Proof.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DD91D6B8507006B0158 /* Proof.swift */; };
+		9CEA0DDC1D6B8533006B0158 /* Spec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDB1D6B8533006B0158 /* Spec.swift */; };
+		9CEA0DDE1D6B8563006B0158 /* Expect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA0DDD1D6B8563006B0158 /* Expect.swift */; };
 		9CEE03A11D6B81F0006B8079 /* BlackNest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEE03971D6B81F0006B8079 /* BlackNest.framework */; };
 		9CEE03A61D6B81F0006B8079 /* BlackNestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEE03A51D6B81F0006B8079 /* BlackNestTests.swift */; };
 /* End PBXBuildFile section */
@@ -30,13 +30,13 @@
 
 /* Begin PBXFileReference section */
 		9C22C9301D7764A600B02A16 /* Combinable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Combinable.swift; sourceTree = "<group>"; };
-		9C22C9321D776A3900B02A16 /* Breeding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Breeding.swift; sourceTree = "<group>"; };
-		9CD2F56B1D70E67E00DFE0E7 /* XCAssertCombinators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssertCombinators.swift; sourceTree = "<group>"; };
+		9C22C9321D776A3900B02A16 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
+		9CD2F56B1D70E67E00DFE0E7 /* ExpectCombinators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpectCombinators.swift; sourceTree = "<group>"; };
 		9CEA0DD51D6B8288006B0158 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9CEA0DD71D6B843C006B0158 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
-		9CEA0DD91D6B8507006B0158 /* EggShell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EggShell.swift; sourceTree = "<group>"; };
-		9CEA0DDB1D6B8533006B0158 /* Egg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Egg.swift; sourceTree = "<group>"; };
-		9CEA0DDD1D6B8563006B0158 /* XCAssert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssert.swift; sourceTree = "<group>"; };
+		9CEA0DD91D6B8507006B0158 /* Proof.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Proof.swift; sourceTree = "<group>"; };
+		9CEA0DDB1D6B8533006B0158 /* Spec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spec.swift; sourceTree = "<group>"; };
+		9CEA0DDD1D6B8563006B0158 /* Expect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expect.swift; sourceTree = "<group>"; };
 		9CEE03971D6B81F0006B8079 /* BlackNest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BlackNest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CEE039B1D6B81F0006B8079 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CEE03A01D6B81F0006B8079 /* BlackNestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackNestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,12 +97,12 @@
 			children = (
 				9CEE039B1D6B81F0006B8079 /* Info.plist */,
 				9CEA0DD71D6B843C006B0158 /* Operators.swift */,
-				9C22C9321D776A3900B02A16 /* Breeding.swift */,
-				9CEA0DDB1D6B8533006B0158 /* Egg.swift */,
+				9C22C9321D776A3900B02A16 /* Run.swift */,
+				9CEA0DDB1D6B8533006B0158 /* Spec.swift */,
 				9C22C9301D7764A600B02A16 /* Combinable.swift */,
-				9CEA0DD91D6B8507006B0158 /* EggShell.swift */,
-				9CEA0DDD1D6B8563006B0158 /* XCAssert.swift */,
-				9CD2F56B1D70E67E00DFE0E7 /* XCAssertCombinators.swift */,
+				9CEA0DD91D6B8507006B0158 /* Proof.swift */,
+				9CEA0DDD1D6B8563006B0158 /* Expect.swift */,
+				9CD2F56B1D70E67E00DFE0E7 /* ExpectCombinators.swift */,
 			);
 			path = BlackNest;
 			sourceTree = "<group>";
@@ -248,11 +248,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C22C9311D7764A600B02A16 /* Combinable.swift in Sources */,
-				9C22C9331D776A3900B02A16 /* Breeding.swift in Sources */,
-				9CEA0DDE1D6B8563006B0158 /* XCAssert.swift in Sources */,
-				9CEA0DDC1D6B8533006B0158 /* Egg.swift in Sources */,
-				9CD2F56C1D70E67E00DFE0E7 /* XCAssertCombinators.swift in Sources */,
-				9CEA0DDA1D6B8507006B0158 /* EggShell.swift in Sources */,
+				9C22C9331D776A3900B02A16 /* Run.swift in Sources */,
+				9CEA0DDE1D6B8563006B0158 /* Expect.swift in Sources */,
+				9CEA0DDC1D6B8533006B0158 /* Spec.swift in Sources */,
+				9CD2F56C1D70E67E00DFE0E7 /* ExpectCombinators.swift in Sources */,
+				9CEA0DDA1D6B8507006B0158 /* Proof.swift in Sources */,
 				9CEA0DD81D6B843C006B0158 /* Operators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

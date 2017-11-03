@@ -29,7 +29,7 @@
 
 /// In order to make `==` evaluate after `=>`
 /// we increase the Precedence of the `=>` operator
-precedencegroup SpecCreatingPrecedence {
+precedencegroup ProofCreatingPrecedence {
   higherThan: ComparisonPrecedence, CombinableWaitingPrecedence
   lowerThan: AdditionPrecedence
 }
@@ -38,7 +38,7 @@ precedencegroup SpecCreatingPrecedence {
 /// we decrease the Precedence of those operators.
 /// Associativity is right, as we build up the recursive type.
 precedencegroup CombinablePrecedence {
-  higherThan: SpecCreatingPrecedence
+  higherThan: ProofCreatingPrecedence
   associativity: right
 }
 
@@ -47,7 +47,7 @@ precedencegroup CombinableWaitingPrecedence {
   associativity: right
 }
 
-infix operator => : SpecCreatingPrecedence
+infix operator => : ProofCreatingPrecedence
 infix operator •  : CombinablePrecedence
 infix operator ◦  : CombinablePrecedence
 infix operator |~ : CombinableWaitingPrecedence

@@ -24,30 +24,29 @@
 // THE SOFTWARE.
 
 // --------------------------------------------------------------------------------
-// MARK: - spec
+// MARK: - EvaluatableSpec
 // --------------------------------------------------------------------------------
 
 /// Build on top of HasRun.
 /// This protocol wraps `run`, `input` and `expected`.
-/// Breeding starts by calling `breed`
-public protocol RunnableSpec: HasRun {
+/// Run starts by calling `evaluate`
+public protocol EvaluatableSpec: HasRun {
   var input: I { get }
   var expected: E { get }
   func evaluate() throws -> O
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - specRun a.k.a spec
+// MARK: - Spec
 //
-// This has everything. The input, the expected, the breeding.
-// We can start to breed!
+// This has everything. The input, the expected, the run.
+// We can start to run!
 // --------------------------------------------------------------------------------
 
-/// specRun
-/// A specRun has all: input, expected and breeding.
-/// Let's hope it does not get a crack.
-public struct SpecRun<I, E, O>: RunnableSpec {
-  public let run: Run<I, E, O>
+/// Spec
+/// A Spec has all: input, expected and run.
+public struct Spec<I, E, O>: EvaluatableSpec {
+  public let run: RunFunction<I, E, O>
   public let input: I
   public let expected: E
 
@@ -57,29 +56,29 @@ public struct SpecRun<I, E, O>: RunnableSpec {
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - FreeRangespecRun which moves on
+// MARK: - SpecCombinator which moves on
 // --------------------------------------------------------------------------------
 
-/// It's called FreeRangespecRun because why not.
+/// It's called SpecCombinator because why not.
 /// This is a Type for using the method `then` in order to combine tests.
-/// So the specRun is moving... kinda. you know?
-public struct CombinableSpecRun<I> {
+public struct SpecCombinator<I> {
+
   let input: I?
 
   @discardableResult
-  public func then<E, O>(_ breeding: @escaping Run<I, E, O>,
+  public func then<E, O>(_ breeding: @escaping RunFunction<I, E, O>,
                          is expected: E,
                          line: UInt = #line,
-                         file: StaticString = #file) -> CombinableSpecRun<O> {
-    guard let input = input else { return CombinableSpecRun<O>(input: nil) }
+                         file: StaticString = #file) -> SpecCombinator<O> {
+    guard let input = input else { return SpecCombinator<O>(input: nil) }
     return expect(input, in: breeding => expected, line: line, file: file)
   }
 
   @discardableResult
-  public func then<E, O>(_ waitingForInput: RunnerWithExpected<I, E, O>,
+  public func then<E, O>(_ waitingForInput: RunWithExpected<I, E, O>,
                          line: UInt = #line,
-                         file: StaticString = #file) -> CombinableSpecRun<O> {
-    guard let input = input else { return CombinableSpecRun<O>(input: nil) }
+                         file: StaticString = #file) -> SpecCombinator<O> {
+    guard let input = input else { return SpecCombinator<O>(input: nil) }
     return expect(input, in: waitingForInput.run => waitingForInput.expected, line: line, file: file)
   }
 }

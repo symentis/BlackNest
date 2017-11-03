@@ -48,23 +48,23 @@ public struct Pair<A, B>: IsPair {
 // MARK: - Combinators - multi line
 // --------------------------------------------------------------------------------
 
-public func |~ <I, E, O, L, R>(lhs: SpecRun<I, E, O>, rhs: Pair<L, R>)
-  -> Pair<SpecRun<I, E, O>, Pair<L, R>> {
+public func |~ <I, E, O, L, R>(lhs: Spec<I, E, O>, rhs: Pair<L, R>)
+  -> Pair<Spec<I, E, O>, Pair<L, R>> {
     return Pair(left: lhs, right: rhs)
 }
 
-public func |~ <I, E, O, F, P>(lhs: SpecRun<I, E, O>, rhs: RunnerWithExpected<O, F, P>)
-  -> Pair<SpecRun<I, E, O>, RunnerWithExpected<O, F, P>> {
+public func |~ <I, E, O, F, P>(lhs: Spec<I, E, O>, rhs: RunWithExpected<O, F, P>)
+  -> Pair<Spec<I, E, O>, RunWithExpected<O, F, P>> {
     return Pair(left: lhs, right: rhs)
 }
 
-public func |~ <I, E, O, L, R>(lhs: RunnerWithExpected<I, E, O>, rhs: Pair<L, R>)
-  -> Pair<RunnerWithExpected<I, E, O>, Pair<L, R>> {
+public func |~ <I, E, O, L, R>(lhs: RunWithExpected<I, E, O>, rhs: Pair<L, R>)
+  -> Pair<RunWithExpected<I, E, O>, Pair<L, R>> {
     return Pair(left: lhs, right: rhs)
 }
 
-public func |~ <I, E, O, F, P>(lhs: RunnerWithExpected<I, E, O>, rhs: RunnerWithExpected<O, F, P>)
-  -> Pair<RunnerWithExpected<I, E, O>, RunnerWithExpected<O, F, P>> {
+public func |~ <I, E, O, F, P>(lhs: RunWithExpected<I, E, O>, rhs: RunWithExpected<O, F, P>)
+  -> Pair<RunWithExpected<I, E, O>, RunWithExpected<O, F, P>> {
     return Pair(left: lhs, right: rhs)
 }
 
@@ -72,14 +72,14 @@ public func |~ <I, E, O, F, P>(lhs: RunnerWithExpected<I, E, O>, rhs: RunnerWith
 // MARK: - Combinators - inline
 // --------------------------------------------------------------------------------
 
-public func ◦ <I, E, O, F, P>(lhs: @escaping Run<I, E, O>, rhs: @escaping Run<O, F, P>)
-  -> Pair<Runner<I, E, O>, Runner<O, F, P>> {
-    return Pair(left: Runner(run: lhs), right: Runner(run: rhs))
+public func ◦ <I, E, O, F, P>(lhs: @escaping RunFunction<I, E, O>, rhs: @escaping RunFunction<O, F, P>)
+  -> Pair<Run<I, E, O>, Run<O, F, P>> {
+    return Pair(left: Run(run: lhs), right: Run(run: rhs))
 }
 
-public func ◦ <I, E, O, L, R>(lhs: @escaping Run<I, E, O>, rhs: Pair<L, R>)
-  -> Pair<Runner<I, E, O>, Pair<L, R>> {
-    return Pair(left: Runner(run: lhs), right: rhs)
+public func ◦ <I, E, O, L, R>(lhs: @escaping RunFunction<I, E, O>, rhs: Pair<L, R>)
+  -> Pair<Run<I, E, O>, Pair<L, R>> {
+    return Pair(left: Run(run: lhs), right: rhs)
 }
 
 public func • <L, R>(lhs: L, rhs: R) -> Pair<L, R> {

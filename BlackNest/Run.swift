@@ -33,22 +33,22 @@
 // =)
 // --------------------------------------------------------------------------------
 
-/// Typealias for a breeding function.
-/// Breeding is when we have:
+/// Typealias for a run function.
+/// Run is when we have:
 /// - input `I`
 /// - expected `E`
 /// - output `O`
 /// - throws Error
-public typealias Run<I, E, O> = (I, E) throws -> O
+public typealias RunFunction<I, E, O> = (I, E) throws -> O
 
 // --------------------------------------------------------------------------------
-// MARK: - Breedable
+// MARK: - HasRun
 // --------------------------------------------------------------------------------
 
-/// This protocol wraps a `Breeding`.
+/// This protocol wraps a `RunFunction`.
 /// It helps to work with operators and so forth.
 /// It's a formal protocol for a concrete Type
-/// wrapping away the breeding function.
+/// wrapping away the run function.
 public protocol HasRun {
   /// The Input Type
   /// Can be anything - Tuple, Optional, Whatever
@@ -59,22 +59,22 @@ public protocol HasRun {
   /// The Output Type
   /// Can be anything - Tuple, Optional, Whatever
   associatedtype O
-  /// The Breeding function.
+  /// The run function.
   /// Can take Input, Expected and return Output or throws.
   /// Can be anything - Tuple, Optional, Whatever
-  var run: Run<I, E, O> { get }
+  var run: RunFunction<I, E, O> { get }
 }
 
-/// Build on top of Breedable.
-/// This protocol wraps a `Breeding` and expected `E`.
-/// It is waiting for an input `I` which can be provided by `breed(_:)`.
+/// Build on top of HasRun.
+/// This protocol wraps a `RunFunction` and expected `E`.
+/// It is waiting for an input `I` which can be provided by `evaluate(_:)`.
 public protocol HasRunAndExpected: HasRun {
   var expected: E { get }
   func evaluate(_ input: I) throws -> O
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - Breedable Types
+// MARK: - Run Types
 //
 // These types are intermediate types.
 // Waiting for Input, Expected, or both.
@@ -82,73 +82,73 @@ public protocol HasRunAndExpected: HasRun {
 // They conform to the protocols defined above.
 // --------------------------------------------------------------------------------
 
-/// Just a `Breeding` function as a Type.
-public struct Runner<I, E, O>: HasRun {
-  public let run: Run<I, E, O>
+/// Just a `RunFunction` function as a Type.
+public struct Run<I, E, O>: HasRun {
+  public let run: RunFunction<I, E, O>
 }
 
-/// A `Breeding` function and a input `I`.
-public struct RunnerWithInput<I, E, O>: HasRun {
-  public let run: Run<I, E, O>
+/// A `RunFunction` function and a input `I`.
+public struct RunWithInput<I, E, O>: HasRun {
+  public let run: RunFunction<I, E, O>
   let input: I
 }
 
-/// A `Breeding` function and a expected `E`.
-public struct RunnerWithExpected<I, E, O>: HasRunAndExpected {
-  public let run: Run<I, E, O>
+/// A `RunFunction` function and a expected `E`.
+public struct RunWithExpected<I, E, O>: HasRunAndExpected {
+  public let run: RunFunction<I, E, O>
   public let expected: E
 
-  /// - parameter input: `I` will be passed in and breeding starts.
+  /// - parameter input: `I` will be passed in and run starts.
   public func evaluate(_ input: I) throws -> O {
     return try run(input, expected)
   }
 }
 
 // --------------------------------------------------------------------------------
-// MARK: - Breeding Operators
+// MARK: - Run Operators
 // --------------------------------------------------------------------------------
 
-/// Lifts Input `I` and related Breeding into WaitingForExpected.
+/// Lifts Input `I` and related RunFunction into RunWithInput.
 /// The return Type waits for Expected `E`.
 ///
 ///      // `100 | doubleTuple`
 ///      expect(100 | doubleTuple => (100, 200))
 ///
 ///
-public func | <I, E, O>(lhs: I, rhs: @escaping Run<I, E, O>) -> RunnerWithInput<I, E, O> {
-  return RunnerWithInput(run: rhs, input: lhs)
+public func | <I, E, O>(lhs: I, rhs: @escaping RunFunction<I, E, O>) -> RunWithInput<I, E, O> {
+  return RunWithInput(run: rhs, input: lhs)
 }
 
-/// Lifts Input `I` and related Breeding into WaitingForExpected.
+/// Lifts Input `I` and related RunFunction into RunWithInput.
 /// The return Type waits for Expected `E`.
 ///
 ///      // `100 | doubleTuple`
 ///      expect(doubleTuple | 100 => (100, 200))
 ///
 ///
-public func | <I, E, O>(lhs: @escaping Run<I, E, O>, rhs: I) -> RunnerWithInput<I, E, O> {
-  return RunnerWithInput(run: lhs, input: rhs)
+public func | <I, E, O>(lhs: @escaping RunFunction<I, E, O>, rhs: I) -> RunWithInput<I, E, O> {
+  return RunWithInput(run: lhs, input: rhs)
 }
 
-/// Lifts Breeding and related Expected `E` into WaitingForInput.
+/// Lifts RunFunction and related Expected `E` into RunWithExpected.
 /// The return Type waits for Input `I`.
 ///
 ///      // `doubleTuple => (100, 200)`
 ///      expect(100, in: doubleTuple => (100, 200))
 ///
 ///
-public func => <I, E, O>(lhs: @escaping Run<I, E, O>, rhs: E) -> RunnerWithExpected<I, E, O> {
-  return RunnerWithExpected(run: lhs, expected: rhs)
+public func => <I, E, O>(lhs: @escaping RunFunction<I, E, O>, rhs: E) -> RunWithExpected<I, E, O> {
+  return RunWithExpected(run: lhs, expected: rhs)
 }
 
-/// Lifts WaitingForExpected and related Expected `E` into specRun.
-/// The return Type is ready for breed.
+/// Lifts RunWithInput and related Expected `E` into Spec.
+/// The return Type is ready for evaluate.
 ///
 ///      // `100 | doubleTuple` will be evaluated first.
 ///      // then `=> (100, 200)` is called
 ///      expect(100 | doubleTuple => (100, 200))
 ///
 ///
-public func => <I, E, O>(lhs: RunnerWithInput<I, E, O>, rhs: E) -> SpecRun<I, E, O> {
-  return SpecRun(run: lhs.run, input: lhs.input, expected: rhs)
+public func => <I, E, O>(lhs: RunWithInput<I, E, O>, rhs: E) -> Spec<I, E, O> {
+  return Spec(run: lhs.run, input: lhs.input, expected: rhs)
 }

@@ -25,7 +25,7 @@
 
 import XCTest
 
-func evaluate<S>(_ spec: S, line: UInt, file: StaticString) -> S.O? where S: RunnableSpec {
+func evaluate<S>(_ spec: S, line: UInt, file: StaticString) -> S.O? where S: EvaluatableSpec {
   do {
     return try spec.evaluate()
   } catch let error {
@@ -45,9 +45,9 @@ func evaluate<S>(_ spec: S, line: UInt, file: StaticString) -> S.O? where S: Run
 /// - parameter run: specRun
 /// - returns: Void
 @discardableResult
-public func expect<H>(_ spec: H, line: UInt = #line, file: StaticString = #file) -> CombinableSpecRun<H.O>
-  where H: RunnableSpec {
-  return CombinableSpecRun(input: evaluate(spec, line:line, file: file))
+public func expect<H>(_ spec: H, line: UInt = #line, file: StaticString = #file) -> SpecCombinator<H.O>
+  where H: EvaluatableSpec {
+  return SpecCombinator(input: evaluate(spec, line: line, file: file))
 }
 
 /// Expect takes a specRun and checks for error
@@ -60,10 +60,10 @@ public func expect<H>(_ spec: H, line: UInt = #line, file: StaticString = #file)
 public func expect<B>(_ input: B.I,
                       in waitingForInput: B,
                       line: UInt = #line,
-                      file: StaticString = #file) -> CombinableSpecRun<B.O>
+                      file: StaticString = #file) -> SpecCombinator<B.O>
 where B: HasRunAndExpected {
   let specRun = input | waitingForInput.run => waitingForInput.expected
-  return CombinableSpecRun(input: evaluate(specRun, line:line, file: file))
+  return SpecCombinator(input: evaluate(specRun, line: line, file: file))
 }
 
 /// Expect takes a specRun and checks for error
@@ -74,12 +74,12 @@ where B: HasRunAndExpected {
 /// - returns: Void
 @discardableResult
 public func expect<I, E, O>(_ input: I,
-                            in breeding: @escaping Run<I, E, O>,
+                            in breeding: @escaping RunFunction<I, E, O>,
                             is expected: E,
                             line: UInt = #line,
-                            file: StaticString = #file) -> CombinableSpecRun<O> {
+                            file: StaticString = #file) -> SpecCombinator<O> {
   let specRun = input | breeding => expected
-  return CombinableSpecRun(input: evaluate(specRun, line:line, file: file))
+  return SpecCombinator(input: evaluate(specRun, line: line, file: file))
 }
 
 // --------------------------------------------------------------------------------
@@ -92,11 +92,11 @@ public func expect<I, E, O>(_ input: I,
 ///
 /// - parameter run: specRun
 /// - returns: Void
-public func expect<I, E, O>(_ breeding: @escaping Run<I, E, O>,
+public func expect<I, E, O>(_ breeding: @escaping RunFunction<I, E, O>,
                             at input: I,
                             is expected: E,
                             line: UInt = #line,
-                            file: StaticString = #file) -> CombinableSpecRun<O> {
+                            file: StaticString = #file) -> SpecCombinator<O> {
   let specRun = input | breeding => expected
-  return CombinableSpecRun(input: evaluate(specRun, line:line, file: file))
+  return SpecCombinator(input: evaluate(specRun, line: line, file: file))
 }

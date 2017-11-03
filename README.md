@@ -4,24 +4,23 @@
    <img width="400px" src="https://github.com/elm4ward/BlackNest/blob/master/resources/blacknest.png?raw=true" alt="blacknest logo">
 </p>
 
-# BlackNest - Swift Test Breeding - Spec Based - Data Driven
+# BlackNest - Reusable Testing
 
-## Want to test input combinations for a SUT?
+# Test like a spec
 
-Let's write a very simple function. The function is that simple - it can hardly fail.
-Looks like this:
+We start a very simple function.
 
 ```swift
-/// Easy
 func asTuple(_ int: Int) -> (Int, Int) {
   return (int, int * 2)
 }
 ```
 
-Before we write a test for that function we add the specification. The specification is a function, 
-taking `Input` and `Expected`, it returns `Output` or it throws an Error (You don't need to have a return type).
+Before we write a test for that function we add the spec. The spec is a function,
+taking `Input` and `Expected`, it returns `Output` or it throws an Error (Return type is optional).
 
-Inside the function, all assertions are performed via a DSL. For `Input` and `Expected` you can take whatever you want - Real Types, Tuples, Optionals. Feel free.
+Inside the function, all assertions are performed by a DSL.
+For `Input` and `Expected` you can take whatever you want - Real Types, Tuples, Optionals.
 
 
 ```swift
@@ -30,7 +29,7 @@ func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
   // Act: do the tuple
   let subject = asTuple(input)
 
-  // Assert: check the spec
+  // Assert: check all proofs
   try "First entry should still be the same"
     => subject.0 == expect.0
   try "Second entry should be double the first"
@@ -39,44 +38,39 @@ func doubleTuple(input: (Int), expect: (Int, Int)) throws -> (Int, Int) {
   return subject
 }
 ```
-_Looks like an equation?_
-
-__Yeah__  - no Boilerplate - pure definitions.
-Easy to re-read and remember.
+The DSL makes the test look like equations.
+Easy to read.
 Now we perform different combinations for the test.
 
 ```swift
-// You like named arguments?
+// Named arguments
 expect(004, in:doubleTuple, is:(04, 08))
 expect(008, in:doubleTuple, is:(08, 16))
 expect(012, in:doubleTuple, is:(12, 24))
 expect(100, in:doubleTuple, is:(100, 200))
 
-// You like named arguments and custom operators?
+// Named Arguments and Operators
 expect(004, in: doubleTuple => (04, 08))
 expect(008, in: doubleTuple => (08, 16))
 expect(012, in: doubleTuple => (12, 24))
 expect(100, in: doubleTuple => (100, 200))
 
-// You're totally into custom operators?
+// Operators only
 expect(004 | doubleTuple => (04, 08))
 expect(008 | doubleTuple => (08, 16))
 expect(012 | doubleTuple => (12, 24))
 expect(100 | doubleTuple => (100, 200))
 ```
 
-What? It failed?
-
-Relax - you will understand why:
+In case one spec fails, you will see why:
 
    <img  src="https://github.com/elm4ward/BlackNest/blob/master/resources/error.png?raw=true" alt="error output by BlackNest">
 
-## Want to test combinations of your tests?
+# Test combinations
 
-Let's add one more simple function.
+Add one more function.
 
 ```swift
-/// Cool. 👍
 func asSum(_ tuple: Int, Int) -> Int {
   return tuple.0 + tuple.1
 }
@@ -103,17 +97,17 @@ Each call to a function can return and can take __individual expectations__. __R
 Same code - no duplication - and again - easy to remember.
 
 ```swift
-/// Again, you prefer multiline named arguments: Cool!
+///
 expect(04, in:doubleTuple, is:(04, 08)).then(tupleSum, is:12)
 expect(08, in:doubleTuple, is:(08, 16)).then(tupleSum, is:24)
 expect(12, in:doubleTuple, is:(12, 24)).then(tupleSum, is:36)
 
-/// Custom operators from time to time?
+///
 expect(004 | doubleTuple => (04, 08)).then(tupleSum => 12)
 expect(008 | doubleTuple => (08, 16)).then(tupleSum => 24)
 expect(012 | doubleTuple => (12, 24)).then(tupleSum => 36)
 
-/// Maybe table based is even better for your eyes?
+///
 expect(
    4 |  doubleTuple => (04, 08)
      |~ tupleSum    => (12)
@@ -121,9 +115,7 @@ expect(
      |~ tupleSum    => (36)
  )
 
-/// HIGHLY EXPERIMENTAL
-/// ~ the specRun operator ~
-/// You took the red pill, and all you see is tests, tests, test.
+///
 expect(4,
   in: doubleTuple ◦ tupleSum ◦ doubleTuple ◦ tupleSum,
   is: (04, 08)    • 12       • (12, 24)    • 36
@@ -131,11 +123,7 @@ expect(4,
 
 ```
 
-## Please more complex examples?
-
-__Of course__ - _it will not make sense to use this approach everywhere_.<br />
-
-But some things are really neat. Look at the following example:
+# More  examples
 
 > We have a Birdwatcher and depending on his skills we show a display name.
 
@@ -148,7 +136,7 @@ struct BirdWatcher {
   init(_ name: String) {
     self.name = name
   }
-  /// 😱 Oh damn ...
+
   var display: String {
     switch (experience, birdsSeen) {
     case let (y?, s?) where y > 10 && s > 100:
@@ -167,7 +155,7 @@ struct BirdWatcher {
 }
 ```
 
-Better test that in an easy way.
+The Spec should provide a clear picture of what you test.
 
 ```swift
 /// typealias for Input
@@ -200,40 +188,21 @@ expect(("Burt", 20, 0)    |  birdWatcher => ("Burt", 0, 100, "Burt - The Talent.
 expect(("Burt", nil, 0)   |  birdWatcher => ("Burt", 0, 0, "Burt - The Bloody Rookie."))
 ```
 
-Quite a lot tests - but still easy to understand.
-
-More examples to come.
-
-## Why BlackNest?
+# Why BlackNest?
 
 Named after [Black-nest Swiftlet](https://en.wikipedia.org/wiki/Black-nest_swiftlet).
 
 > All we want to do in tests is taking care of the precious specRuns.
 > None should get a crack. That's it - taking care of your code.
 
-## Why Custom Operators?
 
-__You are not forced to use them.__
-But when comparing both versions, sometimes custom
-operators are easier to reason about.
+# Requirements
+Swift 4
 
-How we call them? Just like their named argument counterpart.
+# Credits & License
+Corridor is owned and maintained by [Symentis GmbH](http://symentis.com).
 
-`|`  is called _in_
-
-`=>` is called _is_
-
- `&` is called _then_
-
-
-## Credits
-BlackNest is owned and maintained by [Symentis GmbH](http://symentis.com).
-
-Developed by: Elmar Kretzer &amp; Madhava Jay
-
-Follow for more Swift Goodness:
+Developed by: Elmar Kretzer
 [![Twitter](https://img.shields.io/badge/twitter-@elmkretzer-blue.svg?style=flat)](http://twitter.com/elmkretzer)
-[![Twitter](https://img.shields.io/badge/twitter-@madhavajay-blue.svg?style=flat)](http://twitter.com/madhavajay)
 
-## License
-BlackNest is released under the Apache 2.0 license. See LICENSE for details.
+All modules are released under the MIT license. See LICENSE for details.
