@@ -43,6 +43,7 @@
 		9CEE03A51D6B81F0006B8079 /* BlackNestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackNestTests.swift; sourceTree = "<group>"; };
 		9CEE03A71D6B81F0006B8079 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C537E8A21D6D775D0026CEBC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CC00CB8A2244D56D00F962D0 /* BlackNest.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = BlackNest.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +77,10 @@
 			isa = PBXGroup;
 			children = (
 				C537E8A21D6D775D0026CEBC /* README.md */,
+				CC00CB8A2244D56D00F962D0 /* BlackNest.podspec */,
 				9CEE03991D6B81F0006B8079 /* BlackNest */,
 				9CEE03A41D6B81F0006B8079 /* BlackNestTests */,
+				CC00CB892244D52F00F962D0 /* Supporting Files */,
 				9CEE03981D6B81F0006B8079 /* Products */,
 				9CEA0DD41D6B8288006B0158 /* Frameworks */,
 			);
@@ -95,7 +98,6 @@
 		9CEE03991D6B81F0006B8079 /* BlackNest */ = {
 			isa = PBXGroup;
 			children = (
-				9CEE039B1D6B81F0006B8079 /* Info.plist */,
 				9CEA0DD71D6B843C006B0158 /* Operators.swift */,
 				9C22C9321D776A3900B02A16 /* Run.swift */,
 				9CEA0DDB1D6B8533006B0158 /* Spec.swift */,
@@ -114,6 +116,14 @@
 				9CEE03A71D6B81F0006B8079 /* Info.plist */,
 			);
 			path = BlackNestTests;
+			sourceTree = "<group>";
+		};
+		CC00CB892244D52F00F962D0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9CEE039B1D6B81F0006B8079 /* Info.plist */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,7 +183,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Elmar Kretzer";
 				TargetAttributes = {
 					9CEE03961D6B81F0006B8079 = {
@@ -289,6 +299,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -296,6 +307,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -351,6 +363,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -358,6 +371,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -409,7 +423,7 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
-				INFOPLIST_FILE = BlackNest/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -441,7 +455,7 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
-				INFOPLIST_FILE = BlackNest/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
