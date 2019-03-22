@@ -204,7 +204,7 @@ Swift 4.2
 ### CocoaPods
 
 ```
-pod 'BlackNest', '1.0.1'
+pod 'BlackNest', '1.0.2'
 ```
 
 
