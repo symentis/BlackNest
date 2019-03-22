@@ -197,14 +197,14 @@ Named after [Black-nest Swiftlet](https://en.wikipedia.org/wiki/Black-nest_swift
 
 
 # Requirements
-Swift 4
+Swift 4.2
 
 # Installation
 
 ### CocoaPods
 
 ```
-pod 'BlackNest', '1.0.1'
+pod 'BlackNest', '1.0.2'
 ```
 
 
