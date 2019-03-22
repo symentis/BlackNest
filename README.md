@@ -199,6 +199,15 @@ Named after [Black-nest Swiftlet](https://en.wikipedia.org/wiki/Black-nest_swift
 # Requirements
 Swift 4
 
+# Installation
+
+### CocoaPods
+
+```
+pod 'BlackNest', '1.0.1'
+```
+
+
 # Credits & License
 Corridor is owned and maintained by [Symentis GmbH](http://symentis.com).
 
