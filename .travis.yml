@@ -1,0 +1,6 @@
+language: swift
+osx_image: xcode10
+install:
+  - bundle install
+script:
+  - bundle exec fastlane scan
