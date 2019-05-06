@@ -35,6 +35,11 @@ public struct Proof<P> {
   public let requirement: String
   public let probe: P?
 
+  public init(requirement: String, probe: P?) {
+    self.requirement = requirement
+    self.probe = probe
+  }
+
   public func mismatched<V>(expected: V?, currentProbe: V?) -> ProofError {
     let expectedString = String(describing: expected)
     let probeString = String(describing: currentProbe)
@@ -54,6 +59,10 @@ public struct Proof<P> {
 /// ProofError
 public struct ProofError: Error, CustomStringConvertible {
   public let message: String
+
+  public init(message: String) {
+    self.message = message
+  }
 
   public var description: String {
     return message
