@@ -32,17 +32,17 @@ import Foundation
 
 /// Proof contains `requirement` and `probe`
 public struct Proof<P> {
-  let requirement: String
-  let probe: P?
+  public let requirement: String
+  public let probe: P?
 
-  func mismatched<V>(expected: V?, currentProbe: V?) -> ProofError {
+  public func mismatched<V>(expected: V?, currentProbe: V?) -> ProofError {
     let expectedString = String(describing: expected)
     let probeString = String(describing: currentProbe)
     let message = "\(requirement) \nExpected: \(expectedString) Input: \(probeString)"
     return ProofError(message: message)
   }
 
-  func mismatched(expected: P?) -> ProofError {
+  public func mismatched(expected: P?) -> ProofError {
     return mismatched(expected: expected, currentProbe: probe)
   }
 }
@@ -52,10 +52,10 @@ public struct Proof<P> {
 // --------------------------------------------------------------------------------
 
 /// ProofError
-struct ProofError: Error, CustomStringConvertible {
-  let message: String
+public struct ProofError: Error, CustomStringConvertible {
+  public let message: String
 
-  var description: String {
+  public var description: String {
     return message
   }
 }
