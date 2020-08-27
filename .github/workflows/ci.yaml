@@ -1,0 +1,9 @@
+name: "CI"
+on:
+  pull_request:
+jobs:
+  tests:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: swift test
